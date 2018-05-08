@@ -1,0 +1,14 @@
+spacemacs                    .spacemacs
+zshrc                        .zshrc
+aliases                      .aliases
+functions                    .functions
+ghci                         .ghci
+gitconfig                    .gitconfig
+tmux.conf                    .tmux.conf
+Xresources                   .Xresources
+xprofile                     .xprofile
+config_i3_config             .config/i3/config
+i3status.conf                .i3status.conf
+zathurarc                    .config/zathura/zathurarc
+emacsc                       bin/emacsc
+fehbg                        bin/fehbg
