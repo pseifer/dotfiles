@@ -1,0 +1,173 @@
+#!/bin/bash
+
+# LIB
+
+MODE="$1"
+ARGS=("$@")
+
+print_padded () {
+    content="$1"
+    width="${2-80}"
+    total=$((width - ${#content}))
+    left=$((total / 2))
+    right=$((total - left))
+    padding="--------------------------------------------------------------------------------"
+    printf "%*.*s%s%*.*s\n" $left $left $padding "$content" $right $right $padding
+}
+
+prompt () {
+    read -r -p "$1 [Y/n]" response
+    case $response in
+        [yY][eE][sS]|[yY]|"")
+            true
+            ;;
+        *)
+            false
+            ;;
+    esac
+}
+
+item () {
+    if [ "$MODE" = "all" ]; then
+        echo ">>> $1 $2"
+        true
+    elif [ "$MODE" = "list" ]; then
+        ARGS=("${ARGS[@]:1}")
+        if [ "${#ARGS}" -eq 0 ]; then
+            echo -n "[ ] : "
+        elif [ "${ARGS[0]}" = "y" ]; then
+            echo -n "[X] : "
+        else
+            echo -n "[ ] : "
+        fi
+        echo "$1 $2"
+        false
+    elif [ "$MODE" = "select" ]; then
+        ARGS=("${ARGS[@]:1}")
+        if [ "${#ARGS}" -eq 0 ]; then
+            false
+        elif [ "${ARGS[0]}" = "y" ]; then
+            true
+        else
+            false
+        fi
+    else
+        print_padded "[] $1 $2 []"
+        prompt "CONFIRM $1"
+    fi
+}
+
+install () {
+    item "INSTALL" "$1"
+}
+
+setup () {
+    item "SETUP" "$i"
+}
+
+section () {
+    if [ "$MODE" = "all" ]; then
+        echo "$1"
+        true
+    elif [ "$MODE" = "list" ]; then
+        echo "SECTION [$1]"
+        true
+    elif [ "$MODE" = "select" ]; then
+        true
+    else
+        print_padded "[] $1 []"
+        prompt "ENTER $1"
+    fi
+}
+
+
+
+# MAIN
+
+if [ "$1" = "help" ] || [ "$1" = "test" -a "$2" = "help" ]; then
+    echo -e "> $(basename $0)"
+    echo  "Start in interactive mode."
+    echo -e "\n> $(basename $0) help"
+    echo  "Display this help."
+    echo -e "\n> $(basename $0) all"
+    echo "Install all items from all sections."
+    echo -e "\n> $(basename $0) list"
+    echo "Print list of all items."
+    echo -e "\n> $(basename $0) list [y|n]*"
+    echo "Print list of all items and mark those wich correspond to 'y' arguments."
+    echo "Example: '$(basename $0) list y n n y' will mark the 1st and 4th item."
+    echo -e "\n> $(basename $0) select [y|n]*"
+    echo "Like the previous, but will actually install the corresponding items."
+    echo -e "\n> $(basename $0) test [..]"
+    echo "If 'test' is added as the first parameter, use test dataset."
+    exit 0
+elif [ "$MODE" = "test" ]; then
+    # Skip first argument and initialize from there:
+    shift
+    MODE="$1"
+    ARGS=("$@")
+    if section "EXAMPLE1"; then
+        install "Test" &&\
+            echo "installed item 1"
+        setup "Test" &&\
+            echo "installed item 2"
+    fi
+    if section "EXAMPLE2"; then
+        install "Example" &&\
+            echo "installed item 3"
+        setup "Example" &&\
+            echo "installed item 4"
+    fi
+    exit 0
+fi
+
+
+
+# SETUP
+
+if section "CORE"; then
+    install "essential packages" &&\
+        sudo apt install rxvt-unicode-256color zsh build-essential subversion git rlwrap \
+             curl cmake tmux inkscape htop arandr fonts-inconsolata feh \
+             python-pygments owncloud-client zathura -y
+
+    install "oh-my-zsh" &&\
+        sh -c "$(curl -fsSL \
+        https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+    install "zsh-syntax-highlighting" &&\
+        mkdir -p ~/.programs-from-git/zsh-syntax-highlighting && \
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+            ~/.programs-from-git/zsh-syntax-highlighting
+
+    install "spacemacs" &&\
+        sudo apt install emacs unifont -y && \
+        git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+
+    setup "ssh keygen" &&\
+        ssh-keygen -t rsa -b 4096
+fi
+
+
+
+if section "WINDOW MANAGER"; then
+    item "WM" "i3" &&\
+        sudo apt install i3 -y
+fi
+
+
+
+if section "HOME"; then
+    setup "home directories" &&\
+        mkdir -p ~/.programs-from-git &&\
+        mkdir -p ~/bin &&\
+        mkdir -p ~/projects &&\
+        mkdir -p ~/templates &&\
+        mkdir -p ~/documents &&\
+        mkdir -p ~/cloud
+fi
+
+
+
+# SETUP COMPLETE
+exit 0

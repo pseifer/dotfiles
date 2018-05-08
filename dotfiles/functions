@@ -1,0 +1,114 @@
+#!/bin/bash
+
+# Swap names of two files.
+function switch()
+{
+    local tmp=$$switch
+    mv "$1" $tmp
+    mv "$2" "$1"
+    mv $tmp "$2"
+}
+
+# Find files which match given string.
+function qfind()
+{
+    find . -exec grep -l -s "$1" {} \;
+    return 0
+}
+
+# Search PID via pgrep, only current user processes.
+function grepid()
+{
+    tmp=`whoami`
+    pgrep -la -u "$tmp" "$1"
+}
+
+
+# Search history with grep, sorted and with dublicates remove.
+function grep_history()
+{
+    history | sed "s/^ *[0-9]\+ //" | sort | uniq | grep "$1";
+}
+
+
+# Return the $1 to $2 lines from a file $3.
+function slice()
+{
+    head -$2 $3 | tail -$(($2-$1));
+}
+
+
+# Kill all jobs.
+function killjobs () {
+    JOBS="$(jobs -p)";
+    if [ -n "${JOBS}" ]; then
+        kill -KILL ${JOBS};
+    fi
+}
+
+# Run appropriate build command
+function smartbuild () {
+    if ls stack.yaml 1> /dev/null 2>&1; then
+        stack build
+    elif ls Makefile 1> /dev/null 2>&1; then
+        make
+    else
+        echo "Nothing found that needs buildin'"
+    fi
+}
+
+# Run appropriate test command
+function smarttest () {
+    if ls stack.yaml 1> /dev/null 2>&1; then
+        stack test
+    elif ls Makefile 1> /dev/null 2>&1; then
+        make test
+    else
+        echo "Nothing found that needs testin'"
+    fi
+}
+
+# Run appropriate repl command
+function smartrepl () {
+    setopt -s nullglob
+    if [[ -n $(echo *.lisp) ]]; then
+        rlwrap sbcl
+    elif [[ -n $(echo *.rkt) ]]; then
+            racket
+    elif ls stack.yaml 1> /dev/null 2>&1; then
+        pamstack ghci
+    else
+        rlwrap sbcl
+    fi
+}
+
+# Check 'git status' if in tracked folder.
+# Otherwise, check some interesting repos.
+function check_repos () {
+    if ls .git 1> /dev/null 2>&1; then
+        git status
+    elif ls .svn 1> /dev/null 2>&1; then
+        svn info
+    else
+        pushd ~/dotfiles-new/
+        echo ">>> dotfiles-new"
+        git status
+
+        pushd ~/Projects/playground/
+        echo ">>> playground"
+        git status
+        popd
+        popd
+    fi
+}
+
+# Lookup wallpaper path from .fehbg script
+# and use wallpaper to lock i3.
+function lock () {
+    screen=$(echo $(cat ~/.fehbg\
+                           | awk '/feh/ { print $3 }'\
+                           | sed "s/'//g"))
+    echo "test"
+    echo $screen
+    i3lock -i $screen
+}

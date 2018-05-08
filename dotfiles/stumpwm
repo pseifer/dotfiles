@@ -1,0 +1,83 @@
+;;;; stumpwmrc @pseifer
+
+(in-package :stumpwm)
+(set-prefix-key (kbd "C-t"))
+
+
+;;; Init
+
+
+;; Launch Firefow web browser.
+(defcommand firefox () ()
+  "Start or switch to Firefox."
+  (run-or-raise "firefox" '(:class "Firefox")))
+(define-key *root-map* (kbd "f") "firefox")
+
+(defcommand firefox-new () ()
+  "Start new firefox."
+  (run-shell-command "firefox"))
+(define-key *root-map* (kbd "C-f") "firefox-new")
+
+
+;; Launch urxvt (overwrite default terminal).
+(defcommand urxvt () ()
+  "Start main terminal."
+  (run-or-raise "urxvt" '(:instance "urxvt")))
+(define-key *root-map* (kbd "c") "urxvt")
+
+(defcommand urxvt-new () ()
+  "Start a new terminal."
+  (run-shell-command "urxvt"))
+(define-key *root-map* (kbd "C-c") "urxvt-new")
+
+
+;; Rebind emacs to emacsc.
+(defcommand emacsc () ()
+  "Start or switch to main emacs-client."
+  (run-or-raise "emacsc" '(:class "Emacs")))
+(define-key *root-map* (kbd "e") "emacsc")
+
+(defcommand emacsc-new () ()
+  "Start new emacs-client."
+  (run-shell-command "emacsc"))
+(define-key *root-map* (kbd "C-e") "emacsc-new")
+
+
+;; Start emacs server.
+(run-shell-command "emacs --daemon")
+(run-shell-command "xsetroot -solid \"#002b36\"")
+
+
+;; Hotkeys
+
+
+(define-key *root-map* (kbd "C-o") "prev")
+(define-key *root-map* (kbd "C-r") "loadrc")
+
+
+;;; Theme
+
+
+(set-fg-color "#eee8d5")
+(set-bg-color "#002b36")
+(set-border-color "#eee8d5")
+
+(set-win-bg-color "#002b36")
+(set-normal-gravity :center)
+
+(set-focus-color "#859900")
+(set-unfocus-color "#002b36")
+(setf *maxsize-border-width* 0)
+(setf *normal-border-width* 2)
+(setf *transient-border-width* 4)
+(setf *window-border-style* :thin)
+
+
+
+
+;; Starting layout (groups).
+(gnewbg "Work")
+(gnewbg "Background")
+(gnewbg "Stuff")
+
+(message "Long days and pleasant nights.")

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# If no local configuration exists,
+# copies the defaults.
+
+if [ ! -e "config.config" ]; then
+    cp "default/config.config" .
+    echo "Created default config.config!"
+fi
+
+if [ ! -e "dotfiles.config" ]; then
+    cp "default/dotfiles.config" .
+    echo "Created default dotfiles.config!"
+fi

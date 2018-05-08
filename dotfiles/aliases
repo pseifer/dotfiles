@@ -1,0 +1,166 @@
+#!/bin/bash
+
+# EDITOR (USED IN OTHER ALIASES)
+alias myeditor='emacsc'
+alias myintermeditor='emacsclient -nw'
+
+
+# BASIC
+alias ls='ls --color=auto'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias lisa='ls -lisaF'
+alias h='history | tail'
+alias greph='grep_history'
+alias zap='rm -i'
+
+
+# TYPOS
+alias ake='echo "Oy! Eld! Thankee!"; make'
+
+
+# SAFETY NETS
+alias rm='rm -I --preserve-root'
+alias mv='mv -i'
+alias cp='cp -i'
+alias ln='ln -i'
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chgrp='chgrp --preserve-root'
+
+
+# UTILITY
+alias ccat='pygmentize -g'
+alias pong='ping -c 4 8.8.8.8'
+alias clock='tty-clock -DcC 4'
+alias audio='pavucontrol'
+alias dog='vim -R'
+alias c='clear'
+alias cll='clear; ll'
+alias nau='nautilus . &'
+alias sau='sudo nautilus .'
+alias show='function _show(){ clear; cat "$1" };_show'
+alias agent-unlock='eval `ssh-agent -s`; ssh-add'
+alias runn='function _runn(){ nohup "$1" & }; _runn'
+alias mk='touch'
+alias mount='mount | column -t'
+alias hist='history | tail'
+alias j='jobs -l'
+alias path='echo -e ${PATH//:/\\n}'
+alias ports='netstat -tulanp'
+alias root='sudo -i'
+alias su='sudo -i'
+alias ggwp='shutdown now'
+alias brb='sudo pm-suspend'
+alias clone='rxvt-unicode &'
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias book="function _book() { evince ~/Documents/Books/$1 }; _book"
+alias playground-push='(cd ~/Projects/playground && git add . && git commit -m "Perform automated progress push" && git push origin master)'
+alias fsize='function _fsize(){ printf "\33]50;%s%d\007" "xft:Inconsolata-R:pixelsize=" $1 };_fsize'
+alias patat-mode='fsize 30; patat'
+
+
+# FIX KEYBOARD
+alias fixctrl='setxkbmap -option "ctrl:nocaps"'
+alias fixrate='xset r rate 160 30'
+alias fixkeyboard='fixctrl; fixrate'
+alias togglecaps='python -c "from ctypes import *; X11 = cdll.LoadLibrary(\"libX11.so.6\"); display = X11.XOpenDisplay(None); X11.XkbLockModifiers(display, c_uint(0x0100), c_uint(2), c_uint(0)); X11.XCloseDisplay(display)"'
+
+
+# TOOLS/PROGRAMMS
+alias conkeror='firefox -app ~/Projects/conkeror/application.ini'
+alias reloadxres='xrdb ~/.Xresources'
+alias emacsn='emacs -nw'
+alias eedit='env TERM=xterm-256color emacsclient -nw'
+alias fedit='env TERM=xterm-256color emacs -nw'
+alias sedit='env TERM=xterm-256color sudo emacs -nw'
+alias hashell='ghci -ghci-script /home/pseifer/bin/hashell.conf'
+alias notfuckinguglynetbeans='netbeans-8.1/bin/netbeans -J-Dswing.aatext=true -J-Dawt.useSystemAAFontSettings=on'
+alias slime='emacs'
+alias irc='irssi'
+alias freenode='irssi --nick "pzyfr" --connect "irc.freenode.net"'
+alias zath='zathura'
+alias audio_devices="aplay -l | awk -F \: '/,/{print $2}' | awk '{print $1}' | uniq"
+
+
+# VIM/EMACS STUFF
+alias edit='myeditor'
+alias vimrc='edit ~/.vimrc'
+alias aliases='edit ~/.aliases'
+alias functions='edit ~/.functions'
+alias zshrc='edit ~/.zshrc'
+alias nvim='/usr/bin/nvim'
+alias viplugin='vim +PluginInstall +qall'
+alias nano='edit'
+
+
+# DOT AND SMART COMMANDS
+alias :q='exit'
+alias :wq=':q'
+alias :e='edit'
+alias :ei='myintermeditor'
+alias :ex='edit; exit'
+alias :build='smartbuild'
+alias :b=':build'
+alias :r=':build'
+alias :rc=':build; clear'
+alias :test='smarttest'
+alias :t=':test'
+alias :repl='smartrepl'
+alias :rkt='rlwrap racket'
+alias :scm='rlwrap racket -I r5rs'
+alias :eval='function _eval(){ t=$@; stack eval $t 2> /dev/null }; _eval'
+alias :py='rlwrap python'
+alias :status='check_repos'
+alias :gs=':status'
+alias :nextdir='pushd +1'
+alias :n=':nextdir'
+alias :prevdir='pushd -1'
+alias :p=':prevdir'
+alias :cd='pushd'
+alias :gl='git log --oneline'
+alias :gp='git pull'
+alias :gsh='git push'
+alias :gu='gut push -u origin master'
+alias :gc='git commit'
+alias :ga='git add'
+alias :gaa='git add .'
+alias :gc='git commit'
+alias :gcm='git commit -m'
+alias :dot='cd ~/dotfiles-new'
+alias :play='cd ~/Projects/playground'
+alias :ggg='function _git-gg(){ git add .; git commit -m "$1"; git push}; _git-gg'
+alias :setup='./dotfiles-new/src/SETUP.sh'
+alias :todo='cat TODO'
+
+
+# TMUX
+alias ta='tmux attach -t $1'
+alias tls='tmux ls'
+alias tnew='tmux new-session'
+alias tnews='tmux new-session -s $1'
+alias tkill='tmux kill-session -t $1'
+alias tname='tmux rename-session -t $1 $2'
+
+
+# REPLS/INTERACTIVE TOOLS
+alias py2='python'
+alias py3='python3'
+alias clj='rlwrap -p"1;32;40" java -jar .m2/repository/org/clojure/clojure/1.7.0/clojure-1.7.0.jar'
+alias perlde='perl -d -e 42'
+alias re.pl='rlwrap re.pl'
+alias perlB='perl -MO=Concise'
+alias proveall='prove -j9 --state=slow,save -lr t'
+alias lisp='rlwrap sbcl'
+alias scheme='rlwrap csi'
+
+
+# SYSTEM INFORMATION
+alias meminfo='free -m -l -t'
+alias psmem='ps auxf | sort -nr -k 4'
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'
+alias pscpu='ps auxf | sort -nr -k 3'
+alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
+alias cpuinfo='lscpu'
+alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
