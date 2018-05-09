@@ -109,6 +109,5 @@ function lock () {
                            | awk '/feh/ { print $3 }'\
                            | sed "s/'//g"))
     echo "test"
-    echo $screen
-    i3lock -i $screen
+    i3lock -i "$screen"
 }

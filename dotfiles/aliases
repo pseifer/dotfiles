@@ -133,6 +133,7 @@ alias :play='cd ~/Projects/playground'
 alias :ggg='function _git-gg(){ git add .; git commit -m "$1"; git push}; _git-gg'
 alias :setup='./dotfiles-new/src/SETUP.sh'
 alias :todo='cat TODO'
+alias :clone='function _git-clone(){ git clone "$1" ~/.programs-from-git/"$2"}; _git-clone'
 
 
 # TMUX

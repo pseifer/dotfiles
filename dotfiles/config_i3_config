@@ -3,6 +3,26 @@ set $mod Mod4
 #font pango:monospace 8
 font pango:DejaVu Sans Mono 8
 
+
+# Set colors from Xresources
+# Change 'color7' and 'color2' to whatever colors you want i3 to use
+# from the generated scheme.
+# NOTE: The '#f0f0f0' in the lines below is the color i3 will use if
+# it fails to get colors from Xresources.
+
+# LIGHT COLOR
+set_from_resource $lc i3wm.color5 #77cc77
+
+# VIBRANT COLOR
+set_from_resource $vc i3wm.color3 #11ee11
+
+# BACKGROUND
+set_from_resource $bg i3wm.color0 #202020
+
+# FOREGROUND
+set_from_resource $fg i3wm.color7 #ff0000
+
+
 focus_follows_mouse no
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -11,7 +31,8 @@ bindsym $mod+Return exec urxvt
 # kill focused window
 bindsym $mod+x kill
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run -nb "#002b36" -nf "#839496" -sf "#eee8d5" -sb "#268bd2"
+#bindsym $mod+d exec dmenu_run -nb "#002b36" -nf "#839496" -sf "#eee8d5" -sb "#268bd2"
+bindsym $mod+d exec rofi -combi-modi window#run -show combi -theme .cache/wal/colors-rofi.rasi -display-combi "rofi" -display-run " %" -display-window "[]"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -109,16 +130,24 @@ bindsym $mod+r mode "resize"
 
 
 #                       border  backgr. test    indic.  child_boder
-client.focused          #2f2f2f #3f3f3f #7f9f7f #2aa198 #268bd2
-client.focused_inactive #2f2f2f #3f3f3f #4f4f4f #4f4f4f #14607e
-client.unfocused        #2f2f2f #3f3f3f #dcdccc #dcdccc #073642
-client.urgent           #2f2f2f #3f3f3f #dcdccc #dcdccc #859900
-client.placeholder      #2f2f2f #3f3f3f #dcdccc #dcdccc #ffffff
+#client.focused          #2f2f2f #3f3f3f #7f9f7f #2aa198 #268bd2
+#client.focused_inactive #2f2f2f #3f3f3f #4f4f4f #4f4f4f #14607e
+#client.unfocused        #2f2f2f #3f3f3f #dcdccc #dcdccc #073642
+#client.urgent           #2f2f2f #3f3f3f #dcdccc #dcdccc #859900
+#client.placeholder      #2f2f2f #3f3f3f #dcdccc #dcdccc #ffffff
+#
+#client.background #dcdccc
 
-client.background #dcdccc
+# class                 border  backgr. fgxt indicator child_border
+client.focused          $vc     $vc     $fg  $lc       $vc
+client.focused_inactive $bg     $bg     $fg  $bg       $bg
+client.unfocused        $bg     $bg     $fg  $bg       $bg
+client.urgent           $bg     $bg     $fg  $bg       $bg
+client.placeholder      $bg     $bg     $fg  $bg       $bg
 
+client.background       $bg
 
-# Start i3bar to display a workspace bar (plus the system information i3status
+# Start i3bar to display a workspace bar (plus the sysfgm information i3status
 # finds out, if available)
 bar {
         status_command i3status
@@ -130,14 +159,14 @@ bar {
         strip_workspace_numbers yes
         tray_output primary
         colors {
-            background #002b36
-            statusline #839496
-            separator #268bd2
-#                               BORDER   BACKGROUND TEXT
-            focused_workspace   #002b36  #002b36  #268bd2
-            inactive_workspace  #002b36  #002b36  #dcdccc
-            active_workspace    #002b36  #002b36  #dcdccc
-            urgent_workspace    #859900  #072642  #859900
+            background $bg
+            statusline $vc
+            separator $vc
+#                               BORDER   BACKGROUND FGXT
+            focused_workspace   $bg  $bg $vc
+            inactive_workspace  $bg  $bg $fg
+            active_workspace    $bg  $bg $fg
+            urgent_workspace    $bg  $bg $lc
         }
 }
 
@@ -153,5 +182,5 @@ new_window pixel 2
 # AUTOSTART
 
 # exec --no-startup-id feh --bg-scale ~/Projects/plt-skull/wallpaper-png/plt-skull.png
-exec --no-startup-id ~/.fehbg
+# exec --no-startup-id ~/.fehbg
 exec emacs --daemon

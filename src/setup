@@ -62,7 +62,7 @@ install () {
 }
 
 setup () {
-    item "SETUP" "$i"
+    item "SETUP  " "$1"
 }
 
 section () {
@@ -129,7 +129,7 @@ if section "CORE"; then
     install "essential packages" &&\
         sudo apt install rxvt-unicode-256color zsh build-essential subversion git rlwrap \
              curl cmake tmux inkscape htop arandr fonts-inconsolata feh \
-             python-pygments owncloud-client zathura -y
+             python-pygments python3-pip owncloud-client zathura -y
 
     install "oh-my-zsh" &&\
         sh -c "$(curl -fsSL \
@@ -144,6 +144,13 @@ if section "CORE"; then
         sudo apt install emacs unifont -y && \
         git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 
+    install "pywal" &&\
+        pip3 install pywal
+
+
+    setup "default terminal" &&\
+        sudo update-alternatives --config x-terminal-emulator
+
     setup "ssh keygen" &&\
         ssh-keygen -t rsa -b 4096
 fi
@@ -151,7 +158,7 @@ fi
 
 
 if section "WINDOW MANAGER"; then
-    item "WM" "i3" &&\
+    install "i3 WM" &&\
         sudo apt install i3 -y
 fi
 
