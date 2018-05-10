@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cp /etc/skel/.bashrc ~/
+echo "(cat ~/.cache/wal/sequences &)" >> ~/.bashrc

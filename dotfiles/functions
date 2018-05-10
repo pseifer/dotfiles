@@ -102,12 +102,9 @@ function check_repos () {
     fi
 }
 
-# Lookup wallpaper path from .fehbg script
+# Lookup wallpaper in wal cache
 # and use wallpaper to lock i3.
 function lock () {
-    screen=$(echo $(cat ~/.fehbg\
-                           | awk '/feh/ { print $3 }'\
-                           | sed "s/'//g"))
-    echo "test"
-    i3lock -i "$screen"
+    screen=$(cat .cache/wal/wal)
+    i3lock --image "$screen"
 }

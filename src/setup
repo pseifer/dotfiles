@@ -127,9 +127,9 @@ fi
 
 if section "CORE"; then
     install "essential packages" &&\
-        sudo apt install rxvt-unicode-256color zsh build-essential subversion git rlwrap \
-             curl cmake tmux inkscape htop arandr fonts-inconsolata feh \
-             python-pygments python3-pip owncloud-client zathura -y
+	sudo pacman -S firefox zsh subversion git rlwrap curl cmake tmux \
+                   inkscape arandr zathura python-pip feh neovim pacaur \
+                   xcursor-themes lxappearance python2 xclip
 
     install "oh-my-zsh" &&\
         sh -c "$(curl -fsSL \
@@ -145,11 +145,18 @@ if section "CORE"; then
         git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 
     install "pywal" &&\
-        pip3 install pywal
+        sudo pip install pywal &&\
+        sudo pacman -S imagemagick feh &&\
+        pacaur -S oomox-git
 
+    install "ranger" &&\
+        sudo pacman -S ranger w3m highlight mediainfo odt2txt
 
-    setup "default terminal" &&\
-        sudo update-alternatives --config x-terminal-emulator
+    install "pixbuf urxvt" &&\
+        pacaur -S rxvt-unicode-pixbuf
+
+    install "vundle" &&\
+	git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
     setup "ssh keygen" &&\
         ssh-keygen -t rsa -b 4096
@@ -159,7 +166,7 @@ fi
 
 if section "WINDOW MANAGER"; then
     install "i3 WM" &&\
-        sudo apt install i3 -y
+        sudo pacman -S i3-gaps
 fi
 
 
@@ -168,10 +175,11 @@ if section "HOME"; then
     setup "home directories" &&\
         mkdir -p ~/.programs-from-git &&\
         mkdir -p ~/bin &&\
-        mkdir -p ~/projects &&\
-        mkdir -p ~/templates &&\
-        mkdir -p ~/documents &&\
-        mkdir -p ~/cloud
+        mkdir -p ~/Projects &&\
+        mkdir -p ~/Templates &&\
+        mkdir -p ~/Documents &&\
+        mkdir -p ~/Wallpaper &&\
+        mkdir -p ~/Cloud
 fi
 
 

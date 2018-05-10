@@ -1,14 +1,9 @@
-
+# Use META as i3 modifier.
 set $mod Mod4
-#font pango:monospace 8
+# Font is rarely visible in this setup.
 font pango:DejaVu Sans Mono 8
 
-
-# Set colors from Xresources
-# Change 'color7' and 'color2' to whatever colors you want i3 to use
-# from the generated scheme.
-# NOTE: The '#f0f0f0' in the lines below is the color i3 will use if
-# it fails to get colors from Xresources.
+# Set colors (from Xresources)
 
 # LIGHT COLOR
 set_from_resource $lc i3wm.color5 #77cc77
@@ -22,123 +17,129 @@ set_from_resource $bg i3wm.color0 #202020
 # FOREGROUND
 set_from_resource $fg i3wm.color7 #ff0000
 
+# MOUSE
 
 focus_follows_mouse no
-# Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
-# start a terminal
-bindsym $mod+Return exec urxvt
-# kill focused window
+
+# KEYBINDS (CORE)
+
+# Start terminal
+bindsym $mod+Return exec urxvt # Start terminal
+
+# Kill window
 bindsym $mod+x kill
-# start dmenu (a program launcher)
-#bindsym $mod+d exec dmenu_run -nb "#002b36" -nf "#839496" -sf "#eee8d5" -sb "#268bd2"
+
+# Run standard rofi
 bindsym $mod+d exec rofi -combi-modi window#run -show combi -theme .cache/wal/colors-rofi.rasi -display-combi "rofi" -display-run " %" -display-window "[]"
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
-# change focus
+
+# Focus windows (h,j,k,l)
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
-# alternatively, you can use the cursor keys:
+
+# Focus windows (arrow keys)
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
-# move focused window
+
+# Move windows (h,j,k,l)
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
-# alternatively, you can use the cursor keys:
+
+# Move windows (arrow keys)
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
-# split in horizontal orientation
+
+# Horizontal split
 bindsym $mod+semicolon split h
-# split in vertical orientation
+
+# Vertical split
 bindsym $mod+v split v
-# enter fullscreen mode for the focused container
+
+# Focus toggle fullscreen
 bindsym $mod+f fullscreen toggle
+
 # change container layout (stacked, tabbed, toggle split)
 #bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
-#bindsym $mod+e layout toggle split
 bindsym $mod+s layout toggle split
-# toggle tiling / floating
+
+# Toggle float for focus.
 bindsym $mod+Shift+space floating toggle
-# change focus between tiling / floating windows
+
+# Toggle between focusing tiling / floating windows.
 bindsym $mod+space focus mode_toggle
-# focus the parent container
-bindsym $mod+a focus parent
-# focus the child container
-#bindsym $mod+d focus child
-# switch to workspace
+
+
+# Workspaces (SWITCH)
 bindsym $mod+1 workspace 1:κ
 bindsym $mod+2 workspace 2:λ
 bindsym $mod+3 workspace 3:μ
 bindsym $mod+4 workspace 4:ν
 bindsym $mod+5 workspace 5:ξ
 bindsym $mod+6 workspace 6:ο
-bindsym $mod+7 workspace 7:ex1
-bindsym $mod+8 workspace 8:ex2
-bindsym $mod+9 workspace 9:ex3
-# move focused container to workspace
+bindsym $mod+7 workspace 7:+1
+bindsym $mod+8 workspace 8:+2
+bindsym $mod+9 workspace 9:+3
+
+# Workspaces (MOVE)
 bindsym $mod+Shift+1 move container to workspace 1:κ
 bindsym $mod+Shift+2 move container to workspace 2:λ
 bindsym $mod+Shift+3 move container to workspace 3:μ
 bindsym $mod+Shift+4 move container to workspace 4:ν
 bindsym $mod+Shift+5 move container to workspace 5:ξ
 bindsym $mod+Shift+6 move container to workspace 6:ο
-bindsym $mod+Shift+7 move container to workspace 7:ex1
-bindsym $mod+Shift+8 move container to workspace 8:ex2
-bindsym $mod+Shift+9 move container to workspace 9:ex3
-# reload the configuration file
+bindsym $mod+Shift+7 move container to workspace 7:+1
+bindsym $mod+Shift+8 move container to workspace 8:+2
+bindsym $mod+Shift+9 move container to workspace 9:+3
+
+# Reload configuration
 bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+
+# Restart i3 inplace (preserves layout/session)
 bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
+
+# Exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
-# resize window (you can also use the mouse for that)
+
+# Resize mode.
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
         bindsym h resize shrink width 10 px or 10 ppt
         bindsym j resize grow height 10 px or 10 ppt
         bindsym k resize shrink height 10 px or 10 ppt
         bindsym l resize grow width 10 px or 10 ppt
-        # same bindings, but for the arrow keys
+
         bindsym Left resize shrink width 10 px or 10 ppt
         bindsym Down resize grow height 10 px or 10 ppt
         bindsym Up resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
-        # back to normal: Enter or Escape
+
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
 
+# Exit mode
+set $mode_exit (e)xit i3 | (l)ock i3 | (s)hutdown | (r)eboot | (c)ancel
+mode "$mode_exit" {
+    bindsym e exit
+    bindsym l exec loki; mode "default"
+    bindsym s exec "shutdown now"
+    bindsym r exec reboot
 
+    bindsym c mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+e mode "$mode_exit"
 
-# DESIGN
-
-
-#                       border  backgr. test    indic.  child_boder
-#client.focused          #2f2f2f #3f3f3f #7f9f7f #2aa198 #268bd2
-#client.focused_inactive #2f2f2f #3f3f3f #4f4f4f #4f4f4f #14607e
-#client.unfocused        #2f2f2f #3f3f3f #dcdccc #dcdccc #073642
-#client.urgent           #2f2f2f #3f3f3f #dcdccc #dcdccc #859900
-#client.placeholder      #2f2f2f #3f3f3f #dcdccc #dcdccc #ffffff
-#
-#client.background #dcdccc
-
-# class                 border  backgr. fgxt indicator child_border
+# DESIGN                border  backgr. fgxt indicator child_border
 client.focused          $vc     $vc     $fg  $lc       $vc
 client.focused_inactive $bg     $bg     $fg  $bg       $bg
 client.unfocused        $bg     $bg     $fg  $bg       $bg
@@ -147,8 +148,7 @@ client.placeholder      $bg     $bg     $fg  $bg       $bg
 
 client.background       $bg
 
-# Start i3bar to display a workspace bar (plus the sysfgm information i3status
-# finds out, if available)
+# i3 STATUS / BAR
 bar {
         status_command i3status
         # i3bar_command i3bar -t
@@ -160,27 +160,24 @@ bar {
         tray_output primary
         colors {
             background $bg
-            statusline $vc
+            statusline $fc
             separator $vc
-#                               BORDER   BACKGROUND FGXT
-            focused_workspace   $bg  $bg $vc
-            inactive_workspace  $bg  $bg $fg
-            active_workspace    $bg  $bg $fg
-            urgent_workspace    $bg  $bg $lc
+            #                   BORDER   BACKGROUND FGXT
+            focused_workspace   $vc      $vc        $bg
+            inactive_workspace  $bg      $bg        $fg
+            active_workspace    $bg      $bg        $fg
+            urgent_workspace    $bg      $bg        $lc
         }
 }
 
 # GAPS
-#gaps inner 0
-#gaps outer 0
+gaps inner 11
+gaps outer 0
+smart_gaps on
+smart_borders on
 
 # BORDER
-new_window pixel 2
-
-
+new_window pixel 3
+new_floating pixel 6
 
 # AUTOSTART
-
-# exec --no-startup-id feh --bg-scale ~/Projects/plt-skull/wallpaper-png/plt-skull.png
-# exec --no-startup-id ~/.fehbg
-exec emacs --daemon

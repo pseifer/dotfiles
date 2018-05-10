@@ -4,3 +4,4 @@
 
 xrdb ~/.Xresources
 i3-msg restart
+wal -R

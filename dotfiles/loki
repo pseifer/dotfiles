@@ -1,0 +1,4 @@
+#!/bin/bash
+
+screen=$(cat ~/.cache/wal/wal)
+i3lock --image "$screen"

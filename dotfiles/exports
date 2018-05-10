@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# EDITORS
+export EDITOR='nvim'
+export VISUAL='nvim'
+
+# SSH
+export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+# TERMINAL
+export TERM=rxvt-unicode
