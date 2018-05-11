@@ -178,6 +178,5 @@ smart_borders on
 
 # BORDER
 new_window pixel 3
-new_floating pixel 6
 
 # AUTOSTART
