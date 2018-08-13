@@ -1,8 +1,14 @@
+" --- --- --- CORE --- --- ---
 if !has('nvim')
     set nocompatible
 endif
+
 filetype off
+
 set encoding=utf-8
+
+nnoremap <SPACE> <Nop>
+let mapleader = ' '
 
 
 
@@ -12,23 +18,34 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
+
+" ~ Essential plugins
 Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'rking/ag.vim'
 Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'chriskempson/base16-vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'jeetsukumaran/vim-buffergator'
-Plugin 'dag/vim2hs'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-fugitive'
+Plugin 'junegunn/fzf.vim'
+
+Plugin 'scrooloose/syntastic'
 " Plugin 'Shougo/deoplete.nvim'
-Plugin 'eagletmt/neco-ghc'
-Plugin 'jceb/vim-orgmode'
-Plugin 'jnurmine/Zenburn'
-Plugin 'dylanaraps/wal.vim'
-" Plugin 'eagletmt/ghcmod.vim'
-" Plugin 'lukerandall/haskellmode-vim'
+
+" ~ Language plugins
+Plugin 'jceb/vim-orgmode'                  " ORG mode for vim
+
+" ~ Themes & Stuff
+Plugin 'vim-airline/vim-airline'           " Nice statusline
+Plugin 'vim-airline/vim-airline-themes'    " Themes for airline
+Plugin 'dylanaraps/wal.vim'                " Theme for pywal integration
+
+" ~ Currently unused plugins
+"Plugin 'dag/vim2hs'                        " Haskell Mode
+"Plugin 'eagletmt/neco-ghc'                 " Deoplete GHC
+"Plugin 'eagletmt/ghcmod.vim'
+"Plugin 'lukerandall/haskellmode-vim'
+"Plugin 'ctrlpvim/ctrlp.vim'                " Open stuff
+"Plugin 'jeetsukumaran/vim-buffergator'     " Buffer changer
+"Plugin 'chriskempson/base16-vim'           " Base 16 themes
+"Plugin 'jnurmine/Zenburn'                  " Zenburn theme
 
 " Formats GitHub repo, git url, file path, vim-scripts.org
 " :PluginList
@@ -44,51 +61,36 @@ filetype plugin indent on
 
 " --- --- --- PLUGIN CONFIGURATION --- --- ---
 
-" --- AG.VIM ---
-let g:ag_prg="/usr/bin/ag --vimgrep"  " set path to ag program
+" --- NERDTREE (<leader>n) ---
+nnoremap <leader>nn :NERDTreeToggle<CR>
+nnoremap <leader>nf :NERDTreeFind<CR>
 
-" --- NERDTREE ---
-map <F10> :NERDTreeToggle<CR>
-map <F9>  :NERDTreeFind<CR>
-
-" --- airline ---
+" --- AIRLINE ---
 let g:airline_theme = 'wal'
 set laststatus=2
+set noshowmode
 let g:ariline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 
-" --- CtrlP ---
-" Note: More Settings under 'BUFFERS'
-" Setup some default ignores
-let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
-            \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
-            \}
-" Use nearest .git dir as cwd.
-let g:ctrlp_working_path_mode = 'r'
-
-" Deoplete
-" let g:deoplete#enable_at_startup = 1
-
+" --- FZF (<leader><space>) ---
+set rtp+=/usr/local/opt/fzf
+nnoremap <leader><space>f :Files<CR>
+nnoremap <leader><space>b :Buffers<CR>
+nnoremap <leader><space>g :GFiles<CR>
+nnoremap <leader><space>l :Lines<CR>
+nnoremap <leader><space>w :Windows<CR>
+nnoremap <leader><space>c :Commits<CR>
+nnoremap <leader><space>h :History<CR>
+nnoremap <leader><space>m :Marks<CR>
+nnoremap <leader><space>a :Ag<CR>
+" CTRL-T  | CTRL-X    | CTRL-V
+" new tab | new split | new vsplit
 
 " --- HASKELL ---
 " au Bufenter *.hs compiler ghc
 " :let g:haddock_browser="/usr/bin/google-chrome"
-let g:haskell_conceal = 0
+" let g:haskell_conceal = 0
 
-
-" Config vim scheme for chicken
-let b:is_chicken=1
-setl lispwords+=let-values,condition-case,with-input-from-string
-setl lispwords+=with-output-to-string,handle-exceptions,call/cc,rec,receive
-setl lispwords+=call-with-output-file
-
-nmap <silent> == :call Scheme_indent_top_sexp()<cr>
-fun! Scheme_indent_top_sexp()
-    let pos = getpos('.')
-    silent! exec "normal! 99[(=%"
-    call setpos('.', pos)
-endfun
 
 
 " --- --- --- TERMINAL SETUP --- --- ---
@@ -105,8 +107,6 @@ if has('mouse')
 endif
 
 set background=dark
-" let base16colorspace=256
-" colorscheme base16-eighties
 colorscheme wal
 
 
@@ -117,7 +117,7 @@ endif
 
 
 
-" --- --- --- BASIC 'SET' SETTINGS --- --- ---
+" --- --- --- BASIC 'SET'TINGS --- --- ---
 
 set tabstop=4
 set expandtab
@@ -146,34 +146,16 @@ set history=50
 set showcmd
 set incsearch
 
-let mapleader = ','
 " let maplocalleader = '\\'
 
 set backspace=indent,eol,start
 
-au WinLeave * set nocursorline nocursorcolumn
-au WinEnter * set cursorline
-set cursorline
+"au WinLeave * set nocursorline nocursorcolumn
+"au WinEnter * set cursorline
+set nocursorline
+set relativenumber
 
 set list listchars=tab:»»,trail:·  " not trailing
-
-nnoremap <Left> :echoe "Use h, pleb!"<CR>
-nnoremap <Right> :echoe "Use l, pleb!"<CR>
-nnoremap <Up> :echoe "Use k, pleb!"<CR>
-nnoremap <Down> :echoe "Use j, pleb!"<CR>
-
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
-if has('nvim')
-    tnoremap <C-h> <C-\><C-n><C-w>h
-    tnoremap <C-j> <C-\><C-n><C-w>j
-    tnoremap <C-k> <C-\><C-n><C-w>k
-    tnoremap <C-l> <C-\><C-n><C-w>l
-endif
-
-nnoremap <CR> :noh<CiR><CR>
 
 set swapfile
 set dir=~/.vim/tmp
@@ -183,45 +165,87 @@ set undodir=~/.vim/tmp
 
 
 
-" --- --- --- BUFFERS --- --- ---
+" --- BUFFERS (<leader>b) ---
 set hidden
-nmap <leader>l :bnext<CR>
-nmap <leader>h :bprevious<CR>
-
-" Use a leader instead of the actual named binding
-nmap <leader>p :CtrlP<cr>
-
-" Easy bindings for its various modes
-nmap <leader>bb :CtrlPBuffer<cr>
-nmap <leader>bm :CtrlPMixed<cr>
-nmap <leader>bs :CtrlPMRU<cr>
-
-let g:buffergator_viewport_split_policy = 'R'
-"let g:buffergator_suppress_keymaps = 1
-
-nmap <leader>jj :BuffergatorMruCyclePrev<CR>
-nmap <leader>kk :BuffergatorMruCycleNext<CR>
-nmap <leader>bl :BuffergatorOpen<CR>
-
-nmap <leader>bq :bp <BAR> bd #<CR>
-nmap <leader>T :enew<CR>
+nmap <leader>bl :bnext<CR>
+nmap <leader>bh :bprevious<CR>
+nmap <leader>be :enew<CR>
 
 set splitbelow
 set splitright
 
-" KEYBINDGS
-" s = split, S = split and keep buffers
-" i = vertikal
-" d = delete
-" ...
 
 
+" --- --- --- KEYBINDINGS --- --- ---
 
-" --- --- --- NON-PERMANENT PLAYGROUND --- --- ---
+" Insert mode undo removes lines
+inoremap <C-U> <C-G>u<C-U>
+
+" Please no EX mode
+map Q :
+
+" Disable arrow keys.
+nnoremap <Left> :echoe "Use h, pleb!"<CR>
+nnoremap <Right> :echoe "Use l, pleb!"<CR>
+nnoremap <Up> :echoe "Use k, pleb!"<CR>
+nnoremap <Down> :echoe "Use j, pleb!"<CR>
+
+" Change splits with ctrl
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+if has('nvim')
+    tnoremap <C-h> <C-\><C-n><C-w>h
+    tnoremap <C-j> <C-\><C-n><C-w>j
+    tnoremap <C-k> <C-\><C-n><C-w>k
+    tnoremap <C-l> <C-\><C-n><C-w>l
+endif
+
+" In normal mode <CR> disables search highlights
+nnoremap <CR> :noh<CR><CR>
+
+" Map backspace to last buffer, disable Del
+inoremap <BS> <C-S-^>
+inoremap <Del> <Nop>
+nnoremap <BS> <C-S-^>
+
+" Terminal (<leader>t)
+tnoremap jj <C-\><C-n>
+nnoremap <leader>tt :term<CR>i
+
+" Make (<leader>m)
+nnoremap <leader>mm :make<CR>
+nnoremap <leader>ml :!latexmk<CR>
+
+" Windows management (<leader>w)
+nnoremap <leader>ws :split<CR>
+nnoremap <leader>wv :vsplit<CR>
+" quit
+nnoremap <leader>wq <C-w>q
+" close all others
+nnoremap <leader>wo <C-w>o
+" to new tab
+nnoremap <leader>wt <C-w>T
+" equalize size
+nnoremap <leader>w= <C-w>=
+" rotate
+nnoremap <leader>wr <C-w>R
+
+" Tabs (<leader>t --- shared with terminal!)
+nnoremap <leader>tq :tabclose<CR>
+nnoremap <leader>to :tabonly<CR>
+nnoremap <leader>tn :tabedit<CR>
+nnoremap <leader>tl :tabn<CR>
+nnoremap <leader>th :tabp<CR>
+nnoremap <leader>t1 :tabfirst<CR>
 
 
+" --- --- --- UTILITY SETTINGS, FUNCTIONS & STUFF --- --- ---
 
-" --- --- --- UTILITY SETTINGS AND FUNCTIONS --- --- ---
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
 
 " Diff for buffer!
 if !exists(":DiffOrig")
@@ -240,24 +264,6 @@ function! s:RemoveTrailingWhitespaces()
 endfunction
 
 au BufWritePre * :call <SID>RemoveTrailingWhitespaces()
-
-
-
-
-
-
-
-" --- --- --- THE "I DON'T KNOW WHAT IT DOES OR WHER IT COMES FROM BUT IM AFRAID
-"  SOMETHING WILL BREAK IF I REMOVE IT" SECION --- --- ---
-
-" Don't use Ex mode, use Q for formatting
-map Q gq
-
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
-
-
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -290,7 +296,6 @@ else
 
 endif " has("autocmd")
 
-
 if has('langmap') && exists('+langnoremap')
   " Prevent that the langmap option applies to characters that result from a
   " mapping.  If unset (default), this may break plugins (but it's backward
@@ -298,4 +303,3 @@ if has('langmap') && exists('+langnoremap')
   " compatible).
   set langnoremap
 endif
-

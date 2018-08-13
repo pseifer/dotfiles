@@ -2,7 +2,6 @@
 
 # EDITOR (USED IN OTHER ALIASES)
 alias myeditor='nvim'
-alias myintermeditor='nvim'
 
 
 # BASIC
@@ -59,6 +58,7 @@ alias book="function _book() { evince ~/Documents/Books/$1 }; _book"
 alias playground-push='(cd ~/Projects/playground && git add . && git commit -m "Perform automated progress push" && git push origin master)'
 alias fsize='function _fsize(){ printf "\33]50;%s%d\007" "xft:Inconsolata-R:pixelsize=" $1 };_fsize'
 alias patat-mode='fsize 30; patat'
+alias dateup='function _dateup(){ sudo date +%Y%m%d -s "$1"; sudo date +%T -s "$2"}; _dateup '
 
 
 # FIX KEYBOARD
@@ -100,8 +100,11 @@ alias nano='edit'
 # DOT AND SMART COMMANDS
 alias :q='exit'
 alias :wq=':q'
-alias :e='edit'
-alias :ei='myintermeditor'
+alias :nvr='NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim'
+alias :e='nvr --nostart --remote'
+alias :es='nvr --nostart -o'
+alias :ev='nvr --nostart -O'
+alias :et='nvr --nostart -p'
 alias :ex='edit; exit'
 alias :build='smartbuild'
 alias :b=':build'
@@ -130,13 +133,13 @@ alias :ga='git add'
 alias :gaa='git add .'
 alias :gc='git commit'
 alias :gcm='git commit -m'
-alias :dot='cd ~/dotfiles-new'
+alias :dot='cd ~/dotfiles'
 alias :play='cd ~/Projects/playground'
 alias :ggg='function _git-gg(){ git add .; git commit -m "$1"; git push}; _git-gg'
 alias :setup='./dotfiles-new/src/SETUP.sh'
 alias :todo='cat TODO'
 alias :clone='function _git-clone(){ git clone "$1" ~/.programs-from-git/"$2"}; _git-clone'
-alias :wal='function _wal(){ wal -g -i "$1" }; _wal'
+alias :wal='function _wal(){ wal -g -i "$1"; reloadui }; _wal'
 alias :rui=reloadui
 
 

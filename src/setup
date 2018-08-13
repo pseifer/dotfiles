@@ -128,8 +128,8 @@ fi
 if section "CORE"; then
     install "essential packages" &&\
 	sudo pacman -S firefox zsh subversion git rlwrap curl cmake tmux \
-                   inkscape arandr zathura python-pip feh neovim pacaur \
-                   xcursor-themes lxappearance python2 xclip
+                   inkscape arandr zathura zathura-pdf-mupdf zathura-ps python-pip feh neovim pacaur \
+                   xcursor-themes lxappearance python2 xclip vlc
 
     install "oh-my-zsh" &&\
         sh -c "$(curl -fsSL \
@@ -140,14 +140,20 @@ if section "CORE"; then
         git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
             ~/.programs-from-git/zsh-syntax-highlighting
 
+    install "latex" &&\
+        sudo pacman -S texlive-science texlive-latexextra texlive-bibtexextra biber
+
     install "spacemacs" &&\
         sudo apt install emacs unifont -y && \
         git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 
     install "pywal" &&\
         sudo pip install pywal &&\
-        sudo pacman -S imagemagick feh &&\
-        pacaur -S oomox-git
+        sudo pacman -S wmctrl imagemagick feh &&\
+        pacaur -S oomox-git &&\
+        mkdir -p ~/.programs-from-git/blurme && \
+        git clone https://github.com/ganifladi/blurme \
+            ~/.programs-from-git/blurme
 
     install "ranger" &&\
         sudo pacman -S ranger w3m highlight mediainfo odt2txt
@@ -155,8 +161,10 @@ if section "CORE"; then
     install "pixbuf urxvt" &&\
         pacaur -S rxvt-unicode-pixbuf
 
-    install "vundle" &&\
-	git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    install "vim extra" &&\
+        git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && \
+        pip3 install neovim-remote && \
+        sudo pacman -S fzf the_silver_searcher
 
     setup "ssh keygen" &&\
         ssh-keygen -t rsa -b 4096
@@ -180,6 +188,13 @@ if section "HOME"; then
         mkdir -p ~/Documents &&\
         mkdir -p ~/Wallpaper &&\
         mkdir -p ~/Cloud
+fi
+
+
+
+if section " PROGRAMMING"; then
+    install "Scala" &&\
+        sudo pacman -S sbt
 fi
 
 

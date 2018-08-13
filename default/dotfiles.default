@@ -4,7 +4,6 @@ exports                             .exports
 aliases                             .aliases
 functions                           .functions
 zshrc                               .zshrc
-bashrc                              .bashrc
 gitconfig                           .gitconfig
 tmux.conf                           .tmux.conf
 Xresources                          .Xresources
