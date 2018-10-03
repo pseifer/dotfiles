@@ -3,3 +3,4 @@
 	email = seiferphilipp@gmail.com
 [core]
 	editor = edit
+	autocrlf = input

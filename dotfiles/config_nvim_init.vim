@@ -26,8 +26,8 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
 Plugin 'junegunn/fzf.vim'
 
-Plugin 'scrooloose/syntastic'
-" Plugin 'Shougo/deoplete.nvim'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " ~ Language plugins
 Plugin 'jceb/vim-orgmode'                  " ORG mode for vim
@@ -36,6 +36,11 @@ Plugin 'jceb/vim-orgmode'                  " ORG mode for vim
 Plugin 'vim-airline/vim-airline'           " Nice statusline
 Plugin 'vim-airline/vim-airline-themes'    " Themes for airline
 Plugin 'dylanaraps/wal.vim'                " Theme for pywal integration
+
+" ~ SCALA SBT ENSIME
+Plugin 'ensime/ensime-vim'                 " Scala dev with ensime
+Plugin 'derekwyatt/vim-scala'
+Plugin 'ktvoelker/sbt-vim'
 
 " ~ Currently unused plugins
 "Plugin 'dag/vim2hs'                        " Haskell Mode
@@ -73,7 +78,7 @@ let g:ariline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 
 " --- FZF (<leader><space>) ---
-set rtp+=/usr/local/opt/fzf
+set rtp+=~/.programs-from-git/fzf
 nnoremap <leader><space>f :Files<CR>
 nnoremap <leader><space>b :Buffers<CR>
 nnoremap <leader><space>g :GFiles<CR>
@@ -91,6 +96,24 @@ nnoremap <leader><space>a :Ag<CR>
 " :let g:haddock_browser="/usr/bin/google-chrome"
 " let g:haskell_conceal = 0
 
+
+" --- deoplete ---
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources={}
+let g:deoplete#sources._=['buffer', 'member', 'tag', 'file', 'omni', 'ultisnips']
+let g:deoplete#omni#input_patterns={}
+let g:deoplete#omni#input_patterns.scala='[^. *\t]\.\w*'
+
+" --- ensime ---
+autocmd BufWritePost *.scala silent : EnTypeCheck             " typecheck on write
+au FileType scala nnoremap <leader>ss :EnType<CR>             " [t]ype check
+au FileType scala nnoremap <leader>sj :EnDeclaration<CR>      " [j]ump to
+au FileType scala nnoremap <leader>sv :EnDeclarationSplit<CR> " [v]split jump to
+au FileType scala nnoremap <leader>sr :EnRename<CR>           " [r]ename
+au FileType scala nnoremap <leader>si :EnSuggestImport<CR>    " [i]mport
+au FileType scala nnoremap <leader>sf :EnSearch<CR>           " [f]ind term
+au FileType scala nnoremap <leader>su :EnUsages<CR>           " [u]usage search
+au FileType scala nnoremap <leader>sb :EnInstall<CR>          " [b]ootstrap
 
 
 " --- --- --- TERMINAL SETUP --- --- ---
@@ -115,7 +138,7 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
-
+set clipboard=unnamedplus
 
 " --- --- --- BASIC 'SET'TINGS --- --- ---
 

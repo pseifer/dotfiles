@@ -62,3 +62,5 @@ source ~/.cache/wal/colors-tty.sh
 # Init FISH-style highlighting extension
 ZSH_HIGHLIGHT_PATTERNS+=('rm -rf *' 'fg=white,bold,bg=red')
 source /home/pseifer/.programs-from-git/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

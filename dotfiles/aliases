@@ -14,6 +14,22 @@ alias h='history | tail'
 alias greph='grep_history'
 alias zap='rm -i'
 
+# MONITOR
+mydp='DP-1-2-3'
+myedp='eDP-1-1'
+myhdmi='HDMI-1'
+
+alias dp+='xrandr --output $mydp --auto'
+alias dp-='xrandr --output $mydp --off'
+alias hdmi+='xrandr --output $myhdmi --auto'
+alias hdmi-='xrandr --output $myhdmi --off'
+alias edp+='xrandr --output $myedp --auto'
+alias edp-='xrandr --output $myedp --off'
+
+alias dpedp='xrandr --output $mydp --left-of $myedp'
+alias edpdp='xrandr --output $myedp --left-of $mydp'
+alias dpmirroredp='xrandr --output $mydp --same-as $myedp'
+alias edpmirrordp='xrandr --output $myedp --same-as $mydp'
 
 # TYPOS
 alias ake='echo "Oy! Eld! Thankee!"; make'
@@ -34,7 +50,7 @@ alias ccat='pygmentize -g'
 alias pong='ping -c 4 8.8.8.8'
 alias clock='tty-clock -DcC 4'
 alias audio='pavucontrol'
-alias dog='vim -R'
+alias dog='fzf --preview "cat {}"'
 alias c='clear'
 alias cll='clear; ll'
 alias nau='nautilus . &'
@@ -80,10 +96,14 @@ alias notfuckinguglynetbeans='netbeans-8.1/bin/netbeans -J-Dswing.aatext=true -J
 alias slime='emacs'
 alias irc='irssi'
 alias freenode='irssi --nick "pzyfr" --connect "irc.freenode.net"'
-alias zath='zathura'
 alias audio_devices="aplay -l | awk -F \: '/,/{print $2}' | awk '{print $1}' | uniq"
 alias range='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir` ; cd "$LASTDIR"'
+alias intellij='./.programs-from-git/idea-IC-182.4505.22/bin/idea.sh'
 
+# Scala Dev
+alias newscalaproject='sbt new scala/scala-seed.g8'
+alias setupensime='sbt compile ensimeConfig ensimeConfigProject'
+alias scalanew='function _sn(){ newscalaproject --name="$1" && cd "$1" && setupensime }; _sn'
 
 # VIM/EMACS STUFF
 alias edit='myeditor'
@@ -141,6 +161,7 @@ alias :todo='cat TODO'
 alias :clone='function _git-clone(){ git clone "$1" ~/.programs-from-git/"$2"}; _git-clone'
 alias :wal='function _wal(){ wal -g -i "$1"; reloadui }; _wal'
 alias :rui=reloadui
+alias :sub='urxvt &'
 
 
 # TMUX
