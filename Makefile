@@ -36,10 +36,20 @@ clear: clean
 	@rm $(DCONFIG)
 	@rm $(MCONFIG)
 
-setupu:
-	@echo -e "$(PREF)Setting up...\n"
-	@./$(SCRIPTDIR)/$(SETUP) select `cat "default/setup.config"`
-
 setup:
-	@echo -e "$(PREF)Setting up...\n"
-	@./$(SCRIPTDIR)/$(SETUP) select `cat "default/setup.config"`
+	@export SETUP_PLATFORM=$(on); ./$(SCRIPTDIR)/$(SETUP) $(with)
+
+help:
+	@echo "---------+---------------------------------"
+	@echo "make all | install + link + reload"
+	@echo "---------+---------------------------------"
+	@echo "install  | setup the dotfile manager"
+	@echo "link     | write config to local system"
+	@echo "reload   | reload the system configuration"
+	@echo "---------+---------------------------------"
+	@echo "clean    | remove backups"
+	@echo "clear    | remove local config overwrites"
+	@echo "---------+---------------------------------"
+	@echo "setup    | on=<platform> with=<mode>"
+	@echo "---------+---------------------------------"
+	@echo ""

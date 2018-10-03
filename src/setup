@@ -5,6 +5,27 @@
 MODE="$1"
 ARGS=("$@")
 
+if [ -z "$SETUP_PLATFORM" ]; then
+    echo "Set the variable SETUP_PLATFORM to either of:"
+    echo "'fedora' | 'manjaro' | 'ubuntu'"
+    echo "or run the script via the respective make target."
+    exit 19
+fi
+PLATFORM="$SETUP_PLATFORM"
+
+FEDORA="fedora"
+MANJARO="manjaro"
+UBUNTU="ubuntu"
+PACKAGES="echo"
+
+if [ "$PLATFORM" = $FEDORA ]; then
+  PACKAGES="sudo dnf install -y"
+elif [ "$PLATFORM" = $MANJARO ]; then
+  PACKAGES="sudo pacman -S"
+elif [ "$PLATFORM" = $UBUNTU ]; then
+  PACKAGES="sudo apt install -y"
+fi
+
 print_padded () {
     content="$1"
     width="${2-80}"
@@ -16,7 +37,7 @@ print_padded () {
 }
 
 prompt () {
-    read -r -p "$1 [Y/n]" response
+    read -r -p "$1 [Y/n] " response
     case $response in
         [yY][eE][sS]|[yY]|"")
             true
@@ -52,7 +73,7 @@ item () {
             false
         fi
     else
-        print_padded "[] $1 $2 []"
+        print_padded "> $1 $2 <"
         prompt "CONFIRM $1"
     fi
 }
@@ -65,22 +86,13 @@ setup () {
     item "SETUP  " "$1"
 }
 
-section () {
-    if [ "$MODE" = "all" ]; then
-        echo "$1"
+onlyif () {
+    if [ "$PLATFORM" = "$1" ]; then
         true
-    elif [ "$MODE" = "list" ]; then
-        echo "SECTION [$1]"
-        true
-    elif [ "$MODE" = "select" ]; then
-        true
-    else
-        print_padded "[] $1 []"
-        prompt "ENTER $1"
+    else 
+        false
     fi
 }
-
-
 
 # MAIN
 
@@ -99,105 +111,165 @@ if [ "$1" = "help" ] || [ "$1" = "test" -a "$2" = "help" ]; then
     echo -e "\n> $(basename $0) select [y|n]*"
     echo "Like the previous, but will actually install the corresponding items."
     echo -e "\n> $(basename $0) test [..]"
-    echo "If 'test' is added as the first parameter, use test dataset."
+    echo "If 'test' is added as the first parameter, use example setup."
+    echo ""
     exit 0
 elif [ "$MODE" = "test" ]; then
     # Skip first argument and initialize from there:
     shift
     MODE="$1"
     ARGS=("$@")
-    if section "EXAMPLE1"; then
-        install "Test" &&\
-            echo "installed item 1"
-        setup "Test" &&\
-            echo "installed item 2"
+    if install "The First"; then
+        echo "Installing 'The First'"
     fi
-    if section "EXAMPLE2"; then
-        install "Example" &&\
-            echo "installed item 3"
-        setup "Example" &&\
-            echo "installed item 4"
+    if setup "Some Setup"; then
+        echo "Doing 'Some Setup'"
     fi
+    if install "The Last"; then
+        echo "Installing 'The Last'"
+    fi
+    echo ""
+    echo "All done!"
+    echo ""
     exit 0
 fi
 
-
-
 # SETUP
 
-if section "CORE"; then
-    install "essential packages" &&\
-	sudo pacman -S firefox zsh subversion git rlwrap curl cmake tmux \
-                   inkscape arandr zathura zathura-pdf-mupdf zathura-ps python-pip feh neovim pacaur \
-                   xcursor-themes lxappearance python2 xclip vlc
-
-    install "oh-my-zsh" &&\
-        sh -c "$(curl -fsSL \
-        https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-    install "zsh-syntax-highlighting" &&\
-        mkdir -p ~/.programs-from-git/zsh-syntax-highlighting && \
-        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-            ~/.programs-from-git/zsh-syntax-highlighting
-
-    install "latex" &&\
-        sudo pacman -S texlive-science texlive-latexextra texlive-bibtexextra biber
-
-    install "spacemacs" &&\
-        sudo apt install emacs unifont -y && \
-        git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-
-    install "pywal" &&\
-        sudo pip install pywal &&\
-        sudo pacman -S wmctrl imagemagick feh &&\
-        pacaur -S oomox-git &&\
-        mkdir -p ~/.programs-from-git/blurme && \
-        git clone https://github.com/ganifladi/blurme \
-            ~/.programs-from-git/blurme
-
-    install "ranger" &&\
-        sudo pacman -S ranger w3m highlight mediainfo odt2txt
-
-    install "pixbuf urxvt" &&\
-        pacaur -S rxvt-unicode-pixbuf
-
-    install "vim extra" &&\
-        git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && \
-        pip3 install neovim-remote && \
-        sudo pacman -S fzf the_silver_searcher
-
-    setup "ssh keygen" &&\
-        ssh-keygen -t rsa -b 4096
+if setup "Home"; then
+    mkdir -p ~/.programs-from-git &&\
+    mkdir -p ~/bin &&\
+    mkdir -p ~/Projects &&\
+    mkdir -p ~/Templates &&\
+    mkdir -p ~/Documents &&\
+    mkdir -p ~/Wallpaper &&\
+    mkdir -p ~/Cloud
 fi
 
+if install "Essential Packages"; then
+    # CORE PACKAGES
+    $PACKAGES firefox zsh git rlwrap curl cmake tmux subversion \
+	      inkscape xrandr arandr zathura feh neovim \
+	      rofi thunar htop xclip \
+	      ranger w3m highlight mediainfo odt2txt
 
+    onlyif $MANJARO &&\
+        $PACKAGES pacaur python2 python2-pip python-pip vlc \
+	          zathura-pdf-mupdf zathura-ps inconsolata &&\
+	pacaur -S rxvt-unicode-pixbuf
 
-if section "WINDOW MANAGER"; then
-    install "i3 WM" &&\
-        sudo pacman -S i3-gaps
+    onlyif $FEDORA &&\
+        $PACKAGES dnf-plugins-core copr-cli levien-inconsolata-fonts \
+	          util-linux-user
+
+    onlyif $UBUNTU &&\
+        $PACKAGES python3 python3-pip inconsolata vlc rxvt-unicode-256color
+
 fi
 
+if install "OH-MY-ZSH"; then
+    sh -c "$(curl -fsSL \
+      https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
-
-if section "HOME"; then
-    setup "home directories" &&\
-        mkdir -p ~/.programs-from-git &&\
-        mkdir -p ~/bin &&\
-        mkdir -p ~/Projects &&\
-        mkdir -p ~/Templates &&\
-        mkdir -p ~/Documents &&\
-        mkdir -p ~/Wallpaper &&\
-        mkdir -p ~/Cloud
+    mkdir -p ~/.programs-from-git/zsh-syntax-highlighting 
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+        ~/.programs-from-git/zsh-syntax-highlighting
 fi
 
-
-
-if section " PROGRAMMING"; then
-    install "Scala" &&\
-        sudo pacman -S sbt
+if install "LaTeX"; then
+   $PACKAGES texlive-full biber 
 fi
 
+if install "Spacemacs"; then
+    $PACKAGES emacs unifont
+    git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+fi
 
+if install "pywal"; then
+    sudo pip3 install pywal
+    $PACKAGES wmctrl feh
+
+    onlyif $MANJARO &&\
+      pacaur -S oomox-git imagemagick
+
+    onlyif $UBUNTU && $PACKAGES imagemagick
+
+    onlyif $FEDORA && $PACKAGES ImageMagick
+
+    mkdir -p ~/.programs-from-git/blurme
+    git clone https://github.com/ganifladi/blurme \
+        ~/.programs-from-git/blurme
+    git clone https://github.com/Mr-SD/intellijPywal \
+        ~/.programs-from-git/intelliJpywal
+fi
+
+if setup "Vim"; then
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    pip3 install neovim-remote
+
+    onlyif $UBUNTU &&\
+	    $PACKAGES silversearcher-ag &&\
+	    mkdir -p ~/.programs-from-git/fzf &&\
+	    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.programs-from-git/fzf &&\
+	    ~/.programs-from-git/fzf/install
+
+    onlyif $MANJARO && $PACKAGES fzf the_silver_searcher
+
+    onlyif $FEDORA && $PACKAGES fzf the_silver_searcher
+fi
+
+if setup "SSH"; then
+    ssh-keygen -t rsa -b 4096    
+fi
+
+if install "i3 WM"; then
+   $PACKAGES i3status i3lock
+
+   onlyif $MANJARO && $PACKAGES i3-gaps
+
+   onlyif $UBUNTU &&\
+        $PACKAGES libxcb1-dev libxcb-keysyms1-dev libpango1.0-dev \
+		  libxcb-util0-dev libxcb-icccm4-dev libyajl-dev \
+		  libstartup-notification0-dev libxcb-randr0-dev \
+		  libev-dev libxcb-cursor-dev libxcb-xinerama0-dev \
+		  libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev \
+		  autoconf libxcb-xrm0 libxcb-xrm-dev automake && \
+        mkdir -p ~/.programs-from-git/i3-gaps &&\
+        cd ~/.programs-from-git/i3-gaps &&\
+        git clone https://www.github.com/Airblader/i3 ~/.programs-from-git/i3-gaps &&\
+        cd ~/.programs-from-git/i3-gaps &&\
+        autoreconf --force --install &&\
+        rm -rf build/ &&\
+        mkdir -p build && cd build/ &&\
+        ../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers &&\
+        make &&
+        sudo make install
+
+   onlyif $FEDORA &&\
+	sudo dnf copr enable gregw/i3desktop &&\
+	$PACKAGES i3-gaps
+fi
+
+if install "Scala"; then
+    onlyif $FEDORA && $PACKAGES sbt
+
+    onlyif $MANJARO && $PACKAGES sbt
+
+    onlyif $UBUNTU &&\
+        sudo add-apt-repository ppa:webupd8team/java &&\
+        sudo apt update &&\
+        sudo apt install oracle-java8-installer &&\
+        echo "deb https://dl.bintray.com/sbt/debian /"\
+	  | sudo tee -a /etc/apt/sources.list.d/sbt.list &&\
+        sudo apt-key adv\
+          --keyserver hkp://keyserver.ubuntu.com:80\
+	  --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 &&\
+        sudo apt-get update &&\
+        sudo apt-get install sbt
+fi
 
 # SETUP COMPLETE
+echo ""
+echo "All done!"
+echo ""
 exit 0
