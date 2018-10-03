@@ -1,0 +1,234 @@
+#!/bin/bash
+
+# LIB
+
+MODE="$1"
+ARGS=("$@")
+
+print_padded () {
+    content="$1"
+    width="${2-80}"
+    total=$((width - ${#content}))
+    left=$((total / 2))
+    right=$((total - left))
+    padding="--------------------------------------------------------------------------------"
+    printf "%*.*s%s%*.*s\n" $left $left $padding "$content" $right $right $padding
+}
+
+prompt () {
+    read -r -p "$1 [Y/n]" response
+    case $response in
+        [yY][eE][sS]|[yY]|"")
+            true
+            ;;
+        *)
+            false
+            ;;
+    esac
+}
+
+item () {
+    if [ "$MODE" = "all" ]; then
+        echo ">>> $1 $2"
+        true
+    elif [ "$MODE" = "list" ]; then
+        ARGS=("${ARGS[@]:1}")
+        if [ "${#ARGS}" -eq 0 ]; then
+            echo -n "[ ] : "
+        elif [ "${ARGS[0]}" = "y" ]; then
+            echo -n "[X] : "
+        else
+            echo -n "[ ] : "
+        fi
+        echo "$1 $2"
+        false
+    elif [ "$MODE" = "select" ]; then
+        ARGS=("${ARGS[@]:1}")
+        if [ "${#ARGS}" -eq 0 ]; then
+            false
+        elif [ "${ARGS[0]}" = "y" ]; then
+            true
+        else
+            false
+        fi
+    else
+        print_padded "[] $1 $2 []"
+        prompt "CONFIRM $1"
+    fi
+}
+
+install () {
+    item "INSTALL" "$1"
+}
+
+setup () {
+    item "SETUP  " "$1"
+}
+
+section () {
+    if [ "$MODE" = "all" ]; then
+        echo "$1"
+        true
+    elif [ "$MODE" = "list" ]; then
+        echo "SECTION [$1]"
+        true
+    elif [ "$MODE" = "select" ]; then
+        true
+    else
+        print_padded "[] $1 []"
+        prompt "ENTER $1"
+    fi
+}
+
+
+
+# MAIN
+
+if [ "$1" = "help" ] || [ "$1" = "test" -a "$2" = "help" ]; then
+    echo -e "> $(basename $0)"
+    echo  "Start in interactive mode."
+    echo -e "\n> $(basename $0) help"
+    echo  "Display this help."
+    echo -e "\n> $(basename $0) all"
+    echo "Install all items from all sections."
+    echo -e "\n> $(basename $0) list"
+    echo "Print list of all items."
+    echo -e "\n> $(basename $0) list [y|n]*"
+    echo "Print list of all items and mark those wich correspond to 'y' arguments."
+    echo "Example: '$(basename $0) list y n n y' will mark the 1st and 4th item."
+    echo -e "\n> $(basename $0) select [y|n]*"
+    echo "Like the previous, but will actually install the corresponding items."
+    echo -e "\n> $(basename $0) test [..]"
+    echo "If 'test' is added as the first parameter, use test dataset."
+    exit 0
+elif [ "$MODE" = "test" ]; then
+    # Skip first argument and initialize from there:
+    shift
+    MODE="$1"
+    ARGS=("$@")
+    if section "EXAMPLE1"; then
+        install "Test" &&\
+            echo "installed item 1"
+        setup "Test" &&\
+            echo "installed item 2"
+    fi
+    if section "EXAMPLE2"; then
+        install "Example" &&\
+            echo "installed item 3"
+        setup "Example" &&\
+            echo "installed item 4"
+    fi
+    exit 0
+fi
+
+
+
+# SETUP
+
+if section "CORE"; then
+    install "essential packages" &&\
+	sudo apt install -y \
+        firefox zsh subversion git rlwrap curl cmake tmux thunar \
+        inkscape arandr zathura python3-pip feh rofi neovim i3status i3lock \
+        htop xcursor-themes lxappearance python xclip vlc inconsolata \
+        rxvt-unicode-256color
+
+    install "oh-my-zsh" &&\
+        sh -c "$(curl -fsSL \
+        https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+    install "zsh-syntax-highlighting" &&\
+        mkdir -p ~/.programs-from-git/zsh-syntax-highlighting && \
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+            ~/.programs-from-git/zsh-syntax-highlighting
+
+    install "latex" &&\
+        sudo apt install -y texlive-full biber
+
+    install "spacemacs" &&\
+        sudo apt install emacs unifont -y && \
+        git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+
+    install "pywal" &&\
+        sudo pip3 install pywal &&\
+        #sudo pacman -S wmctrl imagemagick feh &&\
+        sudo apt install wmctrl imagemagick feh &&\
+        #pacaur -S oomox-git &&\
+        mkdir -p ~/.programs-from-git/blurme && \
+        git clone https://github.com/ganifladi/blurme \
+            ~/.programs-from-git/blurme && \
+        git clone https://github.com/Mr-SD/intellijPywal \
+            ~/.programs-from-git/intelliJpywal &&\
+
+    install "ranger" &&\
+        sudo apt install ranger w3m highlight mediainfo odt2txt
+
+    #install "pixbuf urxvt" &&\
+    #    pacaur -S rxvt-unicode-pixbuf
+
+    install "vim extra" &&\
+        git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && \
+        pip3 install neovim-remote && \
+	sudo apt install silversearcher-ag &&\
+        mkdir -p ~/.programs-from-git/fzf && \
+	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.programs-from-git/fzf &&\
+	~/.programs-from-git/fzf/install
+
+
+    setup "ssh keygen" &&\
+        ssh-keygen -t rsa -b 4096
+fi
+
+
+if section "WINDOW MANAGER"; then
+    install "i3 WM" &&\
+        sudo apt install -y libxcb1-dev libxcb-keysyms1-dev libpango1.0-dev \
+             libxcb-util0-dev libxcb-icccm4-dev libyajl-dev \
+             libstartup-notification0-dev libxcb-randr0-dev \
+             libev-dev libxcb-cursor-dev libxcb-xinerama0-dev \
+             libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev \
+             autoconf libxcb-xrm0 libxcb-xrm-dev automake && \
+	mkdir -p ~/.programs-from-git/i3-gaps &&\
+	cd ~/.programs-from-git/i3-gaps &&\
+	git clone https://www.github.com/Airblader/i3 ~/.programs-from-git/i3-gaps &&\
+	cd ~/.programs-from-git/i3-gaps &&\
+	autoreconf --force --install &&\
+	rm -rf build/ &&\
+	mkdir -p build && cd build/ &&\
+	../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers &&\
+	make &&
+	sudo make install
+fi
+
+
+#if section "WINDOW MANAGER"; then
+#    install "i3 WM" &&\
+#        sudo pacman -S i3-gaps
+#fi
+
+
+if section "HOME"; then
+    setup "home directories" &&\
+        mkdir -p ~/.programs-from-git &&\
+        mkdir -p ~/bin &&\
+        mkdir -p ~/Projects &&\
+        mkdir -p ~/Templates &&\
+        mkdir -p ~/Documents &&\
+        mkdir -p ~/Wallpaper &&\
+        mkdir -p ~/Cloud
+fi
+
+
+if section "PROGRAMMING"; then
+    setup "scala" &&\
+        sudo add-apt-repository ppa:webupd8team/java &&\
+        sudo apt update &&\
+        sudo apt install oracle-java8-installer &&\
+        echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list &&\
+        sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 &&\
+        sudo apt-get update &&\
+        sudo apt-get install sbt
+fi
+
+# SETUP COMPLETE
+exit 0

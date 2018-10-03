@@ -36,6 +36,10 @@ clear: clean
 	@rm $(DCONFIG)
 	@rm $(MCONFIG)
 
+setupu:
+	@echo -e "$(PREF)Setting up...\n"
+	@./$(SCRIPTDIR)/$(SETUP) select `cat "default/setup.config"`
+
 setup:
 	@echo -e "$(PREF)Setting up...\n"
 	@./$(SCRIPTDIR)/$(SETUP) select `cat "default/setup.config"`
