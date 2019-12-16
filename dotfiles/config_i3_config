@@ -6,16 +6,16 @@ font pango:DejaVu Sans Mono 8
 # Set colors (from Xresources)
 
 # LIGHT COLOR
-set_from_resource $lc i3wm.color5 #77cc77
+set_from_resource $lc i3wm.color3
 
 # VIBRANT COLOR
-set_from_resource $vc i3wm.color3 #11ee11
+set_from_resource $vc i3wm.color5
 
 # BACKGROUND
-set_from_resource $bg i3wm.color0 #202020
+set_from_resource $bg i3wm.color0
 
 # FOREGROUND
-set_from_resource $fg i3wm.color7 #ff0000
+set_from_resource $fg i3wm.color7
 
 # MOUSE
 
@@ -32,6 +32,8 @@ bindsym $mod+x kill
 
 # Run standard rofi
 bindsym $mod+d exec rofi -combi-modi window#run -show combi -theme .cache/wal/colors-rofi.rasi -display-combi "rofi" -display-run " %" -display-window "[]"
+
+bindsym $mod+Shift+d exec rofi -combi-modi window#run -show ssh -theme .cache/wal/colors-rofi.rasi -display-combi "rofi" -display-run " %" -display-window "[]"
 
 # Focus windows (h,j,k,l)
 bindsym $mod+h focus left
@@ -79,26 +81,28 @@ bindsym $mod+space focus mode_toggle
 
 
 # Workspaces (SWITCH)
-bindsym $mod+1 workspace 1:κ
-bindsym $mod+2 workspace 2:λ
-bindsym $mod+3 workspace 3:μ
-bindsym $mod+4 workspace 4:ν
-bindsym $mod+5 workspace 5:ξ
-bindsym $mod+6 workspace 6:ο
-bindsym $mod+7 workspace 7:+1
-bindsym $mod+8 workspace 8:+2
-bindsym $mod+9 workspace 9:+3
+bindsym $mod+1 workspace  1:κ
+bindsym $mod+2 workspace  2:λ
+bindsym $mod+3 workspace  3:μ
+bindsym $mod+4 workspace  4:ν
+bindsym $mod+5 workspace  5:ξ
+bindsym $mod+6 workspace  6:ο
+bindsym $mod+7 workspace  7:‌‌
+bindsym $mod+8 workspace  8:‌‌
+bindsym $mod+9 workspace  9:‌‌
+bindsym $mod+0 workspace 10:‌‌
 
 # Workspaces (MOVE)
-bindsym $mod+Shift+1 move container to workspace 1:κ
-bindsym $mod+Shift+2 move container to workspace 2:λ
-bindsym $mod+Shift+3 move container to workspace 3:μ
-bindsym $mod+Shift+4 move container to workspace 4:ν
-bindsym $mod+Shift+5 move container to workspace 5:ξ
-bindsym $mod+Shift+6 move container to workspace 6:ο
-bindsym $mod+Shift+7 move container to workspace 7:+1
-bindsym $mod+Shift+8 move container to workspace 8:+2
-bindsym $mod+Shift+9 move container to workspace 9:+3
+bindsym $mod+Shift+1 move container to workspace  1:κ
+bindsym $mod+Shift+2 move container to workspace  2:λ
+bindsym $mod+Shift+3 move container to workspace  3:μ
+bindsym $mod+Shift+4 move container to workspace  4:ν
+bindsym $mod+Shift+5 move container to workspace  5:ξ
+bindsym $mod+Shift+6 move container to workspace  6:ο
+bindsym $mod+Shift+7 move container to workspace  7:‌‌
+bindsym $mod+Shift+8 move container to workspace  8:‌‌
+bindsym $mod+Shift+9 move container to workspace  9:‌‌
+bindsym $mod+Shift+0 move container to workspace 10:‌‌
 
 # Reload configuration
 bindsym $mod+Shift+c reload
@@ -139,6 +143,19 @@ mode "$mode_exit" {
 }
 bindsym $mod+e mode "$mode_exit"
 
+# Music mode
+set $mode_music (n)ext | (p)revious | (t)oggle | (s)top | (c)ancel
+mode "$mode_music" {
+    bindsym n exec playerctl next
+    bindsym p exec playerctl previous
+    bindsym t exec playerctl play-pause
+    bindsym s exec playerctl play-pause; mode "default"
+    bindsym c mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+m mode "$mode_music"
+
+
 # DESIGN                border  backgr. fgxt indicator child_border
 client.focused          $vc     $vc     $fg  $lc       $vc
 client.focused_inactive $bg     $bg     $fg  $bg       $bg
@@ -150,12 +167,10 @@ client.background       $bg
 
 # i3 STATUS / BAR
 bar {
-        status_command i3status
-        # i3bar_command i3bar -t
+        status_command i3status | spotifystatus
         position top
-        separator_symbol "⋆"
-        #font pango:Hack, FontAwesome 8
-        font pango:Inconsolata 10
+        separator_symbol " ⋆ "
+        font pango:Inconsolata, FontAwesome 10
         strip_workspace_numbers yes
         tray_output primary
         colors {
@@ -171,7 +186,7 @@ bar {
 }
 
 # GAPS
-gaps inner 15
+gaps inner 0 # 15
 gaps outer 0
 #smart_gaps off
 #smart_borders off
@@ -181,4 +196,6 @@ new_window pixel 3
 
 # AUTOSTART
 
-exec --no-startup-id ~/.programs-from-git/blurme/blurme -t 0 &
+#exec --no-startup-id ~/.programs-from-git/blurme/blurme -t 0 &
+exec xset s off
+exec xset -dpms

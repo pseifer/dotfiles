@@ -10,7 +10,9 @@ Xresources                          .Xresources
 config_i3_config                    .config/i3/config
 i3status.conf                       .i3status.conf
 emacsc                              bin/emacsc
+spacemacs                           .spacemacs
 loki                                bin/loki
+spotifystatus                       bin/spotifystatus
 reloadui                            bin/reloadui
 config_nvim_init.vim                .config/nvim/init.vim
 config_rofi_config                  .config/rofi/config

@@ -5,3 +5,5 @@
 xrdb ~/.Xresources
 i3-msg restart
 wal -R
+sleep 1
+i3-msg restart

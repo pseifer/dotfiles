@@ -1,7 +1,13 @@
 #!/bin/bash
 
-# EDITOR (USED IN OTHER ALIASES)
-alias myeditor='nvim'
+# EDITOR (AND OTHER TOOLS USED IN OTHER ALIASES)
+alias myeditor='vim'
+alias mypdfviewer='zathura'
+alias mybrowser='firefox'
+
+
+# SYSTEM UPDATE
+alias update='sudo apt update && sudo apt upgrade'
 
 
 # BASIC
@@ -13,23 +19,8 @@ alias lisa='ls -lisaF'
 alias h='history | tail'
 alias greph='grep_history'
 alias zap='rm -i'
+alias unpack='dtrx'
 
-# MONITOR
-mydp='DP-1-2-3'
-myedp='eDP-1-1'
-myhdmi='HDMI-1'
-
-alias dp+='xrandr --output $mydp --auto'
-alias dp-='xrandr --output $mydp --off'
-alias hdmi+='xrandr --output $myhdmi --auto'
-alias hdmi-='xrandr --output $myhdmi --off'
-alias edp+='xrandr --output $myedp --auto'
-alias edp-='xrandr --output $myedp --off'
-
-alias dpedp='xrandr --output $mydp --left-of $myedp'
-alias edpdp='xrandr --output $myedp --left-of $mydp'
-alias dpmirroredp='xrandr --output $mydp --same-as $myedp'
-alias edpmirrordp='xrandr --output $myedp --same-as $mydp'
 
 # TYPOS
 alias ake='echo "Oy! Eld! Thankee!"; make'
@@ -38,7 +29,7 @@ alias ake='echo "Oy! Eld! Thankee!"; make'
 # SAFETY NETS
 alias rm='rm -I --preserve-root'
 alias mv='mv -i'
-alias cp='cp -i'
+alias cp='cp'
 alias ln='ln -i'
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
@@ -46,11 +37,12 @@ alias chgrp='chgrp --preserve-root'
 
 
 # UTILITY
+alias forallfiles='find . -mindepth 1 -maxdepth 1 -exec' # usage: forallfiles echo {} \;
 alias ccat='pygmentize -g'
 alias pong='ping -c 4 8.8.8.8'
 alias clock='tty-clock -DcC 4'
 alias audio='pavucontrol'
-alias dog='fzf --preview "cat {}"'
+alias dog='fzf --preview "pygmentize -g {}"'
 alias c='clear'
 alias cll='clear; ll'
 alias nau='nautilus . &'
@@ -65,22 +57,23 @@ alias j='jobs -l'
 alias path='echo -e ${PATH//:/\\n}'
 alias ports='netstat -tulanp'
 alias root='sudo -i'
-alias su='sudo -i'
-alias ggwp='shutdown now'
-alias brb='sudo pm-suspend'
 alias clone='rxvt-unicode &'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias book="function _book() { evince ~/Documents/Books/$1 }; _book"
-alias playground-push='(cd ~/Projects/playground && git add . && git commit -m "Perform automated progress push" && git push origin master)'
 alias fsize='function _fsize(){ printf "\33]50;%s%d\007" "xft:Inconsolata-R:pixelsize=" $1 };_fsize'
 alias patat-mode='fsize 30; patat'
 alias dateup='function _dateup(){ sudo date +%Y%m%d -s "$1"; sudo date +%T -s "$2"}; _dateup '
+alias csvfields='function _csvfields(){ cat "$1" | head -n 1 | sed '\''s|,|\n|g'\'' | awk -F, '\''{print NR "\t" $1}'\''}; _csvfields'
+alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
+alias pdf='function _do_show(){ mypdfviewer "$1" & disown  }; _do_show'
+alias bigpackages='dpkg-query -Wf '"'"'${Installed-Size}\t${Package}\n'"'"'| sort -n'
+alias lines='wc -l'
 
 
 # FIX KEYBOARD
 alias fixctrl='setxkbmap -option "ctrl:nocaps"'
 alias fixrate='xset r rate 160 30'
 alias fixkeyboard='fixctrl; fixrate'
+alias FIXKEYBOARD='xdotool key Caps_Lock; fixctrl; fixrate'
 alias togglecaps='python -c "from ctypes import *; X11 = cdll.LoadLibrary(\"libX11.so.6\"); display = X11.XOpenDisplay(None); X11.XkbLockModifiers(display, c_uint(0x0100), c_uint(2), c_uint(0)); X11.XCloseDisplay(display)"'
 
 
@@ -98,15 +91,17 @@ alias irc='irssi'
 alias freenode='irssi --nick "pzyfr" --connect "irc.freenode.net"'
 alias audio_devices="aplay -l | awk -F \: '/,/{print $2}' | awk '{print $1}' | uniq"
 alias range='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir` ; cd "$LASTDIR"'
-alias intellij='./.programs-from-git/idea-IC-182.4505.22/bin/idea.sh'
+alias intellij='~/.programs-from-git/idea-IC-192.7142.36/bin/idea.sh'
+
 
 # Scala Dev
 alias newscalaproject='sbt new scala/scala-seed.g8'
 alias setupensime='sbt compile ensimeConfig ensimeConfigProject'
 alias scalanew='function _sn(){ newscalaproject --name="$1" && cd "$1" && setupensime }; _sn'
 
+
 # VIM/EMACS STUFF
-alias edit='myeditor'
+alias edit='function _do_edit(){ myeditor "$1" }; _do_edit'
 alias vimrc='edit ~/.config/nvim/init.vim'
 alias vim='nvim'
 alias aliases='edit ~/.aliases'
@@ -121,11 +116,9 @@ alias nano='edit'
 alias :q='exit'
 alias :wq=':q'
 alias :nvr='NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim'
-alias :e='nvr --nostart --remote'
-alias :es='nvr --nostart -o'
-alias :ev='nvr --nostart -O'
-alias :et='nvr --nostart -p'
-alias :ex='edit; exit'
+alias :ed='edit'
+alias :e='edit'
+alias :ew='env TERM=rxvt-unicode emacsclient -nw'
 alias :build='smartbuild'
 alias :b=':build'
 alias :r=':build'
@@ -159,9 +152,12 @@ alias :ggg='function _git-gg(){ git add .; git commit -m "$1"; git push}; _git-g
 alias :setup='./dotfiles-new/src/SETUP.sh'
 alias :todo='cat TODO'
 alias :clone='function _git-clone(){ git clone "$1" ~/.programs-from-git/"$2"}; _git-clone'
-alias :wal='function _wal(){ wal -g -i "$1"; reloadui }; _wal'
+alias :wal='function _wal(){ wal -i "$1"; reloadui; ~/.programs-from-git/intelliJpywal/intellijPywalGen.sh ~/.IdeaIC2018.2/config }; _wal'
+alias :wall='function _wal(){ wal -i "$1" -l; reloadui; ~/.programs-from-git/intelliJpywal/intellijPywalGen.sh ~/.IdeaIC2018.2/config }; _wal'
+alias :walb='function _walb(){ wal -i "$1" --backend "$2"; reloadui; ~/.programs-from-git/intelliJpywal/intellijPywalGen.sh ~/.IdeaIC2018.2/config }; _walb'
 alias :rui=reloadui
-alias :sub='urxvt &'
+alias :sub='urxvt & disown'
+alias :s='pdf'
 
 
 # TMUX

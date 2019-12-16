@@ -1,18 +1,27 @@
 " --- --- --- CORE --- --- ---
+" ----------------------------
 if !has('nvim')
     set nocompatible
 endif
 
 filetype off
 
+" Encoding is UTF-8.
 set encoding=utf-8
 
+" Space is leader.
 nnoremap <SPACE> <Nop>
 let mapleader = ' '
+let maplocalleader = ' '
+
+set ttimeout
+set ttimeoutlen=20
+set timeoutlen=1000
 
 
 
 " --- --- --- VUNDLE PACKAGE MANAGEMENT --- --- ---
+" -------------------------------------------------
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -20,38 +29,45 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " ~ Essential plugins
-Plugin 'scrooloose/nerdtree'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-fugitive'
-Plugin 'junegunn/fzf.vim'
+Plugin 'scrooloose/nerdtree'               " Directory Tree
+Plugin 'christoomey/vim-tmux-navigator'    " TMUX to VIM navigation
+Plugin 'tpope/vim-surround'                " Matching parens stuff
+Plugin 'junegunn/fzf.vim'                  " super-fuzzy finder for all things
+Plugin 'easymotion/vim-easymotion'         " <Leader><Leader> number nie wieder
+Plugin 'w0rp/ale'                          " code analysis / linting
+Plugin 'tpope/vim-fugitive'                " git integration (:G)
+Plugin 'airblade/vim-gitgutter'            " git status information
+Plugin 'SirVer/ultisnips'                  " Snippet Engine
+Plugin 'honza/vim-snippets'                " Snippet completion
 
-Plugin 'vim-syntastic/syntastic'
-Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plugin 'vim-syntastic/syntastic'          " slower ALE
+Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }  " completion
 
 " ~ Language plugins
 Plugin 'jceb/vim-orgmode'                  " ORG mode for vim
+"Plugin 'parsonsmatt/intero-neovim'         " Haskell (intero)
+Plugin 'eagletmt/ghcmod-vim'               " Haskell
+Plugin 'Shougo/vimproc'                    " Haskell
+Plugin 'ensime/ensime-vim'                 " Scala dev with ensime
+Plugin 'derekwyatt/vim-scala'              " Scala
+Plugin 'ktvoelker/sbt-vim'                 " SBT support
+Plugin 'lervag/vimtex'                     " LaTeX Support
 
 " ~ Themes & Stuff
 Plugin 'vim-airline/vim-airline'           " Nice statusline
 Plugin 'vim-airline/vim-airline-themes'    " Themes for airline
 Plugin 'dylanaraps/wal.vim'                " Theme for pywal integration
 
-" ~ SCALA SBT ENSIME
-Plugin 'ensime/ensime-vim'                 " Scala dev with ensime
-Plugin 'derekwyatt/vim-scala'
-Plugin 'ktvoelker/sbt-vim'
-
-" ~ Currently unused plugins
+" ~ Currently NOT USED
 "Plugin 'dag/vim2hs'                        " Haskell Mode
 "Plugin 'eagletmt/neco-ghc'                 " Deoplete GHC
-"Plugin 'eagletmt/ghcmod.vim'
 "Plugin 'lukerandall/haskellmode-vim'
 "Plugin 'ctrlpvim/ctrlp.vim'                " Open stuff
 "Plugin 'jeetsukumaran/vim-buffergator'     " Buffer changer
 "Plugin 'chriskempson/base16-vim'           " Base 16 themes
 "Plugin 'jnurmine/Zenburn'                  " Zenburn theme
 
+" --help
 " Formats GitHub repo, git url, file path, vim-scripts.org
 " :PluginList
 " :PluginInstall
@@ -66,6 +82,14 @@ filetype plugin indent on
 
 " --- --- --- PLUGIN CONFIGURATION --- --- ---
 
+" --- VIMTEX ---
+let g:vimtex_compiler_progname = 'nvr'
+let g:vimtex_view_method = 'zathura'
+
+call deoplete#custom#var('omni', 'input_patterns', {
+      \ 'tex': g:vimtex#re#deoplete
+      \})
+
 " --- NERDTREE (<leader>n) ---
 nnoremap <leader>nn :NERDTreeToggle<CR>
 nnoremap <leader>nf :NERDTreeFind<CR>
@@ -79,15 +103,15 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 " --- FZF (<leader><space>) ---
 set rtp+=~/.programs-from-git/fzf
-nnoremap <leader><space>f :Files<CR>
-nnoremap <leader><space>b :Buffers<CR>
-nnoremap <leader><space>g :GFiles<CR>
-nnoremap <leader><space>l :Lines<CR>
-nnoremap <leader><space>w :Windows<CR>
-nnoremap <leader><space>c :Commits<CR>
-nnoremap <leader><space>h :History<CR>
-nnoremap <leader><space>m :Marks<CR>
-nnoremap <leader><space>a :Ag<CR>
+nnoremap <leader>ff :Files<CR>
+nnoremap <leader>fb :Buffers<CR>
+nnoremap <leader>fg :GFiles<CR>
+nnoremap <leader>fl :Lines<CR>
+nnoremap <leader>fw :Windows<CR>
+nnoremap <leader>fc :Commits<CR>
+nnoremap <leader>fh :History<CR>
+nnoremap <leader>fm :Marks<CR>
+nnoremap <leader>fa :Ag<CR>
 " CTRL-T  | CTRL-X    | CTRL-V
 " new tab | new split | new vsplit
 
@@ -96,6 +120,13 @@ nnoremap <leader><space>a :Ag<CR>
 " :let g:haddock_browser="/usr/bin/google-chrome"
 " let g:haskell_conceal = 0
 
+let g:airline#extensions#ale#enabled = 1
+
+nnoremap <Leader>ht :GhcModType<cr>
+nnoremap <Leader>htc :GhcModTypeClear<cr>
+autocmd FileType haskell nnoremap <buffer> <leader>? :call ale#cursor#ShowCursorDetail()<cr>
+
+
 
 " --- deoplete ---
 let g:deoplete#enable_at_startup = 1
@@ -103,6 +134,11 @@ let g:deoplete#sources={}
 let g:deoplete#sources._=['buffer', 'member', 'tag', 'file', 'omni', 'ultisnips']
 let g:deoplete#omni#input_patterns={}
 let g:deoplete#omni#input_patterns.scala='[^. *\t]\.\w*'
+
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+
+
 
 " --- ensime ---
 autocmd BufWritePost *.scala silent : EnTypeCheck             " typecheck on write
@@ -114,6 +150,7 @@ au FileType scala nnoremap <leader>si :EnSuggestImport<CR>    " [i]mport
 au FileType scala nnoremap <leader>sf :EnSearch<CR>           " [f]ind term
 au FileType scala nnoremap <leader>su :EnUsages<CR>           " [u]usage search
 au FileType scala nnoremap <leader>sb :EnInstall<CR>          " [b]ootstrap
+
 
 
 " --- --- --- TERMINAL SETUP --- --- ---
@@ -148,6 +185,10 @@ set shiftwidth=4
 set autoindent
 set smartindent
 set cindent
+
+set ignorecase      " search case insensitive
+set smartcase       " unless query has uppercase
+set gdefault        " substitution uses 'g' by default
 
 inoremap jj <ESC>
 
@@ -207,6 +248,10 @@ inoremap <C-U> <C-G>u<C-U>
 " Please no EX mode
 map Q :
 
+" Search and Replace
+nmap <Leader>s :%s//g<Left><Left>
+nnoremap ; :
+
 " Disable arrow keys.
 nnoremap <Left> :echoe "Use h, pleb!"<CR>
 nnoremap <Right> :echoe "Use l, pleb!"<CR>
@@ -230,9 +275,9 @@ endif
 nnoremap <CR> :noh<CR><CR>
 
 " Map backspace to last buffer, disable Del
-inoremap <BS> <C-S-^>
-inoremap <Del> <Nop>
-nnoremap <BS> <C-S-^>
+" inoremap <BS> <C-S-^>
+" inoremap <Del> <Nop>
+" nnoremap <BS> <C-S-^>
 
 " Terminal (<leader>t)
 tnoremap jj <C-\><C-n>
@@ -326,3 +371,5 @@ if has('langmap') && exists('+langnoremap')
   " compatible).
   set langnoremap
 endif
+
+set nomodeline

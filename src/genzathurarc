@@ -5,6 +5,8 @@
 . $HOME/.cache/wal/colors.sh
 
 cat <<CONF
+set recolor "true"
+
 set recolor-darkcolor "$foreground"
 set recolor-lightcolor "$background"
 

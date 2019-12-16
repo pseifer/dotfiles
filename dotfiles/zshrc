@@ -40,7 +40,7 @@ bindkey -v
 
 # Keybinds
 bindkey -M vicmd '?' history-incremental-search-backward
-bindkey 'jj' vi-cmd-mode
+bindkey 'hh' vi-cmd-mode
 bindkey '^R' history-incremental-search-backward
 
 # ENVIRONMENT VARIABLES
@@ -64,3 +64,7 @@ ZSH_HIGHLIGHT_PATTERNS+=('rm -rf *' 'fg=white,bold,bg=red')
 source /home/pseifer/.programs-from-git/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+PATH=$PATH:~/.programs-from-git/dotty-0.15.0-RC1/bin
+
+export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"

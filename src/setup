@@ -89,7 +89,7 @@ setup () {
 onlyif () {
     if [ "$PLATFORM" = "$1" ]; then
         true
-    else 
+    else
         false
     fi
 }
@@ -137,47 +137,51 @@ fi
 # SETUP
 
 if setup "Home"; then
-    mkdir -p ~/.programs-from-git &&\
-    mkdir -p ~/bin &&\
-    mkdir -p ~/Projects &&\
-    mkdir -p ~/Templates &&\
-    mkdir -p ~/Documents &&\
-    mkdir -p ~/Wallpaper &&\
-    mkdir -p ~/Cloud
+    mkdir -p ~/.programs-from-git &&\ # system:source-installs
+    mkdir -p ~/bin &&\                # system:scripts
+    mkdir -p ~/Teaching &&\           # cloud:teaching
+    mkdir -p ~/Slides &&\             # cloud:slides
+    mkdir -p ~/Papers &&\             # cloud:papers
+    mkdir -p ~/Notes &&\              # cloud:notes
+    mkdir -p ~/Projects &&\           # projects
+    mkdir -p ~/Wallpaper              # wallpapers
 fi
 
 if install "Essential Packages"; then
     # CORE PACKAGES
     $PACKAGES firefox zsh git rlwrap curl cmake tmux subversion \
 	      inkscape xrandr arandr zathura feh neovim \
-	      rofi thunar htop xclip \
-	      ranger w3m highlight mediainfo odt2txt
+	      rofi thunar htop xclip xournal \
+	      ranger w3m highlight mediainfo odt2txt pandoc python-pygments \
+          playerctl fonts-font-awsome fonts-firacode
 
     onlyif $MANJARO &&\
         $PACKAGES pacaur python2 python2-pip python-pip vlc \
 	          zathura-pdf-mupdf zathura-ps inconsolata &&\
-	pacaur -S rxvt-unicode-pixbuf
+        pacaur -S rxvt-unicode-pixbuf
 
     onlyif $FEDORA &&\
         $PACKAGES dnf-plugins-core copr-cli levien-inconsolata-fonts \
 	          util-linux-user
 
     onlyif $UBUNTU &&\
-        $PACKAGES python3 python3-pip inconsolata vlc rxvt-unicode-256color
-
+        $PACKAGES python3 python3-pip inconsolata vlc rxvt-unicode-256color \
+              apt-file snapd redshift redshift-gtk &&\
+        sudo snap install spotify &&\
+        sudo snap install skype
 fi
 
 if install "OH-MY-ZSH"; then
     sh -c "$(curl -fsSL \
       https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
-    mkdir -p ~/.programs-from-git/zsh-syntax-highlighting 
+    mkdir -p ~/.programs-from-git/zsh-syntax-highlighting
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
         ~/.programs-from-git/zsh-syntax-highlighting
 fi
 
 if install "LaTeX"; then
-   $PACKAGES texlive-full biber 
+   $PACKAGES texlive-full biber
 fi
 
 if install "Spacemacs"; then
@@ -219,7 +223,7 @@ if setup "Vim"; then
 fi
 
 if setup "SSH"; then
-    ssh-keygen -t rsa -b 4096    
+    ssh-keygen -t rsa -b 4096
 fi
 
 if install "i3 WM"; then
@@ -228,6 +232,7 @@ if install "i3 WM"; then
    onlyif $MANJARO && $PACKAGES i3-gaps
 
    onlyif $UBUNTU &&\
+   # i3-gaps from source
         $PACKAGES libxcb1-dev libxcb-keysyms1-dev libpango1.0-dev \
 		  libxcb-util0-dev libxcb-icccm4-dev libyajl-dev \
 		  libstartup-notification0-dev libxcb-randr0-dev \
@@ -242,8 +247,17 @@ if install "i3 WM"; then
         rm -rf build/ &&\
         mkdir -p build && cd build/ &&\
         ../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers &&\
-        make &&
-        sudo make install
+        make &&\
+        sudo make install &&\
+   # i3lock-color
+        git clone https://github.com/PandorasFox/i3lock-color.git \
+          ~/.programs-from-git/i3lock-color &&\
+        cd ~/.programs-from-git/i3lock-color &&\
+        sudo apt install libev-dev libxcb-composite0 libxcb-composite0-dev \
+            libxcb-xinerama0 libxcb-randr0 libxcb-xinerama0-dev libxcb-xkb-dev \
+            libxcb-image0-dev libxcb-util-dev libxkbcommon-x11-dev \
+            libjpeg-turbo8-dev libpam0g-dev &&\
+         autoreconf -i && ./configure && make
 
    onlyif $FEDORA &&\
 	sudo dnf copr enable gregw/i3desktop &&\
