@@ -181,7 +181,7 @@ if install "OH-MY-ZSH"; then
 fi
 
 if install "LaTeX"; then
-   $PACKAGES texlive texlive-fonts-extra biber latexmk #texlive-full biber
+   $PACKAGES texlive texlive-fonts-extra biber latex-bibtex-extra latexmk #texlive-full biber
 fi
 
 if install "Spacemacs"; then
