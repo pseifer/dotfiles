@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # EDITOR (AND OTHER TOOLS USED IN OTHER ALIASES)
-alias myeditor='vim'
+alias myeditor='daemonclient'
 alias mypdfviewer='zathura'
 alias mybrowser='firefox'
 
 
 # SYSTEM UPDATE
-alias update='sudo apt update && sudo apt upgrade'
+alias update='~/dotfiles/src/updateclean'
 
 
 # BASIC
@@ -20,6 +20,7 @@ alias h='history | tail'
 alias greph='grep_history'
 alias zap='rm -i'
 alias unpack='dtrx'
+alias cleanupspace='sudo journalctl --vacuum-size=500M'
 
 
 # TYPOS
@@ -34,7 +35,7 @@ alias ln='ln -i'
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
-
+alias CAPSUNLOCK='xdotool key Caps_Lock'
 
 # UTILITY
 alias forallfiles='find . -mindepth 1 -maxdepth 1 -exec' # usage: forallfiles echo {} \;
@@ -60,14 +61,14 @@ alias root='sudo -i'
 alias clone='rxvt-unicode &'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias fsize='function _fsize(){ printf "\33]50;%s%d\007" "xft:Inconsolata-R:pixelsize=" $1 };_fsize'
-alias patat-mode='fsize 30; patat'
+alias oldpeoplemode='fsize 30'
+alias presentationmode='fsize 100'
 alias dateup='function _dateup(){ sudo date +%Y%m%d -s "$1"; sudo date +%T -s "$2"}; _dateup '
 alias csvfields='function _csvfields(){ cat "$1" | head -n 1 | sed '\''s|,|\n|g'\'' | awk -F, '\''{print NR "\t" $1}'\''}; _csvfields'
 alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
 alias pdf='function _do_show(){ mypdfviewer "$1" & disown  }; _do_show'
 alias bigpackages='dpkg-query -Wf '"'"'${Installed-Size}\t${Package}\n'"'"'| sort -n'
 alias lines='wc -l'
-
 
 # FIX KEYBOARD
 alias fixctrl='setxkbmap -option "ctrl:nocaps"'
@@ -92,16 +93,25 @@ alias freenode='irssi --nick "pzyfr" --connect "irc.freenode.net"'
 alias audio_devices="aplay -l | awk -F \: '/,/{print $2}' | awk '{print $1}' | uniq"
 alias range='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir` ; cd "$LASTDIR"'
 alias intellij='~/.programs-from-git/idea-IC-192.7142.36/bin/idea.sh'
+alias graphdb-free='/opt/graphdb-free/graphdb-free & disown'
 
 
-# Scala Dev
+# Haskell Development
+alias svnaddstack='svn add app src test *.cabal stack.yaml package.yaml Setup.hs  *.md'
+alias hshellscript='function _newscript(){ echo "#!/usr/bin/env stack\n{- stack\n   script\n   --resolver lts-15.2\n   --package turtle\n-}\n\n{-# LANGUAGE OverloadedStrings #-}\n\nimport Turtle\n\nmain :: IO ()\nmain = echo \"hello, world\"" >> "$1"; chmod +x "$1"; ./"$1" }; _newscript'
+alias hshell='shell.hs'
+
+
+# Scala Development
 alias newscalaproject='sbt new scala/scala-seed.g8'
 alias setupensime='sbt compile ensimeConfig ensimeConfigProject'
 alias scalanew='function _sn(){ newscalaproject --name="$1" && cd "$1" && setupensime }; _sn'
 
 
 # VIM/EMACS STUFF
-alias edit='function _do_edit(){ myeditor "$1" }; _do_edit'
+alias edit='function _do_edit(){ myeditor "$1" & disown }; _do_edit'
+alias editc='function _do_edit(){ myeditor --create-frame "$1" & disown }; _do_edit'
+alias editcn='function _do_edit(){ myeditor --create-frame & disown }; _do_edit'
 alias vimrc='edit ~/.config/nvim/init.vim'
 alias vim='nvim'
 alias aliases='edit ~/.aliases'
@@ -119,6 +129,8 @@ alias :nvr='NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim'
 alias :ed='edit'
 alias :e='edit'
 alias :ew='env TERM=rxvt-unicode emacsclient -nw'
+alias :ec='editc'
+alias :ef='editcn'
 alias :build='smartbuild'
 alias :b=':build'
 alias :r=':build'
@@ -155,9 +167,11 @@ alias :clone='function _git-clone(){ git clone "$1" ~/.programs-from-git/"$2"}; 
 alias :wal='function _wal(){ wal -i "$1"; reloadui; ~/.programs-from-git/intelliJpywal/intellijPywalGen.sh ~/.IdeaIC2018.2/config }; _wal'
 alias :wall='function _wal(){ wal -i "$1" -l; reloadui; ~/.programs-from-git/intelliJpywal/intellijPywalGen.sh ~/.IdeaIC2018.2/config }; _wal'
 alias :walb='function _walb(){ wal -i "$1" --backend "$2"; reloadui; ~/.programs-from-git/intelliJpywal/intellijPywalGen.sh ~/.IdeaIC2018.2/config }; _walb'
+alias :wala='function _wal(){ wal -i "$1" -a "0.2"; reloadui; ~/.programs-from-git/intelliJpywal/intellijPywalGen.sh ~/.IdeaIC2018.2/config }; _wal'
 alias :rui=reloadui
 alias :sub='urxvt & disown'
 alias :s='pdf'
+alias :f='ranger'
 
 
 # TMUX
@@ -179,6 +193,7 @@ alias perlB='perl -MO=Concise'
 alias proveall='prove -j9 --state=slow,save -lr t'
 alias lisp='rlwrap sbcl'
 alias scheme='rlwrap csi'
+alias haskelldemo='fsize 100; stack ghci'
 
 
 # SYSTEM INFORMATION

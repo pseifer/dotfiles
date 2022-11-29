@@ -1,5 +1,23 @@
 #!/bin/bash
 
+# FZF the FASD
+function t() {
+    fasdlist=$( fasd -d -l -r $1 | \
+                    fzf --query="$1 " --select-1 --exit-0 --height=25% --reverse --tac --no-sort --cycle) &&
+        cd "$fasdlist"
+}
+
+# Emacsclient for daemon processes.
+daemonclient () {
+    emacsclient -n -e "(if (> (length (frame-list)) 1) 't)" | grep -q t
+    if [ "$?" = "1" ]; then
+        emacsclient -c -n -a "" "$@"
+    else
+        emacsclient -n -a "" "$@"
+    fi
+}
+
+
 # Set screen layout.
 function layout()
 {

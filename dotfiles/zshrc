@@ -26,7 +26,7 @@ COMPLETION_WAITING_DOTS="true"
 
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(vi-mode git debian lol python command-not-found sudo urltools vim-interaction)
+plugins=(fasd vi-mode git debian lol python command-not-found sudo urltools vim-interaction)
 
 # ZSH INIT
 source "$ZSH/oh-my-zsh.sh"
@@ -67,4 +67,10 @@ source /home/pseifer/.programs-from-git/zsh-syntax-highlighting/zsh-syntax-highl
 
 PATH=$PATH:~/.programs-from-git/dotty-0.15.0-RC1/bin
 
-export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+PATH=$PATH:~/usr/local/texlive/bin/x86_64-linux
+
+export JAVA_HOME="/usr/lib/jvm/java-14-openjdk-amd64"
+
+# FASD
+
+eval "$(fasd --init auto)"

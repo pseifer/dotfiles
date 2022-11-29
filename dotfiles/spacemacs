@@ -18,57 +18,71 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     html
      vimscript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
 
-     ;; CORE
+     ;; Core Layers
      auto-completion
      helm
      better-defaults
+     themes-megapack
      emacs-lisp
-     gi
+     ;gi
      markdown
      org
      (shell :variables
-             shell-default-height 30
-             shell-default-position 'bottom)
+            shell-default-height 30
+            shell-default-position 'bottom)
      spell-checking
      syntax-checking
      version-control
+     ranger
+     imenu-list
+     fasd
 
-     ;; MAIN
-     themes-megapack
-     eyebrowse
-     latex
+     ;; More Basic Packages
+     pandoc
+     ;pdf-tools
+     (latex :variables
+            latex-build-command "LatexMk")
+     bibtex
+     docker
+
+     ;; Programming Language Layers
+
      haskell
      python
-     pandoc
      scala
-     pdf-tools
-
-     ;; MORE LANGS
-     common-lisp
-     racket
-     ocaml
-     fsharp
+     ;common-lisp
+     ;racket
+     ;ocaml
+     ;fsharp
      c-c++
-     rust
-     idris
+     ;rust
+     ;idris
 
-     ;; WEB
-     html
-     javascript
-     typescript
+     ;; Web-Stuff
 
+     ;html
+     ;javascript
+     ;typescript
+
+     ;; Custom Layers
+     semanticweb
+     (version-control-lines
+      :variables
+        wrap-width 100
+        electric-sentences nil)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(solarized-theme color-theme-solarized xresources-theme org-ref)
+   dotspacemacs-additional-packages '(xresources-theme org-ref)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -291,7 +305,7 @@ you should place your code here."
   (global-linum-mode 1)
   (linum-relative-mode)
 
-  (setq-default dotspacemacs-configuration-layers '(pdf-tools))
+  ;(setq-default dotspacemacs-configuration-layers '(pdf-tools))
 
   (setq next-line-add-newlines t)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -299,8 +313,9 @@ you should place your code here."
   (evil-escape-mode 1)
   (setq-default evil-escape-delay 0.2)
   (setq-default evil-escape-key-sequence "hh")
+  (add-to-list 'default-frame-alist '(font . "Inconsolata-12"))
 
-  ;;; USER KEYBINDS
+  ;;; USER KEYBINDINGS
   ;;; ===============================================================
 
   (evil-set-initial-state 'racket-describe-mode 'emacs)
@@ -317,6 +332,8 @@ you should place your code here."
     (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
   (package-initialize)
 
+  ;(setq org-latex-pdf-process (list "latexmk -pdf %f"))
+
   ;(setq reftex-default-bibliography '("~/test.bib"))
 
   ;; see org-ref for use of these variables
@@ -324,21 +341,43 @@ you should place your code here."
   ;      org-ref-default-bibliography '("~/test.bib")
   ;      org-ref-pdf-directory "~/test-pdfs/")
 
-  (setq org-latex-pdf-process '("latexmk -pdf %f"))
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 
   ; Don't create 'auto' folders automatically.
   (setq TeX-auto-save nil)
 
+  (setq-default TeX-master "0-main")
+
+  (with-eval-after-load 'tex
+    (add-to-list 'TeX-view-program-selection
+                 '(output-pdf "Zathura")))
+
+  (add-hook 'LaTeX-mode-hook
+            (lambda ()
+              (add-hook 'after-save-hook 'latex/build nil t)))
+
+
   ;;; Haskell
   ;;; ===============================================================
 
-  (add-hook 'haskell-mode-hook 'intero-mode)
+  ;;(add-hook 'haskell-mode-hook 'intero-mode)
+
+  (defun dotspacemacs/layers ()
+    "..."
+    (setq-default
+     ;; ...
+     dotspacemacs-configuration-layers
+     '(
+       (haskell :variables haskell-completion-backend 'lsp)
+       lsp
+       )
+     ))
 
   ;;; OTHER STUFF
   ;;; ===============================================================
-  (setq-default dotspacemacs-configuration-layers
-                '(auto-completeion
-                  (haskell :variables haskell-completion-backend 'ghc-mod)))
+  ;(setq-default dotspacemacs-configuration-layers
+  ;              '(auto-completion
+  ;                (haskell :variables haskell-completion-backend 'ghc-mod)))
 
   (setq haskell-process-type 'stack-ghci)
   (setq-default c-default-style "k&r"
@@ -356,6 +395,10 @@ you should place your code here."
       (insert "(in-package #:" package ")\n\n")))
   (spacemacs/set-leader-keys-for-major-mode 'lisp-mode "p" 'scratch-lisp-file)
 
+  ;;; PRETTY  SYMBOLS
+  ;;; ===============================================================
+
+  ;(global-prettify-symbols-mode +1)
 
   ;;; SOLARIZED TWEAKS & STUFF
   ;;; ===============================================================
@@ -392,7 +435,7 @@ you should place your code here."
   ;;; POWERLINE
   ;;; ===============================================================
 
-  (setq powerline-default-separator 'arrow)
+  (setq powerline-default-separator 'slant)
   (setq py-python-command "python3")
 
 
@@ -406,6 +449,8 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(custom-safe-themes
    (quote
     ("1195d71dfd46c43492993a528336ac7f8c7400b4c58338e5b40329d6cad655b6" "065efdd71e6d1502877fd5621b984cded01717930639ded0e569e1724d058af8" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
@@ -416,9 +461,15 @@ you should place your code here."
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(org-agenda-files (quote ("~/Notes/monthly/2018-november.org")))
+ '(org-file-apps
+   (quote
+    ((auto-mode . emacs)
+     ("\\.mm\\'" . default)
+     ("\\.x?html?\\'" . default)
+     ("\\.pdf\\'" . "evince %s"))))
  '(package-selected-packages
    (quote
-    (idris-mode prop-menu vimrc-mode dactyl-mode key-chord ivy helm-bibtex biblio parsebib biblio-core org-ref pdf-tools tablist xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter eshell-z eshell-prompt-extras esh-help diff-hl web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data unfill mwim solarized-theme xresources-theme-theme xresources-theme white-sand-theme rebecca-theme org-category-capture org-mime exotica-theme noflet ensime sbt-mode scala-mode fsharp-mode company-quickhelp utop tuareg caml ocp-indent merlin flyspell-correct-helm flyspell-correct auto-dictionary auctex-latexmk spinner seq auctex adaptive-wrap zonokai-theme zenburn-theme zen-and-art-theme yapfify ws-butler winum which-key web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme toml-mode toc-org tide typescript-mode tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spaceline powerline spacegray-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme slime-company slime seti-theme reverse-theme restart-emacs request rainbow-delimiters railscasts-theme racket-mode faceup racer pyvenv pytest pyenv-mode py-isort purple-haze-theme professional-theme popwin planet-theme pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pcre2el pastels-on-dark-theme paradox pandoc-mode ox-pandoc ht organic-green-theme org-projectile org-present org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme neotree naquadah-theme mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minimal-theme material-theme markdown-toc markdown-mode majapahit-theme madhat2r-theme macrostep lush-theme lorem-ipsum livid-mode skewer-mode simple-httpd live-py-mode linum-relative link-hint light-soap-theme json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc jbeans-theme jazz-theme ir-black-theme intero inkpot-theme info+ indent-guide hydra hy-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt heroku-theme hemisu-theme help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-hoogle helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gnuplot gh-md gandalf-theme fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck-haskell flycheck pkg-info epl flx-ido flx flatui-theme flatland-theme firebelly-theme fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight espresso-theme elisp-slime-nav dumb-jump dracula-theme django-theme disaster diminish define-word darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-cabal company-c-headers company-auctex company-anaconda company common-lisp-snippets column-enforce-mode color-theme-solarized color-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized coffee-mode cmm-mode cmake-mode clues-theme clean-aindent-mode clang-format cherry-blossom-theme cargo rust-mode busybee-theme bubbleberry-theme birds-of-paradise-plus-theme bind-map bind-key badwolf-theme auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed apropospriate-theme anti-zenburn-theme anaconda-mode pythonic f s ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup dash)))
+    (visual-fill-column dockerfile-mode docker-tramp gruvbox-dark-soft-theme-theme ttl-mode sparql-mode imenu-list fasd ranger idris-mode prop-menu vimrc-mode dactyl-mode key-chord ivy helm-bibtex biblio parsebib biblio-core org-ref pdf-tools tablist xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter eshell-z eshell-prompt-extras esh-help diff-hl web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data unfill mwim solarized-theme xresources-theme-theme xresources-theme white-sand-theme rebecca-theme org-category-capture org-mime exotica-theme noflet ensime sbt-mode scala-mode fsharp-mode company-quickhelp utop tuareg caml ocp-indent merlin flyspell-correct-helm flyspell-correct auto-dictionary auctex-latexmk spinner seq auctex adaptive-wrap zonokai-theme zenburn-theme zen-and-art-theme yapfify ws-butler winum which-key web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme toml-mode toc-org tide typescript-mode tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spaceline powerline spacegray-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme slime-company slime seti-theme reverse-theme restart-emacs request rainbow-delimiters railscasts-theme racket-mode faceup racer pyvenv pytest pyenv-mode py-isort purple-haze-theme professional-theme popwin planet-theme pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pcre2el pastels-on-dark-theme paradox pandoc-mode ox-pandoc ht organic-green-theme org-projectile org-present org-pomodoro alert log4e gntp org-plus-contrib org-download org-bullets open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme neotree naquadah-theme mustang-theme move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minimal-theme material-theme markdown-toc markdown-mode majapahit-theme madhat2r-theme macrostep lush-theme lorem-ipsum livid-mode skewer-mode simple-httpd live-py-mode linum-relative link-hint light-soap-theme json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc jbeans-theme jazz-theme ir-black-theme intero inkpot-theme info+ indent-guide hydra hy-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt heroku-theme hemisu-theme help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-hoogle helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio gnuplot gh-md gandalf-theme fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck-haskell flycheck pkg-info epl flx-ido flx flatui-theme flatland-theme firebelly-theme fill-column-indicator farmhouse-theme fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight espresso-theme elisp-slime-nav dumb-jump dracula-theme django-theme disaster diminish define-word darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-cabal company-c-headers company-auctex company-anaconda company common-lisp-snippets column-enforce-mode color-theme-solarized color-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized coffee-mode cmm-mode cmake-mode clues-theme clean-aindent-mode clang-format cherry-blossom-theme cargo rust-mode busybee-theme bubbleberry-theme birds-of-paradise-plus-theme bind-map bind-key badwolf-theme auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed apropospriate-theme anti-zenburn-theme anaconda-mode pythonic f s ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup dash)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map

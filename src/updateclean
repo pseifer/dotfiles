@@ -1,0 +1,32 @@
+#!/bin/bash
+# Clean and Update the System.
+# Cleans first (in case of space issues) and again after updates.
+
+cd ~/dotfiles/src
+
+# Cleanup old SNAP versions.
+sudo ./cleansnap
+
+# Autoremove old packages and clean the cache.
+sudo apt autoremove
+sudo apt clean
+
+# Vacuum journal logs.
+sudo journalctl --vacuum-time=2d
+
+# Clean the thumbnail cache.
+rm -rf ~/.cache/thumbnails/*
+
+# Finally, run a system update.
+sudo apt update -y
+sudo apt upgrade -y
+
+# And autoremove/clean again.
+sudo apt autoremove
+sudo apt clean
+
+# Update SNAP
+sudo snap refresh
+
+# And also clean again.
+sudo ./cleansnap

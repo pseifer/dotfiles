@@ -2,9 +2,6 @@
 
 # Reload some things.
 
-i3-msg restart
 wal -R
 xrdb ~/.Xresources
 gsettings get org.gnome.desktop.interface gtk-theme 'oomox-resources2'
-sleep 1
-i3-msg restart

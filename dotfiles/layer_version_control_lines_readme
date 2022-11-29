@@ -1,0 +1,19 @@
+#+TITLE: version-control-lines
+
+# TOC links should be GitHub style anchors.
+* Table of Contents                                        :TOC_4_gh:noexport:
+- [[#description][Description]]
+- [[#install][Install]]
+
+* Description
+This layer enables version-control friendly sentence-per-line support
+for the LaTeX layer.
+  - Visual line wrapping at WRAP-WIDTH characters
+  - Automatic navigation via j|k and up|down accross visual lines
+  - Automatic newlines after end-of-sentence characters
+  - Unintrusive right-only fringe indicators
+
+* Install
+To use this configuration layer, add it to your =~/.spacemacs=. You will need to
+add =version-control-lines= to the existing =dotspacemacs-configuration-layers=
+list in this file.

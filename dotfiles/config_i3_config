@@ -131,11 +131,12 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Exit mode
-set $mode_exit (e)xit i3 | (l)ock i3 | (s)hutdown | (r)eboot | (c)ancel
+set $mode_exit (e)xit i3 | (l)ock i3 | (s)uspend | shutdow(n) | (r)eboot | (c)ancel
 mode "$mode_exit" {
     bindsym e exit
     bindsym l exec loki; mode "default"
-    bindsym s exec "shutdown now"
+    bindsym s exec loki && systemctl suspend; mode "default"
+    bindsym n exec "shutdown now"
     bindsym r exec reboot
 
     bindsym c mode "default"
@@ -190,6 +191,7 @@ gaps inner 0 # 15
 gaps outer 0
 #smart_gaps off
 #smart_borders off
+hide_edge_borders smart
 
 # BORDER
 new_window pixel 3
