@@ -117,7 +117,6 @@ alias vim='nvim'
 alias aliases='edit ~/.aliases'
 alias functions='edit ~/.functions'
 alias zshrc='edit ~/.zshrc'
-alias nvim='/usr/bin/nvim'
 alias viplugin='vim +PluginInstall +qall'
 alias nano='edit'
 
