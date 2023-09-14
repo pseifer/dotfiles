@@ -2,7 +2,7 @@
 # Clean and Update the System.
 # Cleans first (in case of space issues) and again after updates.
 
-cd ~/dotfiles/src
+cd ~/dotfiles/src/linux
 
 # Cleanup old SNAP versions.
 sudo ./snap-clean
