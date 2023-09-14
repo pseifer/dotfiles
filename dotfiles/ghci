@@ -1,3 +1,0 @@
-:set prompt "ghci> "
-:set prompt2 "ghci| "
-:def k! \x -> return (":kind! " ++ x)

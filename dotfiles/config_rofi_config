@@ -1,5 +1,0 @@
-rofi.theme: ~/.cache/wal/colors-rofi-dark.rasi
-rofi.theme: ~/.cache/wal/colors-rofi-light.rasi
-rofi.terminal: urxvt
-rofi.run-command: {cmd}
-rofi.run-shell-command: {terminal} -e {cmd}

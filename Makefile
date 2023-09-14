@@ -21,12 +21,12 @@ link:
 	@echo "$(PREF)Linking dotfiles..."
 	@$(MKDIR_P) $(BACKDIR)
 	@./$(SCRIPTDIR)/$(LINK) $(DCONFIG) $(BACKDIR) $(MCONFIG)
-	@./$(SCRIPTDIR)/genbashrc
+	#@./$(SCRIPTDIR)/genbashrc
 
 reload:
 	@echo -e "$(PREF)Installing new dotfiles...\n"
-	@./$(SCRIPTDIR)/$(RELOAD) 2>/dev/null; true
-	@mkdir -pv ~/.config/zathura && ./$(SCRIPTDIR)/genzathurarc > ~/.config/zathura/zathurarc
+	#@./$(SCRIPTDIR)/$(RELOAD) 2>/dev/null; true
+	#@mkdir -pv ~/.config/zathura && ./$(SCRIPTDIR)/genzathurarc > ~/.config/zathura/zathurarc
 
 clean:
 	@echo -e "$(PREF)Cleaning...\n"

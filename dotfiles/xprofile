@@ -1,9 +1,0 @@
-# Keyboard settings
-setxkbmap us -variant altgr-intl
-setxkbmap -option "ctrl:nocaps"
-
-# Restore 'pywal' session.
-wal -R
-
-# Add home scripts to PATH.
-export PATH="$PATH:$HOME/bin"

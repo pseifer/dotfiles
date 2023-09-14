@@ -1,20 +1,6 @@
-xprofile                            .xprofile
-xinitrc                             .xinitrc
-exports                             .exports
-aliases                             .aliases
-functions                           .functions
-zshrc                               .zshrc
-gitconfig                           .gitconfig
-tmux.conf                           .tmux.conf
-Xresources                          .Xresources
-config_i3_config                    .config/i3/config
-i3status.conf                       .i3status.conf
-emacsc                              bin/emacsc
-spacemacs                           .spacemacs
-loki                                bin/loki
-spotifystatus                       bin/spotifystatus
-reloadui                            bin/reloadui
-config_nvim_init.vim                .config/nvim/init.vim
-config_rofi_config                  .config/rofi/config
-config_ranger_rc.conf               .config/ranger/rc.conf
-config_wal_templates_colors-rofi    .config/wal/templates/colors-rofi.rasi
+nvim                .config/nvim
+kitty               .config/kitty
+fish                .config/fish
+tmux.conf           .tmux.conf
+gitconfig           .gitconfig
+
