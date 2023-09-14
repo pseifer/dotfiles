@@ -1,3 +1,4 @@
 function update
-~/dotfiles/src/updateclean
+    cd ~/dotfiles
+    make update
 end

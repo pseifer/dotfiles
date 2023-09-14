@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# Reload some things.
-
-wal -R
-xrdb ~/.Xresources
-gsettings get org.gnome.desktop.interface gtk-theme 'oomox-resources2'

@@ -5,7 +5,7 @@
 cd ~/dotfiles/src
 
 # Cleanup old SNAP versions.
-sudo ./cleansnap
+sudo ./snap-clean
 
 # Autoremove old packages and clean the cache.
 sudo apt autoremove
@@ -29,4 +29,4 @@ sudo apt clean
 sudo snap refresh
 
 # And also clean again.
-sudo ./cleansnap
+sudo ./snap-clean
