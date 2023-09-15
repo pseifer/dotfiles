@@ -11,7 +11,7 @@ This repository contains:
 Either clone this repository 
 
 ```sh
-git clone https://github.com/pseifer/dotfiles ~/dotfiles
+git clone git@github.com:pseifer/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 chmod +x dotf
 ./dotf install
