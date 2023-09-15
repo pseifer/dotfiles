@@ -12,6 +12,8 @@ mkdir -p ~/.local/share/fonts     # system:fonts
 # ---------- Detect the distribution -------------------------------------------
 # ------------------------------------------------------------------------------
 
+# Realistically, currently only (recent) Ubuntu is supported.
+
 PACK="$1"
 LOS="$2"
 
@@ -28,16 +30,15 @@ onlyif () {
 # ------------------------------------------------------------------------------
 
 $PACK zip tar git curl # Required for setup.
+onlyif "ubuntu" && $PACK fontconfig # Required for setup.
 
-$PACK w3m rlwrap cmake tmux htop fish fd-find ripgrep tree ranger
+$PACK xclip w3m rlwrap cmake tmux htop fish fd-find ripgrep tree ranger # Core packages.
 
 onlyif "fedora" && $PACK dnf-plugins-core copr-cli util-linux-user
 
-onlyif "ubuntu" && $PACK fontconfig 
+onlyif "ubuntu" && $PACK python3 python3-pip default-jre default-jdk # Ensure Python 3 and Java.
 
-onlyif "ubuntu" && $PACK python3 python3-pip default-jre default-jdk
-
-onlyif "ubuntu" && sudo add-apt-repository ppa:aslatter/ppa -y && sudo apt install alacritty
+onlyif "ubuntu" && sudo add-apt-repository ppa:aslatter/ppa -y && sudo apt install alacritty # Alacritty.
 
 # Install latest stable NeoVim.
 
