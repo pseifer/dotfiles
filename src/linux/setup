@@ -29,13 +29,15 @@ onlyif () {
 
 $PACK zip tar git curl # Required for setup.
 
-$PACK w3m rlwrap cmake tmux htop kitty fish fd-find ripgrep
+$PACK w3m rlwrap cmake tmux htop fish fd-find ripgrep tree ranger
 
 onlyif "fedora" && $PACK dnf-plugins-core copr-cli util-linux-user
 
 onlyif "ubuntu" && $PACK fontconfig 
 
 onlyif "ubuntu" && $PACK python3 python3-pip default-jre default-jdk
+
+onlyif "ubuntu" && sudo add-apt-repository ppa:aslatter/ppa -y && sudo apt install alacritty
 
 # Install latest stable NeoVim.
 

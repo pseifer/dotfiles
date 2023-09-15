@@ -1,10 +1,10 @@
 -- Basic, toggleable settings.
 
-vim.cmd 'colorscheme dracula'                   -- Set color scheme to Dracula.
 
 local go = vim.o                                -- Global.
 
 go.termguicolors = true                         -- Enable true colors.
+vim.cmd 'colorscheme dracula'                   -- Set color scheme to Dracula.
 
 go.showmatch = true                             -- Highlight matching parens.
 go.inccommand = split                           -- Preview replacements in split.

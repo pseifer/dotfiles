@@ -1,5 +1,5 @@
 nvim                .config/nvim
-kitty               .config/kitty
+alacritty						.config/alacritty
 fish                .config/fish
 tmux.conf           .tmux.conf
 gitconfig           .gitconfig
