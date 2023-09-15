@@ -68,7 +68,7 @@ DotBoot()
             SetPack
             $PACK git
         fi
-        git clone git@github.com:pseifer/dotfiles.git ~/dotfiles
+        git clone https://github.com/pseifer/dotfiles.git ~/dotfiles
         SetEnv
         chmod +x dotf
     fi
