@@ -1,4 +1,4 @@
 return {
-  "dracula/vim",
-   name = "dracula"
+  'dracula/vim',
+   name = 'dracula'
 }

@@ -1,16 +1,42 @@
--- init.lua - imports other modules.
+-- https://github.com/rockerBOO/awesome-neovim
 
--- Load core (e.g., package manager).
+-- Remap <leader> to <Space>.
 
-require('core')
+vim.api.nvim_set_keymap('n', '<Space>', '', {})
+vim.g.mapleader = ' '
+
+-- Bootstrap Lazy.
+
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable',
+    lazypath,
+  })
+end
+
+vim.opt.rtp:prepend(lazypath)
+
+-- Plugin configuration, load plugins (see lua/plugins/...)
+
+local plugins = {
+  { import = 'plugins' }
+}
+
+local opts = {
+  change_detection = {
+    enabled = true,
+    notify = false,
+  },
+}
+
+require('lazy').setup(plugins, opts)
 
 -- Load basic configurations (e.g., settings and essential keybinds).
 
 require('settings')
 require('keybinds')
-
--- Load mode-specific configurations.
-
---require('plugins/org')
---require('plugins/telescope')
--- require('plugin/metals')

@@ -1,10 +1,10 @@
 -- Configuration for org-mode, VIM edition.
 
 return {
-  "nvim-orgmode/orgmode",
+  'nvim-orgmode/orgmode',
   config = function()
 
-    local wk = require("which-key")
+    local wk = require('which-key')
 
     -- Load custom treesitter grammar for org filetype
     require('orgmode').setup_ts_grammar()
@@ -29,9 +29,9 @@ return {
 
     wk.register({
       o = {
-        name = "org"
+        name = 'org'
       }
-    }, { prefix = "<leader>" })
+    }, { prefix = '<leader>' })
 
   end
 }

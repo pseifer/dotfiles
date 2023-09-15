@@ -9,10 +9,10 @@ vim.cmd 'colorscheme dracula'                   -- Set color scheme to Dracula.
 go.showmatch = true                             -- Highlight matching parens.
 go.inccommand = split                           -- Preview replacements in split.
 
-go.clipboard = "unnamedplus"                    -- Use system clipboard.
+go.clipboard = 'unnamedplus'                    -- Use system clipboard.
 
-go.wildmode = "longest,list"                    -- Completion.
-go.completeopt = "menuone,noinsert,noselect"    -- IDE-like completion.
+go.wildmode = 'longest,list'                    -- Completion.
+go.completeopt = 'menuone,noinsert,noselect'    -- IDE-like completion.
 
 go.splitbelow = true                            -- Splitting (below).
 go.splitright = true                            -- Splitting (right).
