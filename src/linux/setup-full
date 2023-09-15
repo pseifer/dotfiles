@@ -27,7 +27,7 @@ onlyif () {
 }
 
 # ------------------------------------------------------------------------------
-# ---------- Install extended packages via package manager -------------------------
+# ---------- Install extended packages via package manager ---------------------
 # ------------------------------------------------------------------------------
 
 $PACK firefox xrandr arandr zathura thunar xclip xournal
@@ -35,3 +35,7 @@ $PACK firefox xrandr arandr zathura thunar xclip xournal
 onlyif "ubuntu" &&\
     $PACK vlc apt-file snapd &&\
     sudo snap install nextcloud
+
+# Install LaTeX tools.
+
+$PACK texlive texlive-fonts-extra biber latexmk

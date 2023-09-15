@@ -27,11 +27,15 @@ onlyif () {
 # ---------- Install core packages via package manager -------------------------
 # ------------------------------------------------------------------------------
 
-$PACK zip tar w3m git rlwrap curl cmake tmux htop kitty fish fd-find ripgrep
+$PACK zip tar git curl # Required for setup.
+
+$PACK w3m rlwrap cmake tmux htop kitty fish fd-find ripgrep
 
 onlyif "fedora" && $PACK dnf-plugins-core copr-cli util-linux-user
 
-onlyif "ubuntu" && $PACK fontconfig zip python3 python3-pip default-jre default-jdk
+onlyif "ubuntu" && $PACK fontconfig 
+
+onlyif "ubuntu" && $PACK python3 python3-pip default-jre default-jdk
 
 # Install latest stable NeoVim.
 
@@ -64,10 +68,4 @@ curl -fL "https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz
 chmod +x cs
 ./cs setup
 rm cs
-
-cd ~
-
-# Install LaTeX tools.
-
-$PACK texlive texlive-fonts-extra biber latexmk
 

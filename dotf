@@ -2,8 +2,6 @@
 
 ### Utility ###
 
-bootstrap=false
-
 Inform()
 {
     echo -e -n "\n\e[32m(-DOTF-)\e[39m $1 ...\n"
@@ -60,8 +58,6 @@ DotBoot()
     SetOs
     if [ ! -d ~/dotfiles ]; then
         cd ~
-        # Set the bootstrap flag.
-        bootstrap=true
         Inform "running bootstrap"
         # Ensure git is installed. Should be available on macOS.
         if [ "$OS" = "linux" ]; then
@@ -209,10 +205,6 @@ case "$1" in
         exit;;
     ("install")
         Install
-        # If this was a bootrstrap script -- and boot was executed -- delete afterwards.
-        if [ "$bootstrap" = true ] ; then
-            rm -- "$0"
-        fi
         exit;;
     ("update")
         Update
@@ -220,9 +212,6 @@ case "$1" in
     # Minor modes.
     ("dot-boot")
         DotBoot
-        if [ "$bootstrap" = true ] ; then
-            rm -- "$0"
-        fi
         exit;;
     ("dot-install")
         DotInstall
