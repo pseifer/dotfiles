@@ -225,7 +225,6 @@ case "$1" in
         exit;;
     ("dot-update")
         DotUpdate
-        exit;;
     ("dot-push")
         DotPush
         exit;;
