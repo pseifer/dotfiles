@@ -1,3 +1,3 @@
 function ggl
-git log
+    git log
 end

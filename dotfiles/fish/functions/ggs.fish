@@ -1,3 +1,3 @@
 function ggs
-git status
+    git status
 end
