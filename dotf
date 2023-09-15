@@ -108,6 +108,7 @@ DotPush()
     git add dotfiles.config
     git add config.config
     git add default/*
+    git add README.md
     git commit -m "Update dotfiles"
     git push
 }

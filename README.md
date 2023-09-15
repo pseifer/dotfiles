@@ -1,25 +1,32 @@
-# DOTFILES
+# dotf
+
 This repository contains:
-1) My configuration files ('dotfiles') for various applications
-2) Simple tools to manage those dotfiles
-3) My post-install setup script for GNU/Linux systems (Arch-based)
 
-## LINKING
-The configuration files remain in the cloned dotfile repository,
-while the tool generates symbolic links in the appropriate locations.
-To use the default setup, simply run ```make```.
+1) Configuration files ('dotfiles') for various tools.
+2) Simple tools to manage those dotfiles.
+3) Post-install setup scripts install core tools.
 
-Alternatively, ```make install``` can be used to build local configuration
-files ```config.config``` and ```dotfiles.config```, which can be customized
-before running ```make```. The ```dotfiles.config``` file contains the
-mapping between files in the ```dotfiles``` repository and the respective 
-target dotfile locations. It can be customized to add/exclude dotfiles 
-which are required or not required on the particular system.
+# Setup
 
-If the target file already exists at the target location,
-a backup is kept. Backups can be removed with ```make clear```.
+Either clone this repository 
 
-## SETUP
-The ```src/setup``` script contains package lists and setup steps for various applications.
-Run ```src/setup help``` to see how both the interactive and list-based mode work.
-As a default, ```make setup``` uses the ```default/setup.config``` file as input to the list-mode.
+```sh
+git clone https://github.com/pseifer/dotfiles ~/dotfiles
+cd ~/dotfiles
+chmod +x dotf
+./dotf install
+``` 
+
+or download the `dotf` script directly via 
+
+```sh
+curl -fLOs https://raw.githubusercontent.com/pseifer/dotfiles/master/dotf
+# or wget https://raw.githubusercontent.com/pseifer/dotfiles/master/dotf
+chmod +x dotf
+./dotf install
+```
+
+# Usage
+
+After setup, the `dotf` program should be available. For information on usage, run `dotf help`.
+
