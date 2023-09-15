@@ -161,7 +161,7 @@ Help()
    echo "These are the most common commands:"
    echo
    echo -e "    \e[32mdot install\e[39m        Setup a new system."
-   echo -e "    \e[32mdot update\e[39m         Update system and dotfiles."
+   echo -e "    \e[32mdot update\e[39m         Update dotfiles."
    echo
    echo "The following are more specific commands;"
    echo "usually, these do not need to be executed manually."
@@ -182,7 +182,7 @@ Help()
 # Update the system.
 Update()
 {
-    SystemUpdate 
+    #SystemUpdate 
     DotUpdate
     DotLink
 }
@@ -193,7 +193,7 @@ Install()
     DotBoot
     SystemSetup
     DotInstall
-    Update
+    DotLink
 }
 
 ### Main Program ###

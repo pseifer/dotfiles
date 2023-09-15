@@ -72,3 +72,9 @@ chmod +x cs
 ./cs setup
 rm cs
 
+# Generate SSH key, update remote.
+
+cd ~/dotfiles
+ssh-keygen -t rsa -b 4096 -C "github@seifer.me"
+cat ~/.ssh/id_rsa.pub
+git remote set-url origin git@github.com:pseifer/dotfiles.git
