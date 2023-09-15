@@ -32,13 +32,21 @@ onlyif () {
 $PACK zip tar git curl # Required for setup.
 onlyif "ubuntu" && $PACK fontconfig # Required for setup.
 
-$PACK xclip w3m rlwrap cmake tmux htop fish fd-find ripgrep tree ranger # Core packages.
+$PACK xclip w3m rlwrap cmake tmux htop fd-find ripgrep tree ranger # Core packages.
+
+$PACK fish # Fish - separate call, in case non-essential install fails.
+
+# Set shell to fish.
+chsh -s /usr/bin/fish
 
 onlyif "fedora" && $PACK dnf-plugins-core copr-cli util-linux-user
 
 onlyif "ubuntu" && $PACK python3 python3-pip default-jre default-jdk # Ensure Python 3 and Java.
 
 onlyif "ubuntu" && sudo add-apt-repository ppa:aslatter/ppa -y && sudo apt install alacritty # Alacritty.
+
+# Set default terminal to alacritty (Ubuntu).
+onlyif "ubuntu" && sudo update-alternatives --config x-terminal-emulator
 
 # Install latest stable NeoVim.
 
