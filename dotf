@@ -126,13 +126,13 @@ SystemSetup()
     SetOs
     SetPack
     Inform "setting up system"
-    ./src/"$OS"/setup #"$PACK" "$LOS"
+    ./src/"$OS"/setup "$PACK" "$LOS"
 }
 
 SystemSetupFull()
 {
     SystemSetup
-    ./src/"$OS"/setup-full #"$PACK" "$LOS"
+    ./src/"$OS"/setup-full "$PACK" "$LOS"
 }
 
 CleanBackups()
