@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# ------------------------------------------------------------------------------
+# ---------- Setup the home directory ------------------------------------------
+# ------------------------------------------------------------------------------
+
+mkdir -p ~/Teaching &&\           # cloud:teaching
+mkdir -p ~/Slides &&\             # cloud:slides
+mkdir -p ~/Papers &&\             # cloud:papers
+mkdir -p ~/Notes &&\              # cloud:notes
+mkdir -p ~/Projects &&\           # projects
+mkdir -p ~/Wallpaper              # wallpapers
+
+# ------------------------------------------------------------------------------
+# ---------- Detect the distribution -------------------------------------------
+# ------------------------------------------------------------------------------
+
+PACK="$1"
+LOS="$2"
+
+onlyif () {
+    if [ "$LOS" = "$1" ]; then
+        true
+    else
+        false
+    fi
+}
+
+# ------------------------------------------------------------------------------
+# ---------- Install extended packages via package manager -------------------------
+# ------------------------------------------------------------------------------
+
+if install "Essential Packages"; then
+    $PACK firefox xrandr arandr zathura thunar xclip xournal
+
+    onlyif "ubuntu" &&\
+        $PACK vlc apt-file snapd &&\
+        sudo snap install nextcloud
+fi
+
+cd ~

@@ -1,0 +1,254 @@
+#!/bin/bash
+
+### Utility ###
+
+bootstrap=false
+
+Inform()
+{
+    echo -e -n "\n\e[32m(-DOTF-)\e[39m $1 ...\n"
+}
+
+SetEnv()
+{
+    # Go to dotfiles dir.
+    cd ~/dotfiles
+}
+
+SetOs()
+{
+    UNAME=$(uname)
+    if [ "$UNAME" = "Linux" ]; then
+        OS="linux"
+    else
+        OS="macos"
+    fi
+}
+
+SetPack()
+{
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        DISTR=$NAME
+    elif type lsb_release >/dev/null 2>&1; then
+        DISTR=$(lsb_release -si)
+    elif [ -f /etc/lsb-release ]; then
+        . /etc/lsb-release
+        DISTR=$DISTRIB_ID
+    else
+        DISTR=$(uname -s)
+    fi
+
+    PACK="echo"
+    LOS="${DISTR,,}"
+
+    if [ "$LOS" = "fedora" ]; then
+      PACK="sudo dnf install -y"
+    elif [ "$LOS" = "manjaro" ]; then
+      PACK="sudo pacman -S"
+    elif [ "$LOS" = "ubuntu" ]; then
+      PACK="sudo apt install -y"
+    elif [ "$LOS" = "debian" ]; then
+      PACK="sudo apt install -y"
+    fi
+}
+
+### Modes (Minor) ###
+
+DotBoot()
+{
+    SetOs
+    if [ ! -d ~/dotfiles ]; then
+        cd ~
+        # Set the bootstrap flag.
+        bootstrap=true
+        Inform "running bootstrap"
+        # Ensure git is installed. Should be available on macOS.
+        if [ "$OS" = "linux" ]; then
+            SetPack
+            $PACK git
+        fi
+        git clone https://github.com/pseifer/dotfiles
+        SetEnv
+        chmod +x dotf
+    fi
+}
+
+DotInstall()
+{
+    SetEnv
+    Inform "installing dotfiles"
+    ./src/init
+}
+
+DotLink()
+{
+    SetEnv
+    Inform "linking dotfiles"
+    ts=$(/bin/date "+%Y-%m-%d_%H-%M-%S")
+    backup="backup_$ts"
+    mkdir -p "$backup"
+    ./src/linkage "dotfiles.config" "$backup" "config.config"
+}
+
+DotUpdate()
+{
+    SetEnv
+    Inform "updating dotfiles"
+    git pull
+}
+
+DotPush()
+{
+    DotUpdate
+    Inform "syncing dotfiles"
+    git add src/*
+    git add dotfiles/*
+    git add dotf
+    git add dotfiles.config
+    git add config.config
+    git add default/*
+    git commit -m "Update dotfiles"
+    git push
+}
+
+SystemUpdate()
+{
+    SetEnv
+    SetOs
+    SetPack
+    ./src/"$OS"/update 
+}
+
+SystemSetup()
+{
+    SetEnv
+    SetOs
+    SetPack
+    ./src/"$OS"/setup #"$PACK" "$LOS"
+}
+
+SystemSetupFull()
+{
+    SystemSetup
+    ./src/"$OS"/setup-full #"$PACK" "$LOS"
+}
+
+CleanBackups()
+{
+    if [ -d ~/dotfiles ]; then
+        SetEnv
+        Inform "cleaning backups"
+        rm -r backup_*/
+    fi
+}
+
+CleanAll()
+{
+    CleanBackups
+    if [ -d ~/dotfiles ]; then
+        SetEnv
+        Inform "cleaning local configuration"
+        rm dotfiles.config
+        rm config.config
+    fi
+}
+
+### Modes (Major) ###
+
+# Display documentation.
+Help()
+{
+   echo -e "usage: \e[32mdotf\e[39m <command>"
+   echo
+   echo "These are the most common commands:"
+   echo
+   echo -e "    \e[32mdot install\e[39m        Setup a new system."
+   echo -e "    \e[32mdot update\e[39m         Update system and dotfiles."
+   echo
+   echo "The following are more specific commands;"
+   echo "usually, these do not need to be executed manually."
+   echo
+   echo "    dot-boot           Bootstrap the dotfile manager."
+   echo "    dot-install        Install only the dotfile manager."
+   echo "    dot-link           Link dotfiles on system."
+   echo "    dot-update         Pull remote updates to dotfiles."
+   echo "    dot-push           Push local changes to remote."
+   echo "    system-setup       Install packages on a new system."
+   echo "    system-setup-full  Extended install (not used by default)."
+   echo "    system-update      Update the system."
+   echo "    clean-backups      Remove dotfile backups."
+   echo "    clean-all          Remove local config overwrites."
+   echo
+}
+
+# Update the system.
+Update()
+{
+    SystemUpdate 
+    DotUpdate
+    DotLink
+}
+
+# Install the system.
+Install()
+{
+    DotBoot
+    SystemSetup
+    DotInstall
+    Update
+}
+
+### Main Program ###
+
+case "$1" in
+    # Major modes.
+    ("help")
+        Help
+        exit;;
+    ("install")
+        Install
+        exit;;
+    ("update")
+        Update
+        exit;;
+    # Minor modes.
+    ("dot-boot")
+        DotBoot
+        exit;;
+    ("dot-install")
+        DotInstall
+        exit;;
+    ("dot-link")
+        DotLink
+        exit;;
+    ("dot-update")
+        DotUpdate
+        exit;;
+    ("dot-push")
+        DotPush
+        exit;;
+    ("system-setup")
+        SystemSetup
+        exit;;
+    ("system-setup-full")
+        SystemSetupFull
+        exit;;
+    ("system-update")
+        SystemUpdate
+        exit;;
+    ("clean-backups")
+        CleanBackups
+        exit;;
+    ("clean-all")
+        CleanAll
+        exit;;
+    (*) 
+        Help
+        exit;;
+esac
+
+# If this was a bootrstrap script -- and boot was executed -- delete afterwards.
+if [ "$bootstrap" = true ] ; then
+    rm -- "$0"
+fi

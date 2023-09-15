@@ -6,45 +6,17 @@
 
 mkdir -p ~/.programs-from-git &&\ # system:source-installs
 mkdir -p ~/bin &&\                # system:scripts
-mkdir -p ~/Teaching &&\           # cloud:teaching
-mkdir -p ~/Slides &&\             # cloud:slides
-mkdir -p ~/Papers &&\             # cloud:papers
-mkdir -p ~/Notes &&\              # cloud:notes
-mkdir -p ~/Projects &&\           # projects
-mkdir -p ~/Wallpaper              # wallpapers
+mkdir -p ~/.local/share/fonts     # system:fonts
 
 # ------------------------------------------------------------------------------
 # ---------- Detect the distribution -------------------------------------------
 # ------------------------------------------------------------------------------
 
-if [ -f /etc/os-release ]; then
-    . /etc/os-release
-    OS=$NAME
-elif type lsb_release >/dev/null 2>&1; then
-    OS=$(lsb_release -si)
-elif [ -f /etc/lsb-release ]; then
-    . /etc/lsb-release
-    OS=$DISTRIB_ID
-else
-    OS=$(uname -s)
-fi
-
-PACK="echo"
-
-LOS="${OS,,}"
-
-if [ "$LOS" = "fedora" ]; then
-  PACK="sudo dnf install -y"
-elif [ "$LOS" = "manjaro" ]; then
-  PACK="sudo pacman -S"
-elif [ "$LOS" = "ubuntu" ]; then
-  PACK="sudo apt install -y"
-elif [ "$LOS" = "debian" ]; then
-  PACK="sudo apt install -y"
-fi
+PACK="$1"
+LOS="$2"
 
 onlyif () {
-    if [ "$PLATFORM" = "$1" ]; then
+    if [ "$LOS" = "$1" ]; then
         true
     else
         false
@@ -56,21 +28,19 @@ onlyif () {
 # ------------------------------------------------------------------------------
 
 if install "Essential Packages"; then
-    $PACK firefox w3m git rlwrap curl cmake tmux subversion \
-          xrandr arandr zathura thunar htop xclip xournal \
-          kitty fish fd-find ripgrep
+    $PACK w3m git rlwrap curl cmake tmux \
+          htop kitty fish fd-find ripgrep
 
     onlyif "fedora" &&\
         $PACK dnf-plugins-core copr-cli util-linux-user
 
     onlyif "ubuntu" &&\
-        $PACK python3 python3-pip vlc apt-file snapd default-jre default-jdk &&\
-        sudo snap install nextcloud
+        $PACK python3 python3-pip default-jre default-jdk
 fi
 
-cd ~
-
 # Install latest stable NeoVim.
+
+cd ~
 
 curl -fL https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
 tar xzvf nvim-linux64.tar.gz
@@ -80,17 +50,19 @@ ln -s ~/.programs-from-git/nvim-linux64/bin/nvim ~/bin/nvim
 
 # Install Nerd Fonts (Source Code Pro)
 
-mkdir -p ~/.local/share/fonts
 cd ~/.local/share/fonts && curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/SourceCodePro.zip
+unzip SourceCodePro.zip
 fc-cache -f -v
-cd ~
 
 # Install Scala tools via coursier.
+cd ~
 
 curl -fL "https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz" | gzip -d > cs
 chmod +x cs
 ./cs setup
 rm cs
+
+cd ~
 
 # Install LaTeX tools.
 
