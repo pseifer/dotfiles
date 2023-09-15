@@ -4,8 +4,8 @@
 # ---------- Setup the home directory ------------------------------------------
 # ------------------------------------------------------------------------------
 
-mkdir -p ~/.programs-from-git &&\ # system:source-installs
-mkdir -p ~/bin &&\                # system:scripts
+mkdir -p ~/.programs-from-git     # system:source-installs
+mkdir -p ~/bin                    # system:scripts
 mkdir -p ~/.local/share/fonts     # system:fonts
 
 # ------------------------------------------------------------------------------
@@ -27,23 +27,18 @@ onlyif () {
 # ---------- Install core packages via package manager -------------------------
 # ------------------------------------------------------------------------------
 
-if install "Essential Packages"; then
-    $PACK w3m git rlwrap curl cmake tmux \
-          htop kitty fish fd-find ripgrep
+$PACK zip tar w3m git rlwrap curl cmake tmux htop kitty fish fd-find ripgrep
 
-    onlyif "fedora" &&\
-        $PACK dnf-plugins-core copr-cli util-linux-user
+onlyif "fedora" && $PACK dnf-plugins-core copr-cli util-linux-user
 
-    onlyif "ubuntu" &&\
-        $PACK python3 python3-pip default-jre default-jdk
-fi
+onlyif "ubuntu" && $PACK fontconfig zip python3 python3-pip default-jre default-jdk
 
 # Install latest stable NeoVim.
 
 cd ~
 
-curl -fL https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
-tar xzvf nvim-linux64.tar.gz
+curl -fLOs https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
+tar -xzvf nvim-linux64.tar.gz
 rm nvim-linux64.tar.gz
 mv nvim-linux64 ~/.programs-from-git
 ln -s ~/.programs-from-git/nvim-linux64/bin/nvim ~/bin/nvim 

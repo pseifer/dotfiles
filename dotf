@@ -116,6 +116,7 @@ SystemUpdate()
     SetEnv
     SetOs
     SetPack
+    Inform "updating system"
     ./src/"$OS"/update 
 }
 
@@ -124,6 +125,7 @@ SystemSetup()
     SetEnv
     SetOs
     SetPack
+    Inform "setting up system"
     ./src/"$OS"/setup #"$PACK" "$LOS"
 }
 

@@ -30,12 +30,8 @@ onlyif () {
 # ---------- Install extended packages via package manager -------------------------
 # ------------------------------------------------------------------------------
 
-if install "Essential Packages"; then
-    $PACK firefox xrandr arandr zathura thunar xclip xournal
+$PACK firefox xrandr arandr zathura thunar xclip xournal
 
-    onlyif "ubuntu" &&\
-        $PACK vlc apt-file snapd &&\
-        sudo snap install nextcloud
-fi
-
-cd ~
+onlyif "ubuntu" &&\
+    $PACK vlc apt-file snapd &&\
+    sudo snap install nextcloud
