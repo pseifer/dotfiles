@@ -37,7 +37,7 @@ onlyif "ubuntu" && $PACK fontconfig zip python3 python3-pip default-jre default-
 
 cd ~
 
-rm ~/.programs-from-git/nvim-linux64
+rm -r ~/.programs-from-git/nvim-linux64
 
 curl -fLOs https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
 tar -xzvf nvim-linux64.tar.gz
@@ -49,6 +49,8 @@ ln -s ~/.programs-from-git/nvim-linux64/bin/nvim ~/bin/nvim
 
 cd ~/.local/share/fonts 
 rm -f SauceCodeProNerdFont*
+rm -f readme.md
+rm -f LICENSE.txt
 
 curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/SourceCodePro.zip
 unzip SourceCodePro.zip
