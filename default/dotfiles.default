@@ -3,4 +3,3 @@ kitty               .config/kitty
 fish                .config/fish
 tmux.conf           .tmux.conf
 gitconfig           .gitconfig
-

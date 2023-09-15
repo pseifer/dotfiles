@@ -61,5 +61,5 @@ cd ~
 
 # Install LaTeX tools.
 
-$PACK texlive texlive-fonts-extra biber latex-bibtex-extra latexmk
+$PACK texlive texlive-fonts-extra biber latexmk
 
