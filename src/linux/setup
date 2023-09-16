@@ -1,14 +1,6 @@
 #!/bin/bash
 
 # ------------------------------------------------------------------------------
-# ---------- Setup the home directory ------------------------------------------
-# ------------------------------------------------------------------------------
-
-mkdir -p ~/.programs-from-git     # system:source-installs
-mkdir -p ~/bin                    # system:scripts
-mkdir -p ~/.local/share/fonts     # system:fonts
-
-# ------------------------------------------------------------------------------
 # ---------- Detect the distribution -------------------------------------------
 # ------------------------------------------------------------------------------
 
@@ -29,60 +21,36 @@ onlyif () {
 # ---------- Install core packages via package manager -------------------------
 # ------------------------------------------------------------------------------
 
-$PACK zip tar git curl # Required for setup.
-onlyif "ubuntu" && $PACK fontconfig # Required for setup.
+$PACK zip tar git curl fontconfig # Required for setup.
 
-$PACK xclip w3m rlwrap cmake tmux htop fd-find ripgrep tree ranger # Core packages.
-
-$PACK fish # Fish - separate call, in case non-essential install fails.
+$PACK fish xclip w3m rlwrap cmake tmux htop fd-find ripgrep tree ranger # Core packages.
 
 # Set shell to fish.
 chsh -s /usr/bin/fish
 
-onlyif "fedora" && $PACK dnf-plugins-core copr-cli util-linux-user
+onlyif "ubuntu" && $PACK python3 python3-pip default-jre default-jdk 
 
-onlyif "ubuntu" && $PACK python3 python3-pip default-jre default-jdk # Ensure Python 3 and Java.
-
-onlyif "ubuntu" && sudo add-apt-repository ppa:aslatter/ppa -y && sudo apt install alacritty # Alacritty.
-
-# Set default terminal to alacritty (Ubuntu).
-onlyif "ubuntu" && sudo update-alternatives --config x-terminal-emulator
+# Install alacritty via PPA and update default terminal (Ubuntu).
+onlyif "ubuntu" && bash "$HOME/dotfiles/src/linux/alacritty.install"
 
 # Install latest stable NeoVim.
 
-cd ~
-
-rm -r ~/.programs-from-git/nvim-linux64
-
-curl -fLOs https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
-tar -xzvf nvim-linux64.tar.gz
-rm nvim-linux64.tar.gz
-mv nvim-linux64 ~/.programs-from-git
-ln -s ~/.programs-from-git/nvim-linux64/bin/nvim ~/bin/nvim 
+bash "$HOME/dotfiles/src/linux/neovim.install"
 
 # Install Nerd Fonts (Source Code Pro)
 
-cd ~/.local/share/fonts 
-rm -f SauceCodeProNerdFont*
-rm -f readme.md
-rm -f LICENSE.txt
+bash "$HOME/dotfiles/src/linux/nerd-fonts.install"
 
-curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/SourceCodePro.zip
-unzip SourceCodePro.zip
-rm SourceCodePro.zip
-fc-cache -f -v
+# Install glow
+
+bash "$HOME/dotfiles/src/linux/glow.install"
 
 # Install Scala tools via coursier.
-cd ~
 
-curl -fL "https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz" | gzip -d > cs
-chmod +x cs
-./cs setup
-rm cs
+bash "$HOME/dotfiles/src/linux/coursier.install"
 
-# Generate SSH key, update remote.
+# Generate SSH key, and update remote.
 
-cd ~/dotfiles
 ssh-keygen -t rsa -b 4096 -C "github@seifer.me"
 cat ~/.ssh/id_rsa.pub
 git remote set-url origin git@github.com:pseifer/dotfiles.git

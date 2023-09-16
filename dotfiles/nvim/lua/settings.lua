@@ -1,6 +1,5 @@
 -- Basic, toggleable settings.
 
-
 local go = vim.o                                -- Global.
 
 go.termguicolors = true                         -- Enable true colors.
@@ -21,6 +20,10 @@ go.title = true
 go.ignorecase = true                            -- Case insensitive search...
 go.smartcase = true                             -- ...unless upper case is used.
 
+go.undofile = true                              -- Save undo info in files.
+go.undodir = vim.fn.expand('~/.vim-undo')       -- Directory for saving undo.
+go.undolevels = 10000                           -- Limit to 10.000 levels.
+
 local wo = vim.wo                               -- Local to Window.
 
 -- wo.cc = 80         -- 
@@ -31,5 +34,3 @@ local bo = vim.bo                               -- Local to Buffer.
 bo.expandtab = true                             -- Use 4 spaces for tabs.
 bo.tabstop = 4                                  -- "
 bo.shiftwidth = 4                               -- "
-
-

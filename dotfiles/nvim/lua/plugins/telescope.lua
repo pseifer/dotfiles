@@ -13,7 +13,8 @@ return {
         name = 'telescope',
         -- Files
         f = { '<cmd>Telescope find_files<cr>', 'Find file' },
-        g = { '<cmd>Telescope live_crep<cr>', 'Grep in files' },
+        g = { '<cmd>Telescope live_grep<cr>', 'Grep in files' },
+        t = { '<cmd>Telescope<cr>', 'Search Telescope' },
         -- Vim
         b = { '<cmd>Telescope buffers<cr>', 'Buffers' },
         h = { '<cmd>Telescope help_tags<cr>', 'Help' },

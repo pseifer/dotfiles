@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mkdir -p ~/.local/share/fonts
+cd "$HOME/.local/share/fonts"
+
+rm -f SauceCodeProNerdFont*
+rm -f readme.md
+rm -f LICENSE.txt
+
+curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/SourceCodePro.zip
+unzip SourceCodePro.zip
+rm SourceCodePro.zip
+fc-cache -f -v

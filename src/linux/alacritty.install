@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Add PPA and install.
+sudo add-apt-repository ppa:aslatter/ppa -y && sudo apt install alacritty
+
+# Set default terminal to alacritty.
+sudo update-alternatives --config x-terminal-emulator
+

@@ -4,12 +4,12 @@
 # ---------- Setup the home directory ------------------------------------------
 # ------------------------------------------------------------------------------
 
-mkdir -p ~/Teaching &&\           # cloud:teaching
-mkdir -p ~/Slides &&\             # cloud:slides
-mkdir -p ~/Papers &&\             # cloud:papers
-mkdir -p ~/Notes &&\              # cloud:notes
-mkdir -p ~/Projects &&\           # projects
-mkdir -p ~/Wallpaper              # wallpapers
+mkdir -p "$HOME/Teaching"
+mkdir -p "$HOME/Slides"
+mkdir -p "$HOME/Papers"
+mkdir -p "$HOME/Notes"
+mkdir -p "$HOME/Projects"
+mkdir -p "$HOME/Org"
 
 # ------------------------------------------------------------------------------
 # ---------- Detect the distribution -------------------------------------------
@@ -30,12 +30,12 @@ onlyif () {
 # ---------- Install extended packages via package manager ---------------------
 # ------------------------------------------------------------------------------
 
-$PACK firefox xrandr arandr zathura thunar xclip xournal
+$PACK firefox vlc xrandr arandr zathura thunar xclip xournal
 
 onlyif "ubuntu" &&\
-    $PACK vlc apt-file snapd &&\
-    sudo snap install nextcloud
+    $PACK apt-file snapd &&\
+    sudo snap install nextcloud 
 
 # Install LaTeX tools.
 
-$PACK texlive texlive-fonts-extra biber latexmk
+$PACK texlive-latex-extra biber latexmk 
