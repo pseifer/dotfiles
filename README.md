@@ -20,10 +20,7 @@ chmod +x dotf
 or download the `dotf` script directly, which will bootstrap the system, via
 
 ```sh
-curl -fLOs https://raw.githubusercontent.com/pseifer/dotfiles/master/dotf
-# or wget https://raw.githubusercontent.com/pseifer/dotfiles/master/dotf
-chmod +x dotf
-./dotf install
+curl -sSL https://raw.githubusercontent.com/pseifer/dotfiles/master/dotf | bash -s -- install
 ```
 
 # Usage
