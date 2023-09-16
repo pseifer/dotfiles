@@ -23,7 +23,7 @@ onlyif () {
 
 $PACK zip tar git curl fontconfig # Required for setup.
 
-$PACK fish xclip w3m rlwrap cmake tmux htop fd-find ripgrep tree ranger # Core packages.
+$PACK fish xclip w3m rlwrap cmake tmux htop bat fd-find ripgrep plocate tree ranger # Core packages.
 
 # Set shell to fish.
 chsh -s /usr/bin/fish

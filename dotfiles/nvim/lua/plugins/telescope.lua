@@ -15,6 +15,8 @@ return {
         f = { '<cmd>Telescope find_files<cr>', 'Find file' },
         g = { '<cmd>Telescope live_grep<cr>', 'Grep in files' },
         t = { '<cmd>Telescope<cr>', 'Search Telescope' },
+        p = { '<cmd>Telescope repo list bin=/usr/bin/fdfind<cr>', 'Search Projects' },
+        c = { '<cmd>Telescope repo cached_list<cr>', 'Search Projects' },
         -- Vim
         b = { '<cmd>Telescope buffers<cr>', 'Buffers' },
         h = { '<cmd>Telescope help_tags<cr>', 'Help' },
