@@ -1,0 +1,180 @@
+#!/bin/bash
+
+# Operating system.
+DOTF_OS="$1"
+
+# Package manager.
+DOTF_PACK="$2"
+
+# Command for installing packages.
+DOTF_PACK_CMD="$3"
+
+# Interactive or full install.
+Interactive()
+{
+    [[ ! "$4" = "y" ]]
+}
+
+# LIB
+
+Inform()
+{
+    echo -e -n "\n\e[32m(-DOTF-)\e[39m $1"
+}
+
+RunIfPossible()
+{
+    if [[ -f "$1" ]]; then
+        bash "$1"
+    else
+        echo "This install is not available on this system."
+    fi
+}
+
+Macos()
+{
+    [[ "$DOTF_OS" = "macos" ]]
+}
+
+Linux()
+{
+    [[ "$DOTF_OS" = "linux" ]]
+}
+
+Apt()
+{
+    [[ "$DOTF_PACK" = "apt" ]]
+}
+
+Dnf()
+{
+    [[ "$DOTF_PACK" = "dnf" ]]
+}
+
+Pacman()
+{
+    [[ "$DOTF_PACK" = "pacman" ]]
+}
+
+Prompt()
+{
+    if Interactive; then
+        Inform "Setup $1? [y/N] "
+        read -r response
+        case $response in
+            [yY][eE][sS]|[yY])
+                true
+                ;;
+            *)
+                false
+                ;;
+        esac
+    else
+        true
+    fi
+}
+
+# Core tools and programs.
+
+if Macos && Prompt "Homebrew (required)"; then
+    echo "TODO"
+fi
+
+if Prompt "core packages (required)"; then
+    $DOTF_PACK_CMD zip tar git curl fontconfig
+fi
+
+if Prompt "tools related to dotf (recommended)"; then
+    $DOTF_PACK_CMD tmux xclip w3m bat fd-find ripgrep plocate tree 
+fi
+
+if Prompt "setup Zsh (recommended)"; then
+    $DOTF_PACK_CMD
+    chsh -s /usr/bin/zsh
+    bash "$HOME/dotfiles/src/common/zsh.install"
+fi
+
+if Prompt "additional CLI tools (optional)"; then
+    $DOTF_PACK_CMD rlwrap make htop
+fi
+
+if Linux && Prompt "additional GUI tools (optional)"; then
+    $DOTF_PACK_CMD firefox vlc xrandr arandr zathura thunar xournal
+fi
+
+if Macos && Prompt "additional GUI tools (optional0"; then
+    $DOTF_PACK_CMD --cask firefox 
+    $DOTF_PACK_CMD firefox 
+fi
+
+# Java (openjdk 17)
+
+if Macos && Prompt "OpenJDK 17 (optional)"; then
+    $DOTF_PACK_CMD "openjdk@17"
+fi
+
+if Linux && Prompt "OpenJDK 17 (optional)"; then
+    $DOTF_PACK_CMD openjdk-17-jre openjdk-17-jdk openjdk-17-sources
+fi
+
+# Alacritty
+
+if Prompt "Alacritty (recommended)"; then
+    RunIfPossible "$HOME/dotfiles/src/$DOTF_OS/$DOT_PACK/alacritty.install"
+fi
+ 
+# Install latest stable NeoVim.
+
+if Prompt "NeoVim (recommended)"; then
+    bash "$HOME/dotfiles/src/common/neovim.install"
+fi
+ 
+# Install Nerd Fonts (Source Code Pro)
+ 
+if Prompt "Nerd Fonts (Source Code Pro) (optional)"; then
+    bash "$HOME/dotfiles/src/common/nerd-fonts.install"
+fi
+
+# Install glow
+ 
+if Prompt "Glow (optional)"; then
+    RunIfPossible "$HOME/dotfiles/src/$DOTF_OS/$DOT_PACK/glow.install"
+fi
+ 
+# Install Scala tools via coursier.
+ 
+if Prompt "Coursier Scala Tools (optional)"; then
+    bash "$HOME/dotfiles/src/common/coursier.install"
+fi
+ 
+# Generate SSH keys, and update remote.
+ 
+if Prompt "ssh keys and update remote for ~/dotfiles (recommended)"; then
+    ssh-keygen -t rsa -b 4096 -C "github@seifer.me"
+    cat ~/.ssh/id_rsa.pub
+    git remote set-url origin git@github.com:pseifer/dotfiles.git
+fi 
+
+# Setup user home directory.
+
+if Prompt "$HOME directory (optional)"; then
+    mkdir -p "$HOME/Teaching"
+    mkdir -p "$HOME/Slides"
+    mkdir -p "$HOME/Papers"
+    mkdir -p "$HOME/Notes"
+    mkdir -p "$HOME/Projects"
+    mkdir -p "$HOME/Org"
+fi
+
+# Install nextcloud client.
+
+if Prompt "NextCloud desktop (optional)"; then
+    RunIfPossible "$HOME/dotfiles/src/$DOTF_OS/$DOT_PACK/nextcloud.install"
+fi
+
+# Install latex.
+
+if Prompt "LaTeX (optional)"; then
+    $DOTF_PACK_CMD texlive-latex-extra
+fi
+

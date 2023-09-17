@@ -7,47 +7,63 @@ Inform()
     echo -e -n "\n\e[32m(-DOTF-)\e[39m $1 ...\n"
 }
 
+# Change pwd.
 SetEnv()
 {
     # Go to dotfiles dir.
-    cd ~/dotfiles
+    cd "$HOME/dotfiles"
 }
 
-SetOs()
-{
-    UNAME=$(uname)
-    if [ "$UNAME" = "Linux" ]; then
-        OS="linux"
-    else
-        OS="macos"
-    fi
-}
-
+# See SetOS.
 SetPack()
 {
+    # Detect distribution.
     if [ -f /etc/os-release ]; then
         . /etc/os-release
-        DISTR=$NAME
+        DOTF_DISTR_U=$NAME
     elif type lsb_release >/dev/null 2>&1; then
-        DISTR=$(lsb_release -si)
+        DOTF_DISTR_U=$(lsb_release -si)
     elif [ -f /etc/lsb-release ]; then
         . /etc/lsb-release
-        DISTR=$DISTRIB_ID
+        DOTF_DISTR_U=$DISTRIB_ID
     else
-        DISTR=$(uname -s)
+        DOTF_DISTR_U=$(uname -s)
     fi
 
-    PACK="echo"
-    LOS="${DISTR,,}"
+    DOTF_DISTR="${DOTF_DISTR_U,,}"
 
-    if [ "$LOS" = "fedora" ]; then
-      PACK="sudo dnf install -y"
-    elif [ "$LOS" = "manjaro" ]; then
-      PACK="sudo pacman -S"
-    elif [ "$LOS" = "ubuntu" ]; then
-      PACK="sudo apt install -y"
-    elif [ "$LOS" = "debian" ]; then
-      PACK="sudo apt install -y"
+    # Determine the package manager.
+
+    if command -v apt &> /dev/null ; then
+        DOTF_PACK="apt" 
+        DOTF_PACK_CMD="sudo apt install -y"
+    elif command -v dnf &> /dev/null ; then
+        DOTF_PACK="dnf" 
+        DOTF_PACK_CMD="sudo dnf install -y"
+    elif command -v pacman &> /dev/null ; then
+        DOTF_PACK="pacman" 
+        DOTF_PACK_CMD="sudo pacman -S"
+    else
+        DOTF_PACK="common"
+        DOTF_PACK_CMD="echo Please install manually: "
+    fi
+}
+
+# Set four variables:
+# DOTF_OS       - linux or macos.
+# DOTF_PACK     - the package manager, apt, dnf, or pacman, defaults to unknown.
+# DOTF_PACK_CMD - command for installing packages using DOTF_PACK, defaults to echo.
+SetOs()
+{
+    # Detect the operating system.
+    UNAME=$(uname -s)
+    if [ "$UNAME" = "Darwin" ]; then
+        DOTF_OS="macos"
+        DOTF_PACK="brew"
+        DOTF_PACK_CMD="brew install"
+    else
+        DOTF_OS="linux"
+        SetPack
     fi
 }
 
@@ -59,10 +75,11 @@ DotBoot()
     if [ ! -d ~/dotfiles ]; then
         cd ~
         Inform "running bootstrap"
-        # Ensure git is installed. Should be available on macOS.
-        if [ "$OS" = "linux" ]; then
-            SetPack
-            $PACK git
+        # Ensure git is installed. 
+        # Should be available on macOS.
+        # Might be available on Linux, make sure:
+        if [ "$DOTF_OS" = "linux" ]; then
+            $DOTF_PACK_CMD git
         fi
         git clone https://github.com/pseifer/dotfiles.git ~/dotfiles
         SetEnv
@@ -103,7 +120,7 @@ DotPush()
     git add dotf
     git add default/*
     git add README.md
-    git commit -m "Update dotfiles"
+    git commit
     git push
 }
 
@@ -111,24 +128,24 @@ SystemUpdate()
 {
     SetEnv
     SetOs
-    SetPack
     Inform "updating system"
-    ./src/"$OS"/update 
+    ./src/"$DOTF_OS"/"$DOTF_PACK"/update 
 }
 
 SystemSetup()
 {
     SetEnv
     SetOs
-    SetPack
-    Inform "setting up system"
-    ./src/"$OS"/setup "$PACK" "$LOS"
+    Inform "setting up system (interactive)"
+    ./src/setup "$DOTF_OS" "$DOTF_PACK" "$DOTF_PACK_CMD"
 }
 
 SystemSetupFull()
 {
-    SystemSetup
-    ./src/"$OS"/setup-full "$PACK" "$LOS"
+    SetEnv
+    SetOs
+    Inform "setting up system (auto)"
+    ./src/setup "$DOTF_OS" "$DOTF_PACK" "$DOTF_PACK_CMD" "y"
 }
 
 CleanBackups()
@@ -172,7 +189,6 @@ Help()
    echo "    dot-update         Pull remote updates to dotfiles."
    echo "    dot-push           Push local changes to remote."
    echo "    system-setup       Install packages on a new system."
-   echo "    system-setup-full  Extended install (not used by default)."
    echo "    system-update      Update the system."
    echo "    clean-backups      Remove dotfile backups."
    echo "    clean-all          Remove local config overwrites."
@@ -182,7 +198,7 @@ Help()
 # Update the system.
 Update()
 {
-    #SystemUpdate 
+    SystemUpdate 
     DotUpdate
     DotLink
 }

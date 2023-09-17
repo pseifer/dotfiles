@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# File system.
+
+alias l='ls -hal --color'
+alias tr='tree -C .'
+alias tra='tree -Ca .'
+alias trl='tree . -C -L'
+alias tral='tree . -Ca -L'
+alias c='clear'
+
+# Navigation.
+
+alias ..='cd ..'
+
+# Safety.
+
+alias rm='rm -I --preserve-root'
+alias rmr='rm -rI --preserve-root'
+alias ln='ln -i'
+alias mv='mv -i'
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chgrp='chgrp --preserve-root'
+
+# Editor (666).
+
+alias vim='nvim'
+alias vi='nvim'
+alias emacs='nvim'
+alias nano='nvim'
+
+# Git.
+
+alias ggl='git log'
+alias ggs='git status'
+alias agent-unlock='eval `ssh-agent -s`; ssh-add'
+
+# Tmux.
+
+alias tta='tmux-attach-fn'
+alias ttk='tmux-kill-session-fn'
+alias ttls='tmux ls'
+alias ttn='tmux-new-fn'
+alias ttr='tmux rename'
+alias tts='tmux switchc -t'
+
+# Utility.
+
+alias url-decode='python3 -c "import sys, urllib.parse as ulp; print(ulp.unquote(sys.argv[1]))"'
+alias url-encode='python3 -c "import sys, urllib.parse as ulp; print(ulp.quote(sys.argv[1]))"'
+
+alias fix-keyboard-ctrl='setxkbmap -option "ctrl:nocaps"'
+alias fix-keyboard-rate='xset r rate 250 30'
+alias fixkb='fix-keyboard-ctrl; fix-keyboard-rate'
+alias FIXKB='xdotool key Caps_Lock; fixkb'

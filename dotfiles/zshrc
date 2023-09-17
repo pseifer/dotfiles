@@ -1,0 +1,60 @@
+# ZSH configuration setup.
+
+# .zshenv   | used, only sources .profile
+# .zprofile | not currently used (maybe add slow stuff)
+# .zshrc		| used (this file), interactive setup
+# .zlogin   | not used
+# .zlogout  | not used
+
+# Launch tmux.
+if [ "$TMUX" = "" ]; then tmux; fi
+
+# Keep at top (modulo commands that need input, if any).
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Setup Antigen.
+source "$HOME/.local/bin/antigen.zsh"
+
+# Install p10k theme.
+antigen theme romkatv/powerlevel10k
+
+# Install completion.
+# antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle marlonrichert/zsh-autocomplete@main
+
+# Install syntax highlighter.
+antigen bundle zdharma-continuum/fast-syntax-highlighting
+# antigen bundle zsh-users/zsh-syntax-highlighting
+
+# Install and activate the themes and plugins.
+antigen apply
+
+# --- Plugin configuration
+
+# Load powerlevel10k theme; customize via `p10k configure` ~/.p10k.zsh.
+[[ ! -f "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
+
+# --- Source custom configuration
+
+source "$HOME/.aliases"
+source "$HOME/.functions"
+
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=100000
+SAVEHIST=100000
+
+# VIM as default editor.
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
+
+# Emacs keys.
+bindkey -e
+
+# Set tab completion.
+bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
+bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete

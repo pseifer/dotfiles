@@ -9,8 +9,15 @@ nmap('<enter>', ':nohlsearch<cr>', "clear search results")
 nmap('<leader>n', ':bnext<cr>', "next buffer")
 nmap('<leader>p', ':bprev<cr>', "previous buffer")
 
-nmap('<S-l>', 'gt<CR>', "next tab")
-nmap('<S-h>', 'gT<CR>', "previous tab")
+nmap('<S-l>', ':tabn<CR>', "next tab")
+nmap('<S-h>', ':tabp<CR>', "previous tab")
+
+nmap('<leader>tt', ':$tabnew<CR>', "new tab")
+nmap('<leader>tc', ':tabclose<CR>', "close tab")
+nmap('<leader>to', ':tabclose<CR>', "only - close other tabs")
+
+nmap('<leader>tn', ':+tabmove<CR>', "move tab right")
+nmap('<leader>tp', ':-tabmove<CR>', "move tab left")
 
 nmap('<C-w>h', '<C-w><S-h>', "Move window left")
 nmap('<C-w>j', '<C-w><S-j>', "Move window down")

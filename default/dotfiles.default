@@ -1,5 +1,10 @@
-nvim                .config/nvim
-alacritty						.config/alacritty
-fish                .config/fish
-tmux.conf           .tmux.conf
-gitconfig           .gitconfig
+alacritty        .config/alacritty
+nvim             .config/nvim
+tmux.conf        .tmux.conf
+profile          .profile
+aliases          .aliases
+functions        .functions
+zshrc            .zshrc
+zshenv           .zshenv
+p10k.zsh         .p10k.zsh
+gitconfig        .gitconfig

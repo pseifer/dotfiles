@@ -28,7 +28,7 @@ $PACK fish xclip w3m rlwrap cmake tmux htop bat fd-find ripgrep plocate tree ran
 # Set shell to fish.
 chsh -s /usr/bin/fish
 
-onlyif "ubuntu" && $PACK python3 python3-pip default-jre default-jdk 
+$PACK python3 python3-pip openjdk-17-jre openjdk-17-jdk openjdk-17-source
 
 # Install alacritty via PPA and update default terminal (Ubuntu).
 onlyif "ubuntu" && bash "$HOME/dotfiles/src/linux/alacritty.install"

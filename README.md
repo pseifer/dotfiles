@@ -2,7 +2,7 @@
 
 This repository contains:
 
-1) Configuration files, mainly for my `alacritty`, `fish`, `tmux` and `vim` stack.
+1) Configuration files, mainly for my `alacritty`, `zsh`, `tmux` and `vim` stack.
 2) A tool (`dotf`) for linking, updating, and configuring dotfiles.
 3) Some post-install setup scripts for installing basic tools (and requirements) on new systems.
 

@@ -1,4 +1,4 @@
--- https://github.com/rockerBOO/awesome-neovim
+-- Core init.lua; handles lazy.nvim setup.
 
 -- Remap <leader> to <Space>.
 
@@ -21,7 +21,7 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
--- Plugin configuration, load plugins (see lua/plugins/...)
+-- Plugin configuration, load plugins (see lua/plugins/...).
 
 local plugins = {
   { import = 'plugins' }
@@ -36,7 +36,8 @@ local opts = {
 
 require('lazy').setup(plugins, opts)
 
--- Load basic configurations (e.g., settings and essential keybinds).
+-- Load basic configurations (i.e., settings and essential keybinds).
 
 require('settings')
 require('keybinds')
+

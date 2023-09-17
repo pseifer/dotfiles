@@ -12,3 +12,8 @@ if [ ! -e "dotfiles.config" ]; then
     cp "default/dotfiles.default" "dotfiles.config"
     echo "Created default dotfiles.config!"
 fi
+
+# Set a link to dotf.
+
+mkdir -p "$HOME/bin"
+ln -s "$HOME/dotfiles/dotf" "$HOME/bin/dotf"

@@ -1,4 +1,3 @@
 return {
-  'dracula/vim',
-   name = 'dracula'
+  'Mofiqul/dracula.nvim'
 }

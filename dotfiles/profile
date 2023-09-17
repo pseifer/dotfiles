@@ -1,0 +1,20 @@
+# Setup environment variables - everywhere.
+
+# This file is sourced in .zshenv
+#   Note: Must be zsh compatible
+# This file is read by bash
+# This file is read by sh
+
+# Add ~/bin and .local/bin and coursier to path.
+
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/share/coursier/bin" ] ; then
+    PATH="$HOME/.local/share/coursier/bin:$PATH"
+fi
