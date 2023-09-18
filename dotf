@@ -54,6 +54,30 @@ dotf::set_os()
     readonly dotf_pack_cmd
 }
 
+dotf::util_link() {
+    local file="$1"
+    local prefix="$2"
+
+    # Get the name of the target (the dotfile).
+    target_raw=$(basename "$file")
+    target="$prefix/${target_raw/dot-/\.}"
+
+    echo -e -n "\n\e[32mLink\e[39m $target \e[32m-->\e[39m $file"
+
+    # If a link lives at target location, remove it.
+    if [[ -L "$target" ]]; then
+        unlink "$target"
+    # If a file lives at target location, back it up.
+    elif [ -e "$target" ]; then
+        mkdir -p "$backup"
+        mv "$target" "$backup/$target_raw"
+        echo -e -n " (\e[32mbackup stored\e[39m as $backup/$target_raw)"
+    fi
+
+    # Finally, create new link from target->source.
+    ln -s "$file" "$target"
+}
+
 ### Modes (Minor) ###
 
 # Create links from dot-home to $HOME.
@@ -70,26 +94,14 @@ dotf::link()
     ts=$(/bin/date "+%Y-%m-%d_%H-%M-%S")
     backup="$dotf_dotfiles/backup_$ts"
 
-    # Link all dotfiles.
+    # Link all dotfiles (home).
     for file in "$dotf_dotfiles"/dot-home/*; do
-        # Get the name of the target (the dotfile).
-        target_raw=$(basename "$file")
-        target="$HOME/${target_raw/dot-/\.}"
+        dotf::util_link "$file" "$HOME"
+    done
 
-        echo -e -n "\n\e[32mLink\e[39m $target \e[32m-->\e[39m $file"
-
-        # If a link lives at target location, remove it.
-        if [[ -L "$target" ]]; then
-            unlink "$target"
-        # If a file lives at target location, back it up.
-        elif [ -e "$target" ]; then
-            mkdir -p "$backup"
-            mv "$target" "$backup/$target_raw"
-            echo -e -n " (\e[32mbackup stored\e[39m as $backup/$target_raw)"
-        fi
-
-        # Finally, create new link from target->source.
-        ln -s "$file" "$target"
+    # Link all dotfiles (home/.config)
+    for file in "$dotf_dotfiles"/dot-config/*; do
+        dotf::util_link "$file" "$HOME/.config"
     done
 
     # Print trailing newline.

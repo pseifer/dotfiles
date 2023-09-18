@@ -2,27 +2,22 @@
 
 This repository contains:
 
-1) Configuration files, mainly for my `alacritty`, `zsh`, `tmux` and `vim` stack.
-2) A tool (`dotf`) for linking, updating, and configuring dotfiles.
-3) Some post-install setup scripts for installing basic tools (and requirements) on new systems.
+1) Configuration files, mainly for my `alacritty`, `tmux`, `zsh` and `vim` stack.
+2) A tool (`dotf`) for:
+2.1) linking, updating, and configuring dotfiles, as well as
+2.2) installing programs through arbitrary setup scripts.
 
 # Setup
 
-Either clone (or download) this repository
+Setting up `dotf` is as simple as cloning this repository to some location (e.g., `~/dotfiles`) and running `./setup`:
 
 ```sh
 git clone https://github.com/pseifer/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-chmod +x dotf
-./dotf install
-``` 
-
-or download the `dotf` script directly, which will bootstrap the system, via
-
-```sh
-curl -sSL https://raw.githubusercontent.com/pseifer/dotfiles/master/dotf | bash -s -- install
+./setup
 ```
 
 # Usage
 
-After setup, the `dotf` program should be available. Basic commands are `dotf install` for setup and `dotf update` to update. For more information on usage, run `dotf help`. 
+After running the setup script, the `dotf` program should be available (if `~/bin` is in `$PATH`); otherwise, you may also call `./dotf` directly in the cloned repository.
+Basic commands are `dotf install` for running `.install` scripts interactively and `dotf update` for a system and dotfiles update. For more information on available commands, refer to `dotf help`. 
