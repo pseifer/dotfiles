@@ -5,6 +5,11 @@
 alias l='ls -hal --color'
 alias tr='tree -C .'
 alias tra='tree -Ca .'
+alias tr1='tree -C . -L 1'
+alias tr2='tree -C . -L 2'
+alias tr3='tree -C . -L 3'
+alias tr4='tree -C . -L 4'
+alias tr5='tree -C . -L 5'
 alias trl='tree . -C -L'
 alias tral='tree . -Ca -L'
 alias c='clear'
@@ -38,6 +43,9 @@ alias agent-unlock='eval `ssh-agent -s`; ssh-add'
 
 # Tmux.
 
+alias xx='tmux-soft-exit'
+
+alias ttbase='tmux rename-session base'
 alias tta='tmux-attach-fn'
 alias ttk='tmux-kill-session-fn'
 alias ttls='tmux ls'

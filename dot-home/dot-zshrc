@@ -1,13 +1,12 @@
-# ZSH configuration setup.
+# ZSH interactive shell setup
 
-# .zshenv   | used, only sources .profile
-# .zprofile | not currently used (maybe add slow stuff)
-# .zshrc		| used (this file), interactive setup
+# Also see the following files:
+#
+# .zshenv   | sources .profile
+# .zprofile | not used
+# .zshrc    | interactive shell setup
 # .zlogin   | not used
 # .zlogout  | not used
-
-# Launch tmux.
-if [ "$TMUX" = "" ]; then tmux; fi
 
 # Keep at top (modulo commands that need input, if any).
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -21,12 +20,10 @@ source "$HOME/.local/bin/antigen.zsh"
 antigen theme romkatv/powerlevel10k
 
 # Install completion.
-# antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle marlonrichert/zsh-autocomplete@main
 
 # Install syntax highlighter.
 antigen bundle zdharma-continuum/fast-syntax-highlighting
-# antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Install and activate the themes and plugins.
 antigen apply
@@ -55,6 +52,10 @@ fi
 # Emacs keys.
 bindkey -e
 
-# Set tab completion.
+# Configuration for fast-syntax-highlighting.
+
+# Configuration for zsh-autocompletion.
 bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
 bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
+
+#TODO: change match highlighting when searchnig history

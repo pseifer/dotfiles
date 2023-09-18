@@ -2,261 +2,234 @@
 
 ### Utility ###
 
-Inform()
+dotf::inform()
 {
     echo -e -n "\n\e[32m(-DOTF-)\e[39m $1 ...\n"
 }
 
-# Change pwd.
-SetEnv()
+dotf::set_env()
 {
-    # Go to dotfiles dir.
-    cd "$HOME/dotfiles"
-}
-
-# See SetOS.
-SetPack()
-{
-    # Detect distribution.
-    if [ -f /etc/os-release ]; then
-        . /etc/os-release
-        DOTF_DISTR_U=$NAME
-    elif type lsb_release >/dev/null 2>&1; then
-        DOTF_DISTR_U=$(lsb_release -si)
-    elif [ -f /etc/lsb-release ]; then
-        . /etc/lsb-release
-        DOTF_DISTR_U=$DISTRIB_ID
+    if [[ -f "$HOME/.dotfrc" ]]; then
+        # shellcheck source=/home/pseifer/.dotfrc
+        source "$HOME/.dotfrc"
     else
-        DOTF_DISTR_U=$(uname -s)
+        dotf_dotfiles="$HOME/dotfiles"
     fi
-
-    DOTF_DISTR="${DOTF_DISTR_U,,}"
-
-    # Determine the package manager.
-
-    if command -v apt &> /dev/null ; then
-        DOTF_PACK="apt" 
-        DOTF_PACK_CMD="sudo apt install -y"
-    elif command -v dnf &> /dev/null ; then
-        DOTF_PACK="dnf" 
-        DOTF_PACK_CMD="sudo dnf install -y"
-    elif command -v pacman &> /dev/null ; then
-        DOTF_PACK="pacman" 
-        DOTF_PACK_CMD="sudo pacman -S"
-    else
-        DOTF_PACK="common"
-        DOTF_PACK_CMD="echo Please install manually: "
-    fi
+    readonly dotf_dotfiles
 }
 
 # Set four variables:
-# DOTF_OS       - linux or macos.
-# DOTF_PACK     - the package manager, apt, dnf, or pacman, defaults to unknown.
-# DOTF_PACK_CMD - command for installing packages using DOTF_PACK, defaults to echo.
-SetOs()
+# dotf_os       - linux or macos.
+# dotf_pack     - the package manager, apt, dnf, or pacman, defaults to unknown.
+# dotf_pack_cmd - command for installing packages using DOTF_PACK, defaults to echo.
+# TODO: Update with setup.
+dotf::set_os()
 {
     # Detect the operating system.
-    UNAME=$(uname -s)
-    if [ "$UNAME" = "Darwin" ]; then
-        DOTF_OS="macos"
-        DOTF_PACK="brew"
-        DOTF_PACK_CMD="brew install"
+    local unamea
+    unamea=$(uname -a)
+    if [ "$unamea" = "Darwin" ]; then
+        dotf_os="macos"
+        dotf_pack="brew"
+        dotf_pack_cmd="brew install"
     else
-        DOTF_OS="linux"
-        SetPack
+        dotf_os="linux"
+        if command -v apt &> /dev/null ; then
+            dotf_pack="apt"
+            dotf_pack_cmd="sudo apt install -y"
+        elif command -v dnf &> /dev/null ; then
+            dotf_pack="dnf"
+            dotf_pack_cmd="sudo dnf install -y"
+        elif command -v pacman &> /dev/null ; then
+            dotf_pack="pacman"
+            dotf_pack_cmd="sudo pacman -S"
+        else
+            dotf_pack="common"
+            dotf_pack_cmd="echo Please install manually: "
+        fi
     fi
+
+    readonly dotf_os
+    readonly dotf_pack
+    readonly dotf_pack_cmd
 }
 
 ### Modes (Minor) ###
 
-DotBoot()
+# Create links from dot-home to $HOME.
+dotf::link()
 {
-    SetOs
-    if [ ! -d ~/dotfiles ]; then
-        cd ~
-        Inform "running bootstrap"
-        # Ensure git is installed. 
-        # Should be available on macOS.
-        # Might be available on Linux, make sure:
-        if [ "$DOTF_OS" = "linux" ]; then
-            $DOTF_PACK_CMD git
-        fi
-        git clone https://github.com/pseifer/dotfiles.git ~/dotfiles
-        SetEnv
-        chmod +x dotf
-    fi
-}
+    local backup
+    local file
+    local target
+    local target_raw
 
-DotInstall()
-{
-    SetEnv
-    Inform "installing dotfiles"
-    ./src/init
-}
+    dotf::inform "linking dotfiles"
 
-DotLink()
-{
-    SetEnv
-    Inform "linking dotfiles"
+    # Get a name for a backup directory.
     ts=$(/bin/date "+%Y-%m-%d_%H-%M-%S")
-    backup="backup_$ts"
-    mkdir -p "$backup"
-    ./src/linkage "dotfiles.config" "$backup" "config.config"
+    backup="$dotf_dotfiles/backup_$ts"
+
+    # Link all dotfiles.
+    for file in "$dotf_dotfiles"/dot-home/*; do
+        # Get the name of the target (the dotfile).
+        target_raw=$(basename "$file")
+        target="$HOME/${target_raw/dot-/\.}"
+
+        echo -e -n "\n\e[32mLink\e[39m $target \e[32m-->\e[39m $file"
+
+        # If a link lives at target location, remove it.
+        if [[ -L "$target" ]]; then
+            unlink "$target"
+        # If a file lives at target location, back it up.
+        elif [ -e "$target" ]; then
+            mkdir -p "$backup"
+            mv "$target" "$backup/$target_raw"
+            echo -e -n " (\e[32mbackup stored\e[39m as $backup/$target_raw)"
+        fi
+
+        # Finally, create new link from target->source.
+        ln -s "$file" "$target"
+    done
+
+    # Print trailing newline.
+    echo
 }
 
-DotUpdate()
+# Add a file/folder to the tracked dot-home directory.
+# File must be in $HOME. Must not be an absolute path.
+dotf::track()
 {
-    SetEnv
-    Inform "updating dotfiles"
-    git pull
-}
+    local base_name
+    local dot_name
 
-DotPush()
-{
-    DotUpdate
-    Inform "syncing dotfiles"
-    git add src/*
-    git add dotfiles/*
-    git add dotf
-    git add default/*
-    git add README.md
-    git commit
-    git push
-}
+    if [[ -n "$1" ]]; then
+        if [[ -f "$HOME/$1" ]]; then
+            base_name=$(basename "$1")
+            dot_name="${base_name/\./dot-}"
 
-SystemUpdate()
-{
-    SetEnv
-    SetOs
-    Inform "updating system"
-    ./src/"$DOTF_OS"/"$DOTF_PACK"/update 
-}
-
-SystemSetup()
-{
-    SetEnv
-    SetOs
-    Inform "setting up system (interactive)"
-    ./src/setup "$DOTF_OS" "$DOTF_PACK" "$DOTF_PACK_CMD"
-}
-
-SystemSetupFull()
-{
-    SetEnv
-    SetOs
-    Inform "setting up system (auto)"
-    ./src/setup "$DOTF_OS" "$DOTF_PACK" "$DOTF_PACK_CMD" "y"
-}
-
-CleanBackups()
-{
-    if [ -d ~/dotfiles ]; then
-        SetEnv
-        Inform "cleaning backups"
-        rm -r backup_*/
+            mv "$HOME/$1" "$dotf_dotfiles/dot-home/$dot_name"
+            dotf::link
+        fi
     fi
 }
 
-CleanAll()
+dotf::dot_update()
 {
-    CleanBackups
-    if [ -d ~/dotfiles ]; then
-        SetEnv
-        Inform "cleaning local configuration"
-        rm dotfiles.config
-        rm config.config
-    fi
+    dotf::inform "updating dotfiles"
+    git -C "$dotf_dotfiles" pull
+}
+
+dotf::system_update()
+{
+    dotf::inform "updating system"
+    # TODO: Update structure / loading of update files.
+    bash "$dotf_dotfiles"/src/"$dotf_os"/"$dotf_pack"/update
+}
+
+dotf::system_install()
+{
+    dotf::inform "setting up system (interactive)"
+    # TODO: Update structure / loading of install files.
+    # TODO: Include source here.
+    # TODO: Fix path (!) - currently does not respect $dotf_dotfiles
+    bash "$dotf_dotfiles"/src/setup "$dotf_os" "$dotf_pack" "$dotf_pack_cmd"
+}
+
+dotf::clean_backups()
+{
+    local file
+
+    dotf::inform "cleaning backups"
+    shopt -s nullglob
+    for file in "$dotf_dotfiles"/backup_*/; do
+        rm -r "$file"
+    done
+    shopt -u nullglob
 }
 
 ### Modes (Major) ###
 
 # Display documentation.
-Help()
+dotf::help()
 {
-   echo -e "usage: \e[32mdotf\e[39m <command>"
-   echo
-   echo "These are the most common commands:"
-   echo
-   echo -e "    \e[32mdot install\e[39m        Setup a new system."
-   echo -e "    \e[32mdot update\e[39m         Update dotfiles."
-   echo
-   echo "The following are more specific commands;"
-   echo "usually, these do not need to be executed manually."
-   echo
-   echo "    dot-boot           Bootstrap the dotfile manager."
-   echo "    dot-install        Install only the dotfile manager."
-   echo "    dot-link           Link dotfiles on system."
-   echo "    dot-update         Pull remote updates to dotfiles."
-   echo "    dot-push           Push local changes to remote."
-   echo "    system-setup       Install packages on a new system."
-   echo "    system-update      Update the system."
-   echo "    clean-backups      Remove dotfile backups."
-   echo "    clean-all          Remove local config overwrites."
-   echo
+    echo -e "usage: \e[32mdotf\e[39m <command>"
+    echo
+    echo "These are the most common commands:"
+    echo
+    echo -e "  \e[32minstall\e[39m            Start interactive installer."
+    echo -e "  \e[32minstall\e[39m <pkg>      Install <pkg> on the system."
+    echo
+    echo -e "  \e[32mupdate\e[39m             Update system and dotfiles."
+    echo -e "  - system-update"
+    echo -e "  - dot-update"
+    echo -e "  - link"
+    echo
+    echo "The following sub-commands are executed (as documented above) by"
+    echo "update, but can also be executed individually:"
+    echo
+    echo "  system-update      Update the system."
+    echo "  dot-update         Pull remote updates for dotfiles."
+    echo "  link               Link dotfiles on system."
+    echo
+    echo "The following sub-commands provide additional features:"
+    echo
+    echo -e "  \e[32mclean\e[39m              Remove backup_*"
+    echo -e "  \e[32mtrack\e[39m <file>       Add file to dot-home and link."
+    echo
 }
 
-# Update the system.
-Update()
+dotf::update()
 {
-    SystemUpdate 
-    DotUpdate
-    DotLink
+    dotf::system_update
+    dotf::dot_update
+    dotf::link
 }
 
-# Install the system.
-Install()
+dotf::install()
 {
-    DotBoot
-    SystemSetup
-    DotInstall
-    DotLink
+    dotf::system_install
 }
 
 ### Main Program ###
 
-case "$1" in
-    # Major modes.
-    ("help")
-        Help
-        exit;;
-    ("install")
-        Install
-        exit;;
-    ("update")
-        Update
-        exit;;
-    # Minor modes.
-    ("dot-boot")
-        DotBoot
-        exit;;
-    ("dot-install")
-        DotInstall
-        exit;;
-    ("dot-link")
-        DotLink
-        exit;;
-    ("dot-update")
-        DotUpdate
-        exit;;
-    ("dot-push")
-        DotPush
-        exit;;
-    ("system-setup")
-        SystemSetup
-        exit;;
-    ("system-setup-full")
-        SystemSetupFull
-        exit;;
-    ("system-update")
-        SystemUpdate
-        exit;;
-    ("clean-backups")
-        CleanBackups
-        exit;;
-    ("clean-all")
-        CleanAll
-        exit;;
-    (*) 
-        Help
-        exit;;
-esac
+dotf::main() {
+    # Setup the enviroment.
+    dotf::set_env
+    dotf::set_os
+
+    # Run selected command.
+    case "$1" in
+        # Major modes.
+        ("help")
+            dotf::help
+            exit;;
+        ("install")
+            dotf::install
+            exit;;
+        ("update")
+            dotf::update
+            exit;;
+        # Minor modes.
+        ("track")
+            dotf::track "$2"
+            exit;;
+        ("link")
+            dotf::link
+            exit;;
+        ("dot-update")
+            dotf::dot_update
+            exit;;
+        ("system-update")
+            dotf::system_update
+            exit;;
+        ("clean")
+            dotf::clean_backups
+            exit;;
+        (*)
+            dotf::help
+            exit;;
+    esac
+}
+
+dotf::main "$@"

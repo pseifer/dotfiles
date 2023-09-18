@@ -1,0 +1,15 @@
+#!/bin/bash
+
+mkdir -p "$HOME/bin/"
+
+# Find out the current directory.
+dotfiles_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Install dotf by setting or refreshing link in ~/bin
+ln -s "$dotfiles_dir/dotf" "$HOME/bin/dotf"
+
+# Create .dotfrc and tell dotf to use this directory.
+cat > "$HOME/.dotfrc" << END
+dotf_dotfiles="${dotfiles_dir}"
+END
+

@@ -24,7 +24,7 @@ colors() {
 # Smart tmux functions.
 
 tmux-attach-fn() {
-	if [ -z "$1" ]; then
+	if [[ -z "$1" ]]; then
 		tmux attach	
 	else
 		tmux attach -t "$@"
@@ -32,7 +32,7 @@ tmux-attach-fn() {
 }
 
 tmux-kill-session-fn() {
-	if [ -z "$1" ]; then
+	if [[ -z "$1" ]]; then
 		tmux kill-session	
 	else
 		tmux kill-session -t "$@"
@@ -40,9 +40,14 @@ tmux-kill-session-fn() {
 }
 
 tmux-new-fn() {
-	if [ -z "$1" ]; then
+	if [[ -z "$1" ]]; then
 		tmux new
 	else
 		tmux new -t "$@"
 	fi
+}
+
+tmux-soft-exit() {
+    tmux detach-client
+    tmux kill-window -t "base"
 }
