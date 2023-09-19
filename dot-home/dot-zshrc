@@ -20,7 +20,7 @@ git_prompt() {
     fi
 }
 
-export PROMPT=$'%F{#6272a4}%~%f $(git_prompt)\n%(?.%F{green}.%F{red})❯%f '
+export PROMPT=$'%F{#6272a4}%~%f $(git_prompt)\n%(?.%F{blue}.%F{red})❯%f '
 
 # Source aliases and functions.
 source "$HOME/.aliases"
