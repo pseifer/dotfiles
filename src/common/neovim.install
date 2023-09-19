@@ -6,7 +6,9 @@ mkdir -p "$MY_NVIM_INSTALL"
 mkdir -p "$HOME/bin"
 
 cd "$HOME"
-rm -r "$MY_NVIM_INSTALL/nvim-linux64"
+if [[ -d "$MY_NVIM_INSTALL/nvim-linux64" ]]; then
+    rm -r "$MY_NVIM_INSTALL/nvim-linux64"
+fi
 
 curl -fLOs https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
 tar -xzvf nvim-linux64.tar.gz

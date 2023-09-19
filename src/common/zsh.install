@@ -1,4 +1,19 @@
 #!/bin/bash
 
-# Install Antigen
-curl -L git.io/antigen > "$HOME/.local/bin/antigen.zsh"
+# Install fast-syntax-highlighting for ZSH.
+if [[ ! -d "$HOME/.local/share/fsh" ]]; then
+git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting.git \
+    "$HOME/.local/share/fsh"
+fi
+
+# Install powerlevel10k for ZSH.
+if [[ ! -d "$HOME/.local/share/powerlevel10k" ]]; then
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
+    "$HOME/.local/share/powerlevel10k"
+fi
+
+# Install additional zsh-completions for ZSH.
+if [[ ! -d "$HOME/.local/share/zsh-completions" ]]; then
+git clone --depth=1 https://github.com/zsh-users/zsh-completions.git \
+    "$HOME/.local/share/zsh-completions"
+fi

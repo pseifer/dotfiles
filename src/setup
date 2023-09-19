@@ -85,13 +85,14 @@ if Prompt "core packages (required)"; then
 fi
 
 if Prompt "tools related to dotf (recommended)"; then
-    $DOTF_PACK_CMD tmux xclip w3m bat fd-find ripgrep plocate tree 
+    $DOTF_PACK_CMD tmux xclip w3m bat fd-find ripgrep plocate tree shellcheck 
 fi
 
 if Prompt "setup Zsh (recommended)"; then
     $DOTF_PACK_CMD
     chsh -s /usr/bin/zsh
     bash "$HOME/dotfiles/src/common/zsh.install"
+    $DOTF_PACK_CMD fzf zoxide
 fi
 
 if Prompt "additional CLI tools (optional)"; then

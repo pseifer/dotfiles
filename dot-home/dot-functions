@@ -20,34 +20,3 @@ colors() {
     printf "$magenta" "magenta"
     printf "$cyan"    "cyan"
 }
-
-# Smart tmux functions.
-
-tmux-attach-fn() {
-	if [[ -z "$1" ]]; then
-		tmux attach	
-	else
-		tmux attach -t "$@"
-	fi
-}
-
-tmux-kill-session-fn() {
-	if [[ -z "$1" ]]; then
-		tmux kill-session	
-	else
-		tmux kill-session -t "$@"
-	fi
-}
-
-tmux-new-fn() {
-	if [[ -z "$1" ]]; then
-		tmux new
-	else
-		tmux new -t "$@"
-	fi
-}
-
-tmux-soft-exit() {
-    tmux detach-client
-    tmux kill-window -t "base"
-}

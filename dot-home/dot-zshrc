@@ -8,54 +8,88 @@
 # .zlogin   | not used
 # .zlogout  | not used
 
-# Keep at top (modulo commands that need input, if any).
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# Load prompt.
+setopt PROMPT_SUBST
 
-# Setup Antigen.
-source "$HOME/.local/bin/antigen.zsh"
+git_prompt() {
+    local git_branch=$(git --no-optional-locks branch --show-current 2> /dev/null)
+    if [[ -n "$git_branch" ]]; then
+        local git_status=$(git --no-optional-locks status --porcelain 2> /dev/null | tail -n 1)
+        [[ -n "$git_status" ]] && echo -n "%F{yellow}" || echo -n "%F{green}"
+        echo -n "‹${git_branch}›%f"
+    fi
+}
 
-# Install p10k theme.
-antigen theme romkatv/powerlevel10k
+export PROMPT=$'%F{#6272a4}%~%f $(git_prompt)\n%(?.%F{green}.%F{red})❯%f '
 
-# Install completion.
-antigen bundle marlonrichert/zsh-autocomplete@main
-
-# Install syntax highlighter.
-antigen bundle zdharma-continuum/fast-syntax-highlighting
-
-# Install and activate the themes and plugins.
-antigen apply
-
-# --- Plugin configuration
-
-# Load powerlevel10k theme; customize via `p10k configure` ~/.p10k.zsh.
-[[ ! -f "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
-
-# --- Source custom configuration
-
+# Source aliases and functions.
 source "$HOME/.aliases"
 source "$HOME/.functions"
 
-HISTFILE="$HOME/.zsh_history"
-HISTSIZE=100000
-SAVEHIST=100000
+# Setup history.
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=1000000 # size of the loaded history (memory)
+export SAVEHIST=1000000 # size of the history file
+setopt SHARE_HISTORY # sync between sessions
+setopt HIST_IGNORE_ALL_DUPS # do not save dublicates
 
-# VIM as default editor.
+# Use VIM as default editor...
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
   export EDITOR='nvim'
 fi
 
-# Emacs keys.
+# ...but still emacs keybinds in ZSH.
 bindkey -e
 
-# Configuration for fast-syntax-highlighting.
+# fast-theme XDG:overlay
 
-# Configuration for zsh-autocompletion.
-bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
-bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
+# Load additional completions.
+fpath=("$HOME/.local/share/zsh-completions" $fpath)
 
-#TODO: change match highlighting when searchnig history
+# Initialize compinit.
+autoload -Uz compinit 
+case $(uname -s) in
+  Darwin)
+    if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
+      compinit;
+    else
+      compinit -C;
+    fi
+    ;;
+  Linux)
+    if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+        compinit
+      else
+        compinit -C
+    fi
+    ;;
+esac
+
+# Load fast-syntax-highlighting.
+source "$HOME/.local/share/fsh/fast-syntax-highlighting.plugin.zsh"
+
+# On WSL, go to linux home.
+if [[ $(grep Microsoft /proc/version) ]]; then
+    cd "$HOME"
+fi
+
+# Setup FZF.
+
+# ctrl-t: Fuzzy search paths under current dir.
+# ctrl-r: Fuzzy search history (takes partial line into account).
+# alt-c: Similar to ctrl-t, but includes cd.
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+source /usr/share/doc/fzf/examples/completion.zsh
+
+# Set the FZF color theme to dracula.
+export FZF_DEFAULT_OPTS=" \
+  --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 \
+  --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 \
+  --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 \
+  --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4"
+
+# Initialize zoxide (z).
+eval "$(zoxide init zsh)"
+

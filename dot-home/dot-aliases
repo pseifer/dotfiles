@@ -41,18 +41,6 @@ alias ggl='git log'
 alias ggs='git status'
 alias agent-unlock='eval `ssh-agent -s`; ssh-add'
 
-# Tmux.
-
-alias xx='tmux-soft-exit'
-
-alias ttbase='tmux rename-session base'
-alias tta='tmux-attach-fn'
-alias ttk='tmux-kill-session-fn'
-alias ttls='tmux ls'
-alias ttn='tmux-new-fn'
-alias ttr='tmux rename'
-alias tts='tmux switchc -t'
-
 # Utility.
 
 alias url-decode='python3 -c "import sys, urllib.parse as ulp; print(ulp.unquote(sys.argv[1]))"'

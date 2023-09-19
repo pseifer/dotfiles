@@ -9,4 +9,6 @@
 # .zlogout  | not used
 
 source "$HOME/.profile"
+
 skip_global_compinit=1
+

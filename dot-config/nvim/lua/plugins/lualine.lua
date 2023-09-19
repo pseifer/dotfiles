@@ -8,6 +8,11 @@ return {
   },
   config = function()
     require('lualine').setup {
+      separator = nil,
+      options = {
+        component_separators = '',
+        section_separators = '',
+      },
       tabline = {
         lualine_a = {'tabs'},
         lualine_b = {},
