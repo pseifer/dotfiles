@@ -27,9 +27,11 @@
 # Define git part of prompt.
 setopt PROMPT_SUBST
 git_prompt() {
-    local git_branch=$(git --no-optional-locks branch --show-current 2> /dev/null)
+    local git_branch
+    git_branch=$(git --no-optional-locks branch --show-current 2> /dev/null)
     if [[ -n "$git_branch" ]]; then
-        local git_status=$(git --no-optional-locks status --porcelain 2> /dev/null | tail -n 1)
+        local git_status
+        git_status=$(git --no-optional-locks status --porcelain 2> /dev/null | tail -n 1)
         [[ -n "$git_status" ]] && echo -n "%F{yellow}" || echo -n "%F{green}"
         echo -n " ${git_branch}%f"
     fi
@@ -126,14 +128,12 @@ bindkey -e
 #     ;;
 # esac
 
-# Uncomment: Load fast-syntax-highlighting.
-#source "$HOME/.local/share/fsh/fast-syntax-highlighting.plugin.zsh"
+# Load fast-syntax-highlighting.
+source "$HOME/.local/share/fsh/fast-syntax-highlighting.plugin.zsh"
 # Manually run: fast-theme XDG:overlay (once) to enable custom theme.
 
 # On WSL, go to linux home.
-if [[ $(grep Microsoft /proc/version) ]]; then
-    cd "$HOME"
-fi
+grep -q Microsoft /proc/version && cd "$HOME"
 
 # Initialize zoxide (z).
 eval "$(zoxide init zsh)"
@@ -169,7 +169,7 @@ bindkey "^Y" fzf-cd-widget
 export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
 
 # Uncomment: Inside a tmux session, open overlay for all FZF searches.
-# Openning tmnux panes introduces a small delay.
+# Opening tmnux panes introduces a small delay.
 #export FZF_TMUX_OPTS='-p80%,60%'
 
 # Setup bat preview in Ctrl-T.
