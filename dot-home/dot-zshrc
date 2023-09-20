@@ -151,14 +151,14 @@ else
     alias fd='fdfind'
 fi
 
-# Ctrl-T: Fuzzy search paths ($HOME).
+# Ctrl-T: Fuzzy search paths (.)
 # Ctrl-R: Fuzzy search history (takes partial line into account).
-# Ctrl-E: Fuzzy CD folders ($HOME).
+# Ctrl-Y: Fuzzy CD folders ($HOME).
 source /usr/share/doc/fzf/examples/key-bindings.zsh
 # source /usr/share/doc/fzf/examples/completion.zsh # uncomment to enable ** completion
 
 # Setup fzf to use fd.
-export FZF_DEFAULT_COMMAND="$FD . $HOME"
+export FZF_DEFAULT_COMMAND="$FD ."
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="$FD -t d . $HOME"
 

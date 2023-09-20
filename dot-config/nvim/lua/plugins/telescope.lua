@@ -5,12 +5,13 @@ return {
   version = '0.1.3',
   dependencies = { 
     'nvim-lua/plenary.nvim',
-    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' } },
+  },
   config = function()
     local builtin = require('telescope.builtin')
     local wk = require('which-key')
  
     require('telescope').load_extension('file_browser')
+    require('telescope').load_extension('fzf')
 
     wk.register({
       f = {
@@ -40,7 +41,6 @@ return {
       },
     }, { prefix = '<leader>' })
 
-    require('telescope').load_extension('fzf')
   end
 }
 
