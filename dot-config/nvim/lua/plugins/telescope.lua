@@ -3,7 +3,9 @@
 return {
   'nvim-telescope/telescope.nvim',
   version = '0.1.3',
-  dependencies = { 'nvim-lua/plenary.nvim' },
+  dependencies = { 
+    'nvim-lua/plenary.nvim',
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' } },
   config = function()
     local builtin = require('telescope.builtin')
     local wk = require('which-key')
@@ -37,6 +39,8 @@ return {
         v = { '<cmd>Telescope treesitter<cr>', 'Treesitter' },
       },
     }, { prefix = '<leader>' })
+
+    require('telescope').load_extension('fzf')
   end
 }
 

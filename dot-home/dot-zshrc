@@ -1,4 +1,11 @@
-# ZSH interactive shell setup
+#!/bin/zsh
+
+# ZSH interactive shell setup.
+
+# Optimized for short startup time.
+# Uses fzf via Ctrl-T/Ctrl-R/Ctrl-Y for fuzzy completion and 
+# history search, which is much faster than ZSH completion
+# plugins. Sets a simple, transient prompt.
 
 # Also see the following files:
 #
@@ -8,19 +15,71 @@
 # .zlogin   | not used
 # .zlogout  | not used
 
-# Load prompt.
-setopt PROMPT_SUBST
+# Dependencies:
+#   fd/fdfind
+#   fzf
+#   bat/batcat
 
+
+
+# ----- Setup custom, transient prompt. -----
+
+# Define git part of prompt.
+setopt PROMPT_SUBST
 git_prompt() {
     local git_branch=$(git --no-optional-locks branch --show-current 2> /dev/null)
     if [[ -n "$git_branch" ]]; then
         local git_status=$(git --no-optional-locks status --porcelain 2> /dev/null | tail -n 1)
         [[ -n "$git_status" ]] && echo -n "%F{yellow}" || echo -n "%F{green}"
-        echo -n "‹${git_branch}›%f"
+        echo -n " ${git_branch}%f"
     fi
 }
 
-export PROMPT=$'%F{#6272a4}%~%f $(git_prompt)\n%(?.%F{blue}.%F{red})❯%f '
+#$(git_prompt) 
+
+## Set the default left and right prompt.
+PRM_NEWL=$'\n' # For some reason, this fixes the newline bug when resizing.
+export PROMPT="%F{#6272a4}%~%f${PRM_NEWL}%(?.%F{blue}.%F{red})❯%f "
+export RPROMPT="%(?..%F{red}%?%f)"
+#export PROMPT="%(?.%F{blue}.%F{red})❯%f "
+#export RPROMPT="%F{#6272a4}%~%f $(git_prompt) %(?..%F{white}%?%f%F{#6272a4}%f)"
+
+# Make prompt transient.
+# See https://www.zsh.org/mla/users/2019/msg00633.html
+zle-line-init() {
+    emulate -L zsh
+
+    [[ $CONTEXT == start ]] || return 0
+
+    while true; do
+        zle .recursive-edit
+        local -i ret=$?
+        [[ $ret == 0 && $KEYS == $'\4' ]] || break
+        [[ -o ignore_eof ]] || exit 0
+    done
+
+    local saved_prompt=$PROMPT
+    local saved_rprompt=$RPROMPT
+
+    PROMPT='%F{#6272a4}❯%f '
+    RPROMPT=''
+
+    zle .reset-prompt
+    PROMPT=$saved_prompt
+    RPROMPT=$saved_rprompt
+
+    if (( ret )); then
+        zle .send-break
+    else
+        zle .accept-line
+    fi
+    return ret
+}
+zle -N zle-line-init
+
+
+
+# ----- Setup ZSH defaults and plugins. -----
 
 # Source aliases and functions.
 source "$HOME/.aliases"
@@ -34,7 +93,7 @@ setopt SHARE_HISTORY # sync between sessions
 setopt HIST_IGNORE_ALL_DUPS # do not save dublicates
 
 # Use VIM as default editor...
-if [[ -n $SSH_CONNECTION ]]; then
+if [[ -n "$SSH_CONNECTION" ]]; then
   export EDITOR='vim'
 else
   export EDITOR='nvim'
@@ -43,53 +102,93 @@ fi
 # ...but still emacs keybinds in ZSH.
 bindkey -e
 
-# fast-theme XDG:overlay
+# # Uncomment to enable completion.
+#
+# # Load additional completions.
+# fpath=("$HOME/.local/share/zsh-completions" $fpath)
+# 
+# # Initialize compinit.
+# autoload -Uz compinit 
+# case $(uname -s) in
+#   Darwin)
+#     if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
+#       compinit;
+#     else
+#       compinit -C;
+#     fi
+#     ;;
+#   Linux)
+#     if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+#         compinit
+#       else
+#         compinit -C
+#     fi
+#     ;;
+# esac
 
-# Load additional completions.
-fpath=("$HOME/.local/share/zsh-completions" $fpath)
-
-# Initialize compinit.
-autoload -Uz compinit 
-case $(uname -s) in
-  Darwin)
-    if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
-      compinit;
-    else
-      compinit -C;
-    fi
-    ;;
-  Linux)
-    if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-        compinit
-      else
-        compinit -C
-    fi
-    ;;
-esac
-
-# Load fast-syntax-highlighting.
-source "$HOME/.local/share/fsh/fast-syntax-highlighting.plugin.zsh"
+# Uncomment: Load fast-syntax-highlighting.
+#source "$HOME/.local/share/fsh/fast-syntax-highlighting.plugin.zsh"
+# Manually run: fast-theme XDG:overlay (once) to enable custom theme.
 
 # On WSL, go to linux home.
 if [[ $(grep Microsoft /proc/version) ]]; then
     cd "$HOME"
 fi
 
-# Setup FZF.
+# Initialize zoxide (z).
+eval "$(zoxide init zsh)"
 
-# ctrl-t: Fuzzy search paths under current dir.
-# ctrl-r: Fuzzy search history (takes partial line into account).
-# alt-c: Similar to ctrl-t, but includes cd.
+
+
+# ----- Setup fzf support. -----
+
+# Auto-aliases for strangely named packages.
+
+if command -v fd > /dev/null; then
+    FD='fd'
+else
+    FD='fdfind'
+    alias fd='fdfind'
+fi
+
+# Ctrl-T: Fuzzy search paths ($HOME).
+# Ctrl-R: Fuzzy search history (takes partial line into account).
+# Ctrl-E: Fuzzy CD folders ($HOME).
 source /usr/share/doc/fzf/examples/key-bindings.zsh
-source /usr/share/doc/fzf/examples/completion.zsh
+# source /usr/share/doc/fzf/examples/completion.zsh # uncomment to enable ** completion
+
+# Setup fzf to use fd.
+export FZF_DEFAULT_COMMAND="$FD . $HOME"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="$FD -t d . $HOME"
+
+# Use Ctrl-E for FZF cd command.
+bindkey "^Y" fzf-cd-widget
+
+# Preview tree for Ctrl-Y.
+export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
+
+# Uncomment: Inside a tmux session, open overlay for all FZF searches.
+# Openning tmnux panes introduces a small delay.
+#export FZF_TMUX_OPTS='-p80%,60%'
+
+# Setup bat preview in Ctrl-T.
+if command -v bat > /dev/null; then
+    BAT='bat'
+else
+    BAT='batcat'
+    alias bat='batcat'
+fi
+
+# Setup preview with bat or tree, depending on type.
+export FZF_CTRL_T_OPTS="--preview '$BAT -n --theme=Dracula --color=always {} 2> /dev/null || tree -C {}'"
 
 # Set the FZF color theme to dracula.
-export FZF_DEFAULT_OPTS=" \
+export FZF_DEFAULT_OPTS="\
   --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 \
   --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 \
   --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 \
   --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4"
 
-# Initialize zoxide (z).
-eval "$(zoxide init zsh)"
-
+# TODO: Setup custom completions.
+# https://seb.jambor.dev/posts/improving-shell-workflows-with-fzf/
