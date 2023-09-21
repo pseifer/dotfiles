@@ -9,7 +9,7 @@ This repository contains a script `setup` for installing and setting up `punkt`.
 
 ```sh
 git clone https://github.com/pseifer/dotfiles.git
-cd ~/dotfiles
+cd dotfiles
 ./setup
 ```
 
