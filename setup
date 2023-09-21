@@ -9,7 +9,7 @@ ln -sf "$dotfiles_dir/_punkt/punkt" "${HOME}/bin/punkt"
 
 # Create .punktrc and tell punkt to use >this< directory.
 cat > "${HOME}/.punktrc" << END
-punkt_dotfiles="${dotfiles_dir}"
+PUNKT_DOTFILES="${dotfiles_dir}"
 END
 
 # Generate SSH keys, and update remote.
