@@ -15,13 +15,13 @@ punckt_pack_install tmux xclip w3m ripgrep plocate tree rlwrap make htop
 if punckt_os_is 'darwin'; then
     brew install --cask firefox 
 else
-    punckt_pack_install firefox vlc xrandr arandr zathura thunar xournal
+    punckt_pack_install firefox vlc arandr zathura thunar x11-xserver-utils
 fi
 
 # Install Java (OpenJFK 17)
 if punckt_os_is 'darwin'; then
     punckt_pack_install 'openjdk@17'
 else
-    punckt_pack_install openjdk-17-jre openjdk-17-jdk openjdk-17-sources
+    punckt_pack_install openjdk-17-jre openjdk-17-jdk openjdk-17-source
 fi
 

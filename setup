@@ -3,16 +3,13 @@
 # Find out the current directory.
 dotfiles_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Install punckt from GitHub.
-git clone --depth 1 https://github.com/pseifer/punckt "${HOME}/.local/share/punckt"
-
-# Install punckt by setting link in ~/bin.
+# Install punkt by setting link in ~/bin.
 mkdir -p "${HOME}/bin/"
-ln -sf "${HOME}/.local/share/punckt/punckt" "${HOME}/bin/punckt"
+ln -sf "$dotfiles_dir/_punkt/punkt" "${HOME}/bin/punkt"
 
-# Create .puncktrc and tell punckt to use >this< directory.
-cat > "${HOME}/.puncktrc" << END
-punckt_dotfiles="${dotfiles_dir}"
+# Create .punktrc and tell punkt to use >this< directory.
+cat > "${HOME}/.punktrc" << END
+punkt_dotfiles="${dotfiles_dir}"
 END
 
 # Generate SSH keys, and update remote.

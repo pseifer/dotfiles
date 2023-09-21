@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# Enable 'strict' mode.
+# See also http://redsymbol.net/articles/unofficial-bash-strict-mode/
+#      and https://disconnected.systems/blog/another-bash-strict-mode/
+set -euo pipefail
+trap 'echo >&2 "Error - exited with status ${?} at line ${LINENO}."' ERR
+IFS=$'\n\t'
+
+# --- Setup globals, possibly loaded from .punktrc.
+
+PROGNAME=$(basename "${0:-}")
+readonly PROGNAME
+SOURCE_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+readonly SOURCE_DIR
+
+readonly PUNKT_VERSION="0.1"
+readonly ARGS=( "${@:-}" )
+
+if [[ -f "${HOME}/.punktrc" ]]; then
+    # shellcheck source=/home/pseifer/.punktrc
+    source "${HOME}/.punktrc"
+fi
+export readonly PUNKT_DOTFILES="${PUNKT_DOTFILES:-${HOME}/dotfiles}"
+export readonly PUNKT_STORAGE="${PUNKT_STORAGE:-${HOME}/.local/share}"
+export readonly PUNKT_BIN="${PUNKT_BIN:-${HOME}/bin}"
+
+# --- Exported utilities for usage in install scripts, and internally.
+source "${SOURCE_DIR}/src/punkt-api"
+
+# --- punkt internal library.
+source "${SOURCE_DIR}/src/punkt-lib"
+
+# > punkt main.
+main()
+{
+    # Run selected command.
+
+    case "${ARGS[0]}" in
+      # Major modes.
+      "help") punkt_usage; exit ;;
+      "install") punkt_install_packages "-R" "${ARGS[@]:1}"; exit ;;
+      "uninstall") punkt_install_packages "-D" "${ARGS[@]:1}"; exit ;;
+      "update") punkt_update; exit ;;
+      "link") punkt_link_packages "-R" "${ARGS[@]:1}"; exit ;;
+      "unlink") punkt_link_packages "-D" "${ARGS[@]:1}"; exit ;;
+      "list") punkt_list_packages "${ARGS[@]:1}"; exit ;;
+      "info") punkt_info "${ARGS[@]:1}"; exit ;;
+      "doc") punkt_doc "${ARGS[@]:1}"; exit ;;
+      "tree") punkt_tree; exit ;;
+      "interactive") punkt_install_interactive "${ARGS[@]:1}"; exit ;;
+      # Minor modes.
+      "dot-update") punkt_dot_update; exit ;;
+      "system-update") punkt_system_update: exit ;;
+      *) 
+          punkt_inform "No such mode :("
+          echo
+          punkt_usage
+          exit
+          ;;
+    esac
+}
+
+# Run main.
+main
+
