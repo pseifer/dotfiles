@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# Copyright 2023 Philipp Seifer
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # Enable 'strict' mode.
 # See also http://redsymbol.net/articles/unofficial-bash-strict-mode/
 #      and https://disconnected.systems/blog/another-bash-strict-mode/
@@ -197,7 +211,8 @@ punkt_usage()
     echo "  interactive             Launch the interactive installer."
     echo "  uninstall <pkg*>        Uninstall package(s)."
     echo "  unlink <pkg*>           Unlink package(s)."
-    #echo "  create <pkg> <files*>   Create package and move given files into it (if any)."
+    #echo "  create <pkg> <files*>   Create package and move given files into it (if any)." # TODO
+    #echo "  push <msg>              Commit all changes with -m <msg> and push to remote." # TODO
     echo "  system-update           Update the system."
     echo "  dot-update              Pull remote updates for dotfiles."
     echo "  info                    Print info about system and environment."
