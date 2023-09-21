@@ -1,5 +1,0 @@
-#!/bin/bash
-
-# Update system.
-sudo dnf update
-sudo dnf autoremove

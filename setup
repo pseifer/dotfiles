@@ -1,15 +1,24 @@
 #!/bin/bash
 
-mkdir -p "$HOME/bin/"
-
 # Find out the current directory.
 dotfiles_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Install dotf by setting or refreshing link in ~/bin
-ln -s "$dotfiles_dir/dotf" "$HOME/bin/dotf"
+# Install punckt from GitHub.
+git clone --depth 1 https://github.com/pseifer/punckt "${HOME}/.local/share/punckt"
 
-# Create .dotfrc and tell dotf to use this directory.
-cat > "$HOME/.dotfrc" << END
-dotf_dotfiles="${dotfiles_dir}"
+# Install punckt by setting link in ~/bin.
+mkdir -p "${HOME}/bin/"
+ln -sf "${HOME}/.local/share/punckt/punckt" "${HOME}/bin/punckt"
+
+# Create .puncktrc and tell punckt to use >this< directory.
+cat > "${HOME}/.puncktrc" << END
+punckt_dotfiles="${dotfiles_dir}"
 END
+
+# Generate SSH keys, and update remote.
+if [[ ! -f "${HOME}/.ssh/id_rsa.pub" ]]; then
+    ssh-keygen -t rsa -b 4096 -C 'github@seifer.me'
+    cat "${HOME}/.ssh/id_rsa.pub"
+    git remote set-url origin 'git@github.com:pseifer/dotfiles.git'
+fi
 

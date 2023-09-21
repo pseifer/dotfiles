@@ -1,20 +1,15 @@
-# `> dotf`
+# pseifer/dotfiles
 
-This repository contains
+This repository contains configuration files, primarily for my `alacritty`, `tmux`, `zsh` and `vim` stack.
+It also serves as an example repository for the [punckt](https://github.com/pseifer/punckt) dotfile and setup management tool.
 
-- configuration files, mainly for my `alacritty`, `tmux`, `zsh` and `vim` stack, and
-- a tool (`dotf`) for
-  - linking, updating, and configuring dotfiles, as well as
-  - installing programs through arbitrary setup scripts.
+# Setup and `punckt`
 
-# Setup
-
-Setting up `dotf` is as simple as cloning this repository to some location (e.g., `~/dotfiles`) and running `./setup`:
+This repository contains a script `setup` for installing and setting up `punckt`.
 
 ```sh
 git clone https://github.com/pseifer/dotfiles.git ~/dotfiles; cd ~/dotfiles; ./setup
 ```
 
-# Usage
+For more information on [punckt](https://github.com/pseifer/punckt), see its repositroy.
 
-Use `dotf install` for running `.install` scripts interactively and `dotf update` for a system and dotfiles update, including generating links in $HOME -- in order to just generate links with running a system update, use `dotf link`. For more information on available commands, refer to `dotf help`.

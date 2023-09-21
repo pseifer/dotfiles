@@ -39,6 +39,9 @@ git_prompt() {
 
 #$(git_prompt) 
 
+# TODO: Insert additional space if folder larger than one character (i.e., not ~ or /).
+# Avoids empty line on new sessions; saves space while readable. Looks betters.
+
 ## Set the default left and right prompt.
 PRM_NEWL=$'\n' # For some reason, this fixes the newline bug when resizing.
 export PROMPT="%F{#6272a4}%~%f${PRM_NEWL}%(?.%F{blue}.%F{red})❯%f "
@@ -129,7 +132,7 @@ bindkey -e
 # esac
 
 # Load fast-syntax-highlighting.
-source "$HOME/.local/share/fsh/fast-syntax-highlighting.plugin.zsh"
+source "$HOME/.local/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 # Manually run: fast-theme XDG:overlay (once) to enable custom theme.
 
 # On WSL, go to linux home.
