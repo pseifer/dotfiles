@@ -37,3 +37,7 @@ punckt_git "https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
 # Install additional zsh-completions for ZSH.
 punckt_rm "zsh-completions"
 punckt_git "https://github.com/zsh-users/zsh-completions.git"
+
+# Install s1ck3r prompt.
+punkt_git "https://github.com/pseifer/s1ck3r"
+

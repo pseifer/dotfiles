@@ -20,67 +20,19 @@
 #   fzf
 #   bat/batcat
 
+# On WSL, go to linux home.
+grep -q Microsoft /proc/version && cd "$HOME"
 
+# local s1ck3r_prompt_token=">"
+# local s1ck3r_prompt_token_vi="-"
+# local s1ck3r_prompt_token_root="#"
+# local s1ck3r_prompt_token_t="-"
+# local s1ck3r_prompt_token_continue="  >"
 
-# ----- Setup custom, transient prompt. -----
-
-# Define git part of prompt.
-setopt PROMPT_SUBST
-git_prompt() {
-    local git_branch
-    git_branch=$(git --no-optional-locks branch --show-current 2> /dev/null)
-    if [[ -n "$git_branch" ]]; then
-        local git_status
-        git_status=$(git --no-optional-locks status --porcelain 2> /dev/null | tail -n 1)
-        [[ -n "$git_status" ]] && echo -n "%F{yellow}" || echo -n "%F{green}"
-        echo -n " ${git_branch}%f"
-    fi
-}
-
-#$(git_prompt) 
-
-# TODO: Insert additional space if folder larger than one character (i.e., not ~ or /).
-# Avoids empty line on new sessions; saves space while readable. Looks betters.
-
-## Set the default left and right prompt.
-PRM_NEWL=$'\n' # For some reason, this fixes the newline bug when resizing.
-export PROMPT="%F{#6272a4}%~%f${PRM_NEWL}%(?.%F{blue}.%F{red})❯%f "
-export RPROMPT="%(?..%F{red}%?%f)"
-#export PROMPT="%(?.%F{blue}.%F{red})❯%f "
-#export RPROMPT="%F{#6272a4}%~%f $(git_prompt) %(?..%F{white}%?%f%F{#6272a4}%f)"
-
-# Make prompt transient.
-# See https://www.zsh.org/mla/users/2019/msg00633.html
-zle-line-init() {
-    emulate -L zsh
-
-    [[ $CONTEXT == start ]] || return 0
-
-    while true; do
-        zle .recursive-edit
-        local -i ret=$?
-        [[ $ret == 0 && $KEYS == $'\4' ]] || break
-        [[ -o ignore_eof ]] || exit 0
-    done
-
-    local saved_prompt=$PROMPT
-    local saved_rprompt=$RPROMPT
-
-    PROMPT='%F{#6272a4}❯%f '
-    RPROMPT=''
-
-    zle .reset-prompt
-    PROMPT=$saved_prompt
-    RPROMPT=$saved_rprompt
-
-    if (( ret )); then
-        zle .send-break
-    else
-        zle .accept-line
-    fi
-    return ret
-}
-zle -N zle-line-init
+# Load the s1ck3r theme.
+source "$HOME/.local/share/s1ck3r/s1ck3r.zsh"
+# Set alias for resetting prompt on clear.
+alias clear="unset S1CK3R_SPACIOUS_PROMPT && clear"
 
 
 
@@ -104,15 +56,26 @@ else
   export EDITOR='nvim'
 fi
 
-# ...but still emacs keybinds in ZSH.
-bindkey -e
+export PAGER='most'
+
+# And setup VI-style bindings.
+bindkey -v
+bindkey "^?" backward-delete-char    # backspace works
+bindkey "^P" history-search-backward # Go up or
+bindkey "^N" history-search-forward  # down history (same as in FZF)
+
+# Do not care about case when completing.
+CASE_SENSITIVE="true"
+
+# Immediately complete to cycle.
+#setopt MENU_COMPLETE
 
 # # Uncomment to enable completion.
 #
 # # Load additional completions.
 # fpath=("$HOME/.local/share/zsh-completions" $fpath)
 # 
-# # Initialize compinit.
+# Initialize compinit.
 # autoload -Uz compinit 
 # case $(uname -s) in
 #   Darwin)
@@ -134,9 +97,6 @@ bindkey -e
 # Load fast-syntax-highlighting.
 source "$HOME/.local/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 # Manually run: fast-theme XDG:overlay (once) to enable custom theme.
-
-# On WSL, go to linux home.
-grep -q Microsoft /proc/version && cd "$HOME"
 
 # Initialize zoxide (z).
 eval "$(zoxide init zsh)"
