@@ -1,4 +1,4 @@
 #!/bin/bash
 
-punckt_rm "cs"
+punkt_rm "cs"
 

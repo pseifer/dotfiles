@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Clean directory.
-if punckt_os_is "linux"; then
-    punckt_rm "nvim-linux64"
-    punckt_unln "nvim"
+if punkt_os_is "linux"; then
+    punkt_rm "nvim-linux64"
+    punkt_unln "nvim"
 fi
 

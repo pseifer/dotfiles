@@ -43,31 +43,32 @@ font:
 
   size: 12
 
-# Use the Dracula color theme.
+# Use the dracula color theme, slightly modified.
 colors:
   # Default colors
   primary:
-    background: '0x282a36'
-    foreground: '0xf8f8f2'
- 
+    background: '0x282a36' # background - Dracula Background
+    foreground: '0xf8f8f2' # foreground - Dracula Foreground
+
   # Normal colors
   normal:
-    black:   '0x000000'
-    red:     '0xff5555'
-    green:   '0x50fa7b'
-    yellow:  '0xf1fa8c'
-    blue:    '0xbd93f9'
-    magenta: '0xff79c6'
-    cyan:    '0x8be9fd'
-    white:   '0xbbbbbb'
- 
+    black:   '0x44475a' # 000 - Dracula Current Line (!)
+    red:     '0xff5555' # 001 - Dracula Red
+    green:   '0x50fa7b' # 002 - Dracula Green
+    yellow:  '0xf1fa8c' # 003 - Dracula Yellow
+    blue:    '0xbd93f9' # 004 - Dracula Purple
+    magenta: '0xff79c6' # 005 - Dracula Pink
+    cyan:    '0x8be9fd' # 006 - Dracula Cyan
+    white:   '0xffb86c' # 015 - Dracula Orange (!)
+
   # Bright colors
   bright:
-    black:   '0x555555'
-    red:     '0xff5555'
-    green:   '0x50fa7b'
-    yellow:  '0xf1fa8c'
-    blue:    '0xcaa9fa'
-    magenta: '0xff79c6'
-    cyan:    '0x8be9fd'
-    white:   '0xffffff'
+    black:   '0x6272a4' # 008 - Dracula Comment (!)
+    red:     '0xff5555' # 009 - Dracula Red
+    green:   '0x50fa7b' # 010 - Dracula Green
+    yellow:  '0xf1fa8c' # 011 - Dracula Yellow
+    blue:    '0xcaa9fa' # 012 - Dracula Purple
+    magenta: '0xff79c6' # 013 - Dracula Pink
+    cyan:    '0x8be9fd' # 014 - Dracula Cyan
+    white:   '0xf8f8f2' # 007 - Dracula Foreground (!)
+

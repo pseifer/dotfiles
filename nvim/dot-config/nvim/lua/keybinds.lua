@@ -29,6 +29,9 @@ nmap('<C-w><S-k>', ':resize -10<CR>', "Resize down")
 nmap('<C-w><S-j>', ':resize +10<CR>', "Resize up")
 nmap('<C-w><S-h>', ':vertical-resize -10<CR>', "Resize right")
 
+-- Remove default LSP binding for faster Telescope launch.
+nmap('<leader>f', '<Nop>', "") 
+
 -- Stay in visual mode (indent).
 
 vmap('<', '<gv', "stay indent <")
