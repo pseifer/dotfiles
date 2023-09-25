@@ -34,3 +34,8 @@ local bo = vim.bo                               -- Local to Buffer.
 bo.expandtab = true                             -- Use 4 spaces for tabs.
 bo.tabstop = 4                                  -- "
 bo.shiftwidth = 4                               -- "
+
+-- General (vim.opt) options.
+
+vim.opt.signcolumn = "yes"                      -- Always show the signcolumn.
+
