@@ -23,18 +23,12 @@
 # On WSL, go to linux home.
 grep -q Microsoft /proc/version && cd "$HOME"
 
-# local s1ck3r_prompt_token=">"
-# local s1ck3r_prompt_token_vi="-"
-# local s1ck3r_prompt_token_root="#"
-# local s1ck3r_prompt_token_t="-"
-# local s1ck3r_prompt_token_continue="  >"
+# ----- Theme: s1ck3r -----
 
 # Load the s1ck3r theme.
 source "$HOME/.local/share/s1ck3r/s1ck3r.zsh"
 # Set alias for resetting prompt on clear.
 alias clear="unset S1CK3R_SPACIOUS_PROMPT && clear"
-
-
 
 # ----- Setup ZSH defaults and plugins. -----
 
@@ -48,6 +42,12 @@ export HISTSIZE=1000000 # size of the loaded history (memory)
 export SAVEHIST=1000000 # size of the history file
 setopt SHARE_HISTORY # sync between sessions
 setopt HIST_IGNORE_ALL_DUPS # do not save dublicates
+
+setopt AUTO_CD # cd if not a command
+
+setopt AUTO_PUSHD # push visited directories
+setopt PUSHD_IGNORE_DUPS # ignore dublicates on stack
+setopt PUSHD_SILENT # do not print directories
 
 # Use VIM as default editor...
 if [[ -n "$SSH_CONNECTION" ]]; then
@@ -100,8 +100,6 @@ source "$HOME/.local/share/fast-syntax-highlighting/fast-syntax-highlighting.plu
 
 # Initialize zoxide (z).
 eval "$(zoxide init zsh)"
-
-
 
 # ----- Setup fzf support. -----
 

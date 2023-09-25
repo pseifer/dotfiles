@@ -2,7 +2,8 @@
 
 # File system.
 
-alias l='ls -hal --color'
+alias l="ls --color --group-directories-first -AlFh"
+alias ll="ls --color --group-directories-first -AlFhL"
 alias tr='tree -C .'
 alias tra='tree -Ca .'
 alias tr1='tree -C . -L 1'
@@ -16,7 +17,9 @@ alias c='clear'
 
 # Navigation.
 
-alias ..='cd ..'
+alias ..=../
+alias ...=../../
+alias ....=../../../
 
 # Safety.
 
@@ -50,3 +53,7 @@ alias fix-keyboard-ctrl='setxkbmap -option "ctrl:nocaps"'
 alias fix-keyboard-rate='xset r rate 250 30'
 alias fixkb='fix-keyboard-ctrl; fix-keyboard-rate'
 alias FIXKB='xdotool key Caps_Lock; fixkb'
+
+alias tdev='tmux-dev'
+alias reload=". ~/.zshrc"
+

@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Terminal colors.
-
+# Print terminal colors.
 colors() {
     if [[ -n "$ZSH_VERSION" ]]; then
         for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}; done
@@ -24,3 +23,22 @@ colors() {
     # echo -e "\e[1;36mcolor\e[0m cyan"
     # echo -e "\e[1;37mcolor\e[0m white"
 }
+
+# Setup a generic development session in certain folder.
+# tmux-dev <path> <name>
+tmux-dev ()
+{
+    folder="${1:-$PWD}"
+    dev="${2:-dev}"
+    # Create a dev window and start VI.
+    tmux new-window -n "${dev}" -c "$folder"
+    tmux send-keys -t "${dev}" "cd $folder; vi ." 'Enter'
+    # Split one third off.
+    tmux split-window -h -p 30 -t "${dev}"
+    tmux send-keys -t "${dev}" "cd $folder; clear" 'Enter'
+    # Create a swap window; cicle windows with C-a C-n / C-a C-p
+    tmux new-window -n "${dev}-swap"
+    tmux send-keys -t "${dev}-swap" "cd $folder; clear" 'Enter'
+    tmux last-window
+}
+
