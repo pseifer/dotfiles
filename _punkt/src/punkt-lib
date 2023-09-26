@@ -205,7 +205,7 @@ punkt_usage()
     echo "                            - ${PROGNAME} link"
     echo 
     echo "where <pkg*> means zero or more folder names in $PUNKT_DOTFILES."
-    echo "If no arguments are supplied, installs all packages."
+    echo "If no arguments are supplied, uses all packages."
     echo
     echo "  list                    List packages detected by punkt."
     echo "  interactive             Launch the interactive installer."

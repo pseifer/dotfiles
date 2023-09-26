@@ -8,51 +8,66 @@ return {
    },
   config = function()
     local api = vim.api
-    local cmd = vim.cmd
-    local map = vim.keymap.set
+    local wk = require('which-key')
 
-    -- LSP Keymappings. TODO
-   
-    map('n', 'gD',  vim.lsp.buf.definition)
-    map('n', 'K',  vim.lsp.buf.hover)
-    map('n', 'gi', vim.lsp.buf.implementation)
-    map('n', 'gr', vim.lsp.buf.references)
-    map('n', 'gds', vim.lsp.buf.document_symbol)
-    map('n', 'gws', vim.lsp.buf.workspace_symbol)
-    map('n', '<leader>cl', vim.lsp.codelens.run)
-    map('n', '<leader>sh', vim.lsp.buf.signature_help)
-    map('n', '<leader>rn', vim.lsp.buf.rename)
-    map('n', '<leader>f', vim.lsp.buf.format)
-    map('n', '<leader>ca', vim.lsp.buf.code_action)
+    -- Global mappings
+    vim.keymap.set("n", "K",  vim.lsp.buf.hover)
     
-    -- map('n', '<leader>ws', function()
-    --   require('metals').hover_worksheet()
+    -- Global mappings (g)
+    wk.register({
+      g = {
+        D = { vim.lsp.buf.definition, 'go to definition' },
+        i = { vim.lsp.buf.implementation, 'go to implementation' },
+        r = { vim.lsp.buf.references, 'go to references' },
+        s = {
+          d = { vim.lsp.buf.document_symbol, 'go to document symbol' },
+          w = { vim.lsp.buf.workspace_symbol, 'go to workspace symbol' }
+        }
+      }
+    })
+
+    -- LSP mappings (<leader>l)
+    wk.register({
+      l = {
+        name = 'LSP',
+        c = { vim.lsp.codelens.run, 'codelens' },
+        s = { vim.lsp.buf.signature_help, 'signature help' },
+        r = { vim.lsp.buf.rename, 'rename' },
+        f = { vim.lsp.buf.format, 'format' },
+        a = { vim.lsp.buf.code_action, 'code action' },
+      }
+    }, { prefix = '<leader>' })
+
+    -- TODO: Review/update below.
+
+    -- map("n", "<leader>ws", function()
+    --   require("metals").hover_worksheet()
     -- end)
-    -- 
+
     -- -- all workspace diagnostics
-    -- map('n', '<leader>aa', vim.diagnostic.setqflist)
-    -- 
+    -- map("n", "<leader>aa", vim.diagnostic.setqflist)
+
     -- -- all workspace errors
-    -- map('n', '<leader>ae', function()
-    --   vim.diagnostic.setqflist({ severity = 'E' })
+    -- map("n", "<leader>ae", function()
+    --   vim.diagnostic.setqflist({ severity = "E" })
     -- end)
-    -- 
+
     -- -- all workspace warnings
-    -- map('n', '<leader>aw', function()
-    --   vim.diagnostic.setqflist({ severity = 'W' })
+    -- map("n", "<leader>aw", function()
+    --   vim.diagnostic.setqflist({ severity = "W" })
     -- end)
-    -- 
+
     -- -- buffer diagnostics only
-    -- map('n', '<leader>d', vim.diagnostic.setloclist)
-    -- 
-    -- map('n', '[c', function()
+    -- map("n", "<leader>d", vim.diagnostic.setloclist)
+
+    -- map("n", "[c", function()
     --   vim.diagnostic.goto_prev({ wrap = false })
     -- end)
-    -- 
-    -- map('n', ']c', function()
+
+    -- map("n", "]c", function()
     --   vim.diagnostic.goto_next({ wrap = false })
     -- end)
-
+    
     -- Completion (cmp) setup.
     local cmp = require('cmp')
     cmp.setup({
