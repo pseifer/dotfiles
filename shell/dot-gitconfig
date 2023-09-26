@@ -1,3 +1,12 @@
 [user]
 	email = github@seifer.me
 	name = Philipp Seifer
+
+[pull]
+    rebase = false
+
+[init]
+    defaultBranch = main
+
+[core]
+    pager = "less -F"
