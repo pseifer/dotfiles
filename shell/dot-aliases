@@ -13,7 +13,6 @@ alias tr4='tree -C . -L 4'
 alias tr5='tree -C . -L 5'
 alias trl='tree . -C -L'
 alias tral='tree . -Ca -L'
-alias c='clear'
 
 # Navigation.
 
@@ -41,7 +40,12 @@ alias nano='nvim'
 # Git.
 
 alias ggl='git log'
+alias ggb='git branch'
 alias ggs='git status'
+alias ggc='git commit'
+alias ggcm='git commit -m'
+alias gga='git add'
+
 alias agent-unlock='eval `ssh-agent -s`; ssh-add'
 
 # Utility.
@@ -54,6 +58,13 @@ alias fix-keyboard-rate='xset r rate 250 30'
 alias fixkb='fix-keyboard-ctrl; fix-keyboard-rate'
 alias FIXKB='xdotool key Caps_Lock; fixkb'
 
+alias c='clear'
+
+# TMUX
+
 alias tdev='tmux-dev'
-alias reload=". ~/.zshrc"
+
+# Zsh
+
+alias zsh-reload='. $HOME/.zshrc'
 

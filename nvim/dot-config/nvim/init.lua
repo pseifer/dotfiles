@@ -40,4 +40,5 @@ require('lazy').setup(plugins, opts)
 
 require('settings')
 require('keybinds')
+require('other')
 
