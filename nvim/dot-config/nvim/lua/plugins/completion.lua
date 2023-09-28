@@ -1,4 +1,5 @@
--- Configuration for cmp completion framework.
+-- Configuration for cmp completion framework,
+-- as well as the vsnip snippet engine.
 
 return {
    'hrsh7th/nvim-cmp',

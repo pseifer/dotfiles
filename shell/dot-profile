@@ -16,4 +16,5 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 # Add coursier to path.
-export PATH="/home/pseifer/.local/share/coursier/bin:$PATH"
+export PATH="/home/pseifer/.local/share/texlive/bin/x86_64-linux:/home/pseifer/.local/share/coursier/bin:$PATH"
+
