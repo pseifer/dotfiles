@@ -39,14 +39,15 @@ alias nano='nvim'
 
 # Git.
 
+alias agent-unlock='eval `ssh-agent -s`; ssh-add'
+
 alias ggl='git log'
 alias ggb='git branch'
 alias ggs='git status'
+alias ggp='git push'
 alias ggc='git commit'
 alias ggcm='git commit -m'
 alias gga='git add'
-
-alias agent-unlock='eval `ssh-agent -s`; ssh-add'
 
 # Utility.
 
