@@ -64,8 +64,14 @@ alias c='clear'
 # TMUX
 
 alias tdev='tmux-dev'
+alias tpy='tmux-py'
 
 # Zsh
 
 alias zsh-reload='. $HOME/.zshrc'
 
+# Python
+
+alias pyvn='python3 -m venv venv'
+alias pyva='source venv/bin/activate'
+alias pyvd='deactivate'
