@@ -25,7 +25,8 @@ vim.api.nvim_create_autocmd("VimEnter", {
 		print(path)
 		if vim.fn.argc(-1) == 1 and vim.fn.isdirectory(path) == 1 then
 			vim.api.nvim_buf_delete(0, { force = true })
-			require("telescope").extensions.file_browser.file_browser()
+			-- require("telescope").extensions.file_browser.file_browser()
+			require("telescope.builtin").find_files()
 		end
 	end,
 })
