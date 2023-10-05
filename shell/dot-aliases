@@ -75,3 +75,6 @@ alias zsh-reload='. $HOME/.zshrc'
 alias pyvn='python3 -m venv venv'
 alias pyva='source venv/bin/activate'
 alias pyvd='deactivate'
+
+# WSL
+alias wslgui='export DISPLAY=localhost:0.0'

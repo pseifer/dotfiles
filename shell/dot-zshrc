@@ -21,7 +21,7 @@
 #   bat/batcat
 
 # On WSL, go to linux home.
-grep -q Microsoft /proc/version && cd "$HOME"
+grep -q Microsoft /proc/version && cd "$HOME" && export DISPLAY=localhost:0.0
 
 # ----- Theme: s1ck3r -----
 

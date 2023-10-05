@@ -20,3 +20,4 @@ export PATH="/home/pseifer/.local/share/texlive/bin/x86_64-linux:/home/pseifer/.
 
 # Set a python REPL startup file.
 export PYTHONSTARTUP="$HOME/.pythonrc"
+
