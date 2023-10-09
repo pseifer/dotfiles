@@ -35,9 +35,9 @@ return {
 				"shellcheck", -- Linter
 				"shfmt", -- Formatter
 				-- Python
-				-- 'pyright',    -- LSP -- TODO failing install
+				-- "pyright", -- LSP (manually installed via pip install pyright)
 				"ruff-lsp", -- LSP
-				"pylint", -- Linter
+				-- "pylint", -- Linter
 				"black", -- Formatter
 				-- 'misspell', -- Linter
 				-- 'codespell' -- Linter
@@ -47,7 +47,7 @@ return {
 		require("mason-lspconfig").setup({})
 		-- (3) Setup language servers.
 		-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-		-- require('lspconfig').pyright.setup {} -- failing install
+		require("lspconfig").pyright.setup({})
 		require("lspconfig").ruff_lsp.setup({})
 		require("lspconfig").lua_ls.setup({
 			settings = {
@@ -66,7 +66,7 @@ return {
 			},
 		})
 		-- (4) Setup formatters.
-		--
+		-- https://github.com/mhartington/formatter.nvim
 		require("formatter").setup({
 			filetype = {
 				python = {
@@ -84,7 +84,7 @@ return {
 		-- https://github.com/mfussenegger/nvim-lint
 		require("lint").linters_by_ft = {
 			sh = { "shellcheck" },
-			python = { "pylint" },
+			-- python = { "pylint" },
 			-- lua = { 'luacheck' }
 		}
 		vim.api.nvim_create_autocmd({ "BufWritePost" }, {

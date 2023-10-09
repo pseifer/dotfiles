@@ -26,6 +26,7 @@ grep -q Microsoft /proc/version && cd "$HOME" && export DISPLAY=localhost:0.0
 # ----- Theme: s1ck3r -----
 
 # Add virtual environment as suffix.
+export VIRTUAL_ENV_DISABLE_PROMPT=1  # disable default prompt update
 s1ck3r_prompt_suffix ()
 {
     if [[ -n "$VIRTUAL_ENV" ]] ; then
@@ -80,29 +81,27 @@ CASE_SENSITIVE="true"
 # Immediately complete to cycle.
 #setopt MENU_COMPLETE
 
-# # Uncomment to enable completion.
-#
-# # Load additional completions.
-# fpath=("$HOME/.local/share/zsh-completions" $fpath)
-# 
+# Load additional completions.
+fpath=("$HOME/.local/share/zsh-completions" $fpath)
+
 # Initialize compinit.
-# autoload -Uz compinit 
-# case $(uname -s) in
-#   Darwin)
-#     if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
-#       compinit;
-#     else
-#       compinit -C;
-#     fi
-#     ;;
-#   Linux)
-#     if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-#         compinit
-#       else
-#         compinit -C
-#     fi
-#     ;;
-# esac
+autoload -Uz compinit 
+case $(uname -s) in
+  Darwin)
+    if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
+      compinit;
+    else
+      compinit -C;
+    fi
+    ;;
+  Linux)
+    if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+        compinit
+      else
+        compinit -C
+    fi
+    ;;
+esac
 
 # Load fast-syntax-highlighting.
 source "$HOME/.local/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"

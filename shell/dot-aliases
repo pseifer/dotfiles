@@ -4,21 +4,22 @@
 
 alias l="ls --color --group-directories-first -AlFh"
 alias ll="ls --color --group-directories-first -AlFhL"
-alias tr='tree -C .'
-alias tra='tree -Ca .'
-alias tr1='tree -C . -L 1'
-alias tr2='tree -C . -L 2'
-alias tr3='tree -C . -L 3'
-alias tr4='tree -C . -L 4'
-alias tr5='tree -C . -L 5'
-alias trl='tree . -C -L'
-alias tral='tree . -Ca -L'
+alias t='tree -C .'
+alias ta='tree -Ca .'
+alias t1='tree -C . -L 1'
+alias t2='tree -C . -L 2'
+alias t3='tree -C . -L 3'
+alias t4='tree -C . -L 4'
+alias t5='tree -C . -L 5'
+alias ti='tree . -C -L'
 
 # Navigation.
 
 alias ..=../
 alias ...=../../
 alias ....=../../../
+
+alias cd='z'
 
 # Safety.
 
@@ -60,6 +61,7 @@ alias fixkb='fix-keyboard-ctrl; fix-keyboard-rate'
 alias FIXKB='xdotool key Caps_Lock; fixkb'
 
 alias c='clear'
+alias j='jobs'
 
 # TMUX
 
@@ -72,8 +74,7 @@ alias zsh-reload='. $HOME/.zshrc'
 
 # Python
 
-alias pyvn='python3 -m venv venv'
-alias pyva='source venv/bin/activate'
+alias pyva='source $(poetry env info --path)/bin/activate'
 alias pyvd='deactivate'
 
 # WSL
