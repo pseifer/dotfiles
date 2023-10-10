@@ -19,8 +19,6 @@ alias ..=../
 alias ...=../../
 alias ....=../../../
 
-alias cd='z'
-
 # Safety.
 
 alias rm='rm -I --preserve-root'

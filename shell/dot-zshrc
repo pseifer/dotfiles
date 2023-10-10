@@ -31,7 +31,7 @@ s1ck3r_prompt_suffix ()
 {
     if [[ -n "$VIRTUAL_ENV" ]] ; then
         echo -n " %F{$s1ck3r_color_dim}(%f"
-        echo -n "%F{$s1ck3r_color_highlight}$(basename $(dirname "$VIRTUAL_ENV"))%f"
+        echo -n "%F{$s1ck3r_color_alternative}$(basename "$VIRTUAL_ENV")%f"
         echo -n "%F{$s1ck3r_color_dim})%f"
     fi
 }
