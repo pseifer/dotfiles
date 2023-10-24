@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Display all kinds of files and dirs with less and syntax highlighting.
+fullfile="${1:-}"
+filename=$(basename -- "$fullfile")
+extension="${filename##*.}"
+
+# Show markdown files with glow,
+if [ "${extension}" = "md" ]; then
+    glow -s dracula "${1}" | less -r
+# html files with W3M,
+elif [ "${extension}" = "html" ]; then
+    w3m -dump "${1}" | less -r
+# PDF with pdftotext,
+elif [ "${extension}" = "pdf" ]; then
+    pdftotext "${1}" - | less -r
+# directories with tree,
+elif [ -d "${1}" ]; then
+    tree -C "${1}" | less -r
+# images with fim,
+elif command -v identify >/dev/null &&
+    command -v fim >/dev/null &&
+    identify "${1}" 2>/dev/null 1>&2; then
+    fim -o aa "${1}"
+# everything else with batcat
+elif command -v batcat >/dev/null; then
+    batcat --color=always --theme=base16 "${1}" | less -r
+elif command -v bat >/dev/null; then
+    bat --color=always --theme=base16 "${1}" | less -r
+# or less, directly (if batcat is not installed).
+else
+    less -r "${1}"
+fi
