@@ -6,6 +6,8 @@ common=(
     "fzf"
     "bat"
     "zoxide"
+    "fim"
+    "imagemagick"
 )
 
 if punkt_pack_is "apt"; then
