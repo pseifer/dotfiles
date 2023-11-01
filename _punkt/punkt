@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Copyright 2023 Philipp Seifer
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,15 +29,19 @@ SOURCE_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 readonly SOURCE_DIR
 
 readonly PUNKT_VERSION="0.1"
-readonly ARGS=( "${@:-}" )
+readonly ARGS=("${@:-}")
 
 if [[ -f "${HOME}/.punktrc" ]]; then
     # shellcheck source=/home/pseifer/.punktrc
     source "${HOME}/.punktrc"
 fi
-export readonly PUNKT_DOTFILES="${PUNKT_DOTFILES:-${HOME}/dotfiles}"
-export readonly PUNKT_STORAGE="${PUNKT_STORAGE:-${HOME}/.local/share}"
-export readonly PUNKT_BIN="${PUNKT_BIN:-${HOME}/bin}"
+
+readonly PUNKT_DOTFILES="${PUNKT_DOTFILES:-${HOME}/dotfiles}"
+export PUNKT_DOTFILES
+readonly PUNKT_STORAGE="${PUNKT_STORAGE:-${HOME}/.local/share}"
+export PUNKT_STORAGE
+readonly PUNKT_BIN="${PUNKT_BIN:-${HOME}/bin}"
+export PUNKT_BIN
 
 # --- Exported utilities for usage in install scripts, and internally.
 source "${SOURCE_DIR}/src/punkt-api"
@@ -46,35 +50,69 @@ source "${SOURCE_DIR}/src/punkt-api"
 source "${SOURCE_DIR}/src/punkt-lib"
 
 # > punkt main.
-main()
-{
+main() {
     # Run selected command.
 
     case "${ARGS[0]}" in
-      # Major modes.
-      "help") punkt_usage; exit ;;
-      "install") punkt_install_packages "-R" "${ARGS[@]:1}"; exit ;;
-      "uninstall") punkt_install_packages "-D" "${ARGS[@]:1}"; exit ;;
-      "update") punkt_update; exit ;;
-      "link") punkt_link_packages "-R" "${ARGS[@]:1}"; exit ;;
-      "unlink") punkt_link_packages "-D" "${ARGS[@]:1}"; exit ;;
-      "list") punkt_list_packages "${ARGS[@]:1}"; exit ;;
-      "info") punkt_info "${ARGS[@]:1}"; exit ;;
-      "doc") punkt_doc "${ARGS[@]:1}"; exit ;;
-      "tree") punkt_tree; exit ;;
-      "interactive") punkt_install_interactive "${ARGS[@]:1}"; exit ;;
-      # Minor modes.
-      "dot-update") punkt_dot_update; exit ;;
-      "system-update") punkt_system_update: exit ;;
-      *) 
-          punkt_inform "No such mode :("
-          echo
-          punkt_usage
-          exit
-          ;;
+    # Major modes.
+    "help")
+        punkt_usage
+        exit
+        ;;
+    "install")
+        punkt_install_packages "-R" "${ARGS[@]:1}"
+        exit
+        ;;
+    "uninstall")
+        punkt_install_packages "-D" "${ARGS[@]:1}"
+        exit
+        ;;
+    "update")
+        punkt_update
+        exit
+        ;;
+    "link")
+        punkt_link_packages "-R" "${ARGS[@]:1}"
+        exit
+        ;;
+    "unlink")
+        punkt_link_packages "-D" "${ARGS[@]:1}"
+        exit
+        ;;
+    "list")
+        punkt_list_packages "${ARGS[@]:1}"
+        exit
+        ;;
+    "info")
+        punkt_info "${ARGS[@]:1}"
+        exit
+        ;;
+    "doc")
+        punkt_doc "${ARGS[@]:1}"
+        exit
+        ;;
+    "tree")
+        punkt_tree
+        exit
+        ;;
+    "interactive")
+        punkt_install_interactive "${ARGS[@]:1}"
+        exit
+        ;;
+    # Minor modes.
+    "dot-update")
+        punkt_dot_update
+        exit
+        ;;
+    "system-update") punkt_system_update: exit ;;
+    *)
+        punkt_inform "No such mode :("
+        echo
+        punkt_usage
+        exit
+        ;;
     esac
 }
 
 # Run main.
 main
-
