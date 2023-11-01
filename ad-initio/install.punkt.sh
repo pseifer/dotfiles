@@ -9,7 +9,7 @@ fi
 punkt_pack_install zip tar git curl fontconfig 
 
 # Install other essential tools.
-punkt_pack_install tmux xclip w3m ripgrep plocate tree rlwrap make htop most
+punkt_pack_install tmux xclip w3m ripgrep tree rlwrap make htop most
 
 # Install GUI tools
 if punkt_os_is 'darwin'; then
@@ -25,3 +25,6 @@ else
     punkt_pack_install openjdk-17-jre openjdk-17-jdk openjdk-17-source
 fi
 
+# Make some directories.
+mkdir -p ~/.config
+mkdir -p ~/bin

@@ -21,3 +21,5 @@ export PATH="/home/pseifer/.local/share/texlive/bin/x86_64-linux:/home/pseifer/.
 # Set a python REPL startup file.
 export PYTHONSTARTUP="$HOME/.pythonrc"
 
+# Add Haskell (GHCup) environment.
+[ -f "/home/pseifer/.ghcup/env" ] && source "/home/pseifer/.ghcup/env" # ghcup-env
