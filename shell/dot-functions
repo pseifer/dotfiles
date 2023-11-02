@@ -1,36 +1,55 @@
 #!/bin/bash
 
-# Setup a generic development session in a certain folder.
-# tmux-dev <path> <name>
-tmux-dev() {
-    folder="${1:-$PWD}"
-    dev="${2:-dev}"
-    # Create a dev window and start VI.
-    tmux new-window -n "${dev}" -c "$folder"
-    tmux send-keys -t "${dev}" "cd $folder; vi ." 'Enter'
-    # Split one third off.
-    tmux split-window -h -p 30 -t "${dev}"
-    tmux send-keys -t "${dev}" "cd $folder; clear" 'Enter'
-    # Create a swap window; cicle windows with C-a C-n / C-a C-p
-    tmux new-window -n "${dev}-swap"
-    tmux send-keys -t "${dev}-swap" "cd $folder; clear" 'Enter'
-    tmux last-window
+# Setup a generic development session in a certain directory,
+# with a 70/30 split between VI and terminal, as well as an additional
+# window (behind dev) for another terminal (cicle with C-a C-n / C-a C-p).
+#
+# Usage: tdev <path>* <name>* <command>* <pre-command>*
+#   path: directory where environment is set up (default: pwd)
+#   name: name of the tmux window (default: 'dev')
+#   command: optional command to run in right 30% 
+#   pre-command: command to run before all others, everywhere; e.g., 
+#                load python environment.
+tdev() {
+    dir="${1:-$PWD}"
+    name="${2:-dev}"
+    cmd="${3:-' '}"
+    precmd="${4:-' '}"
+
+    # Create a window (named $name) and start VI (after $precmd).
+    tmux new-window -n "${name}" -c "$dir"
+    tmux send-keys -t "${name}" "cd $dir; $precmd; clear; vi ." 'Enter'
+
+    # Split one third off and run $precmd ; $cmd.
+    tmux split-window -h -p 30 -t "${name}"
+    tmux send-keys -t "${name}" "cd $dir; $precmd; clear; $cmd" 'Enter'
+    tmux last-pane # select VI
+ 
+    # Create a swap window 
+    tmux new-window -n "${name}-swp"
+    tmux send-keys -t "${name}-swp" "cd $dir; $precmd; clear" 'Enter'
+    tmux last-window # select 'dev'
 }
 
-# Setup a python development session in a certain folder.
-# tmux-dev <path> <name>
-tmux-py() {
-    folder="${1:-$PWD}"
-    dev="${2:-pydev}"
-    # Create a dev window and start VI.
-    tmux new-window -n "${dev}" -c "$folder"
-    tmux send-keys -t "${dev}" "cd $folder; pyva; vi ." 'Enter'
-    # Split one third off.
-    tmux split-window -h -p 30 -t "${dev}"
-    tmux send-keys -t "${dev}" "cd $folder; pyva; clear" 'Enter'
-    # Split vertically.
-    tmux split-window -t "${dev}"
-    tmux send-keys -t "${dev}" "cd $folder; pyva; python3" 'Enter'
+# Shorthand for running tdev for Python projects.
+tpython() {
+    dir="${1:-$PWD}"
+    name="${2:-python}"
+    tdev "${dir}" "${name}" python3 pyva
+}
+
+# Shorthand for running tdev for Scala projects.
+tscala() {
+    dir="${1:-$PWD}"
+    name="${2:-scala}"
+    tdev "${dir}" "${name}" sbt
+}
+
+# Shorthand for running tdev for Haskell projects.
+thaskell(){ 
+    dir="${1:-$PWD}"
+    name="${2:-haskell}"
+    tdev "${dir}" "${name}" ghci 
 }
 
 # Print terminal colors.

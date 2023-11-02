@@ -61,11 +61,6 @@ alias FIXKB='xdotool key Caps_Lock; fixkb'
 alias c='clear'
 alias j='jobs'
 
-# TMUX
-
-alias tdev='tmux-dev'
-alias tpy='tmux-py'
-
 # Zsh
 
 alias zsh-reload='. $HOME/.zshrc'
