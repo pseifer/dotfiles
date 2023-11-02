@@ -1,0 +1,9 @@
+-- Set a nice prompt.
+:set prompt      "\ESC[1;32m\STXλ\ESC[m\STX "
+:set prompt-cont "\ESC[1;32m\STX·\ESC[m\STX "
+
+-- Enable multiline (without :{  :}).
+:set +m
+
+-- Print forall.
+:set -fprint-explicit-foralls
