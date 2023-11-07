@@ -44,6 +44,7 @@ return {
 					o = { "<cmd>Telescope vim_options<cr>", "Options" },
 					-- Other
 					q = { "<cmd>Telescope quickfix<cr>", "Quickfix" },
+					i = { "<cmd>Telescope diagnostics<cr>", "Find diagnostics" },
 					["."] = { "<cmd>Telescope spell_suggest<cr>", "Spell suggestion" },
 					v = { "<cmd>Telescope treesitter<cr>", "Treesitter" },
 					d = { "<cmd>DevdocsOpenCurrentFloat<cr>", "Devdocs" },
