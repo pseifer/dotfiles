@@ -103,8 +103,8 @@ case $(uname -s) in
     ;;
 esac
 
-# Load fast-syntax-highlighting.
-#source "$HOME/.local/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+# Load fast-syntax-highlighting (skip on WSL).
+grep -q icrosoft /proc/version || source "$HOME/.local/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 # Manually run: fast-theme XDG:overlay (once) to enable custom theme.
 
 # Initialize zoxide (z).

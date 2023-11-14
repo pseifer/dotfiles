@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Install
+#curl -s -L https://github.com/todotxt/todo.txt-cli/releases/download/v2.12.0/todo.txt_cli-2.12.0.tar.gz | tar xvz -C ~/.local/share
+#mv ~/.local/share/todo.txt_cli-2.12.0.tar.gz ~/.local/share/todo-txt
+#ln -s ~/.local/share/todo-txt/todo.sh ~/bin/todo
+
+# Install required tools.
+sudo apt install khal todoman vdirsyncer
+
+# Download service.
+mkdir -p ~/.local/share/systemd/user
+curl https://raw.githubusercontent.com/pimutils/vdirsyncer/main/contrib/vdirsyncer.service >~/.local/share/systemd/user/vdirsyncer.service
+curl https://raw.githubusercontent.com/pimutils/vdirsyncer/main/contrib/vdirsyncer.timer >~/.local/share/systemd/user/vdirsyncer.timer
+
+# Register with systemd.
+systemctl --user enable vdirsyncer.timer

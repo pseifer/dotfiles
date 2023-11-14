@@ -15,8 +15,11 @@ if [ -d "$HOME/.local/bin" ]; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-# Add coursier and texlive to path.
-export PATH="/home/pseifer/.local/share/texlive/bin/x86_64-linux:/home/pseifer/.local/share/coursier/bin:$PATH"
+# Add coursier to path.
+export PATH="/home/pseifer/.local/share/coursier/bin:$PATH"
+
+# Add texlive to path.
+export PATH="/home/pseifer/.local/share/texlive/bin/x86_64-linux:$PATH"
 
 # Set a python REPL startup file.
 export PYTHONSTARTUP="$HOME/.pythonrc"

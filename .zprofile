@@ -7,7 +7,3 @@
 # .zshrc    | interactive shell setup
 # .zlogin   | not used
 # .zlogout  | not used
-
-# >>> coursier install directory >>>
-export PATH="$PATH:/home/pseifer/.local/share/coursier/bin"
-# <<< coursier install directory <<<

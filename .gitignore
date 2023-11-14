@@ -1,3 +1,9 @@
 # Ignore for dotfiles repository.
 
 /*
+!/.punktpkgs
+!/.punktpkgs/*
+!/.config
+#.config/*
+!/.config/nvim
+!/.config/nvim/*
