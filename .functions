@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# Setup some general workspaces.
+thi() {
+    tmux rename-window 'home'
+    tmux new-window -n 'notes'
+    tmux send-keys -t 'notes' 'notes' 'Enter'
+    tmux split-window -h -p 50 -t 'notes'
+    tmux send-keys -t 'notes' 'vdirsyncer sync; clear; ical' 'Enter'
+    tmux split-window -v -p 50 -t 'notes'
+    tmux last-window
+    clear
+}
+
 # Setup a generic development session in a certain directory,
 # with a 70/30 split between VI and terminal, as well as an additional
 # window (behind dev) for another terminal (cicle with C-a C-n / C-a C-p).
@@ -7,8 +19,8 @@
 # Usage: tdev <path>* <name>* <command>* <pre-command>*
 #   path: directory where environment is set up (default: pwd)
 #   name: name of the tmux window (default: 'dev')
-#   command: optional command to run in right 30% 
-#   pre-command: command to run before all others, everywhere; e.g., 
+#   command: optional command to run in right 30%
+#   pre-command: command to run before all others, everywhere; e.g.,
 #                load python environment.
 tdev() {
     dir="${1:-$PWD}"
@@ -24,8 +36,8 @@ tdev() {
     tmux split-window -h -p 30 -t "${name}"
     tmux send-keys -t "${name}" "cd $dir; $precmd; clear; $cmd" 'Enter'
     tmux last-pane # select VI
- 
-    # Create a swap window 
+
+    # Create a swap window
     tmux new-window -n "${name}-swp"
     tmux send-keys -t "${name}-swp" "cd $dir; $precmd; clear" 'Enter'
     tmux last-window # select 'dev'
@@ -46,32 +58,29 @@ tscala() {
 }
 
 # Shorthand for running tdev for Haskell projects.
-thaskell(){ 
+thaskell() {
     dir="${1:-$PWD}"
     name="${2:-haskell}"
-    tdev "${dir}" "${name}" ghci 
+    tdev "${dir}" "${name}" ghci
 }
 
 # Print terminal colors.
 colors() {
-    if [[ -n "$ZSH_VERSION" ]]; then
-        for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}; done
-    fi
-    # echo -e "\e[30mcolor\e[0m black"
-    # echo -e "\e[31mcolor\e[0m red"
-    # echo -e "\e[32mcolor\e[0m green"
-    # echo -e "\e[33mcolor\e[0m yellow"
-    # echo -e "\e[34mcolor\e[0m blue"
-    # echo -e "\e[35mcolor\e[0m magenta"
-    # echo -e "\e[36mcolor\e[0m cyan"
-    # echo -e "\e[37mcolor\e[0m white"
+    echo -e "\e[30mcolor\e[0m black"
+    echo -e "\e[31mcolor\e[0m red"
+    echo -e "\e[32mcolor\e[0m green"
+    echo -e "\e[33mcolor\e[0m yellow"
+    echo -e "\e[34mcolor\e[0m blue"
+    echo -e "\e[35mcolor\e[0m magenta"
+    echo -e "\e[36mcolor\e[0m cyan"
+    echo -e "\e[37mcolor\e[0m white"
 
-    # echo -e "\e[1;30mcolor\e[0m black"
-    # echo -e "\e[1;31mcolor\e[0m red"
-    # echo -e "\e[1;32mcolor\e[0m green"
-    # echo -e "\e[1;33mcolor\e[0m yellow"
-    # echo -e "\e[1;34mcolor\e[0m blue"
-    # echo -e "\e[1;35mcolor\e[0m magenta"
-    # echo -e "\e[1;36mcolor\e[0m cyan"
-    # echo -e "\e[1;37mcolor\e[0m white"
+    echo -e "\e[1;30mcolor\e[0m black"
+    echo -e "\e[1;31mcolor\e[0m red"
+    echo -e "\e[1;32mcolor\e[0m green"
+    echo -e "\e[1;33mcolor\e[0m yellow"
+    echo -e "\e[1;34mcolor\e[0m blue"
+    echo -e "\e[1;35mcolor\e[0m magenta"
+    echo -e "\e[1;36mcolor\e[0m cyan"
+    echo -e "\e[1;37mcolor\e[0m white"
 }

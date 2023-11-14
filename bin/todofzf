@@ -1,0 +1,16 @@
+#!/bin/bash
+
+args="${*:-show}"
+
+todoman --color=always list | fzf --ansi \
+    --bind='enter:become(todoman show {3} | glow)' \
+    --bind='ctrl-t:execute(todoman done {3})' \
+    --bind='ctrl-t:+reload(todoman --color=always list)' \
+    --bind="ctrl-e:execute(todoman edit {3})" \
+    --bind="ctrl-e:+reload(todoman --color=always list)" \
+    --bind="ctrl-r:execute(todoman $args {3})" \
+    --bind="ctrl-r:+reload(todoman --color=always list)" \
+    --bind='ctrl-q:become()' \
+    --header='
+CTRL-E edit | CTRL-R apply arguments | CTRL-T mark as done
+ENTER show task | CTRL-Q quit'

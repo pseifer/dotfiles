@@ -1,0 +1,33 @@
+[calendars]
+
+    [[personal]]
+        path = ~/.local/share/calendars/personal
+        priority = 80
+
+    [[-]]
+        path = ~/.local/share/calendars/-
+        priority = 90
+
+    [[arbeit]]
+        path = ~/.local/share/calendars/arbeit
+        priority = 20
+
+    [[erinnerungen]]
+        path = ~/.local/share/calendars/erinnerungen
+        priority = 10
+
+    [[tasks]]
+        path = ~/.local/share/calendars/tasks
+        priority = 10
+
+[default]
+default_calendar = arbeit
+
+[locale]
+local_timezone= Europe/Berlin
+default_timezone= Europe/Berlin
+timeformat= %H:%M
+dateformat= %d.%m.
+longdateformat= %Y-%m-%d
+datetimeformat= %d.%m. %H:%M
+longdatetimeformat= %Y-%m-%d %H:%M

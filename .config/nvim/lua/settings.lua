@@ -24,6 +24,20 @@ go.undofile = true -- Save undo info in files.
 go.undodir = vim.fn.expand("~/.vim-undo") -- Directory for saving undo.
 go.undolevels = 10000 -- Limit to 10.000 levels.
 
+-- Folding settings.
+-- go.foldcolumn = "1"
+-- go.foldlevel = 99
+go.foldmethod = "syntax"
+go.foldexpr = "nvim_treesitter#foldexpr()"
+go.foldlevelstart = 99
+go.foldenable = true
+
+-- vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.wo.foldmethod = "expr"
+--
+--vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+--vim.o.foldmethod = "expr"
+
 local wo = vim.wo -- Local to Window.
 
 -- wo.cc = 80         --

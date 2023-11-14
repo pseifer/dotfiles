@@ -69,6 +69,7 @@ return {
 				dashboard.button("f", "    Find files", ":Telescope find_files<CR>"),
 				dashboard.button("p", "    Find projects", ":Telescope repo list bin=/usr/bin/fdfind<CR>"),
 				dashboard.button("r", "    Find recent", ":Telescope oldfiles<CR>"),
+				dashboard.button("w", "    Find wiki", ":Telescope find_files search_dirs={'$HOME/Notes'}<CR>"),
 				dashboard.button("s", "    Settings", ":e $MYVIMRC<CR>"),
 				dashboard.button("q", "    Quit", ":qa<CR>"),
 			}

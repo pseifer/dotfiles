@@ -25,6 +25,15 @@ return {
 					-- Files
 					f = { "<cmd>Telescope find_files<cr>", "Find file (project root)" },
 					F = { '<cmd>Telescope find_files search_dirs={"$HOME"}<cr>', "Find file (~)" },
+					c = {
+						"<cmd>Telescope find_files search_dirs={'$HOME/.config/nvim'} hidden=true<cr>",
+						"Find file (NeoVim config)",
+					},
+					C = { '<cmd>Telescope find_files search_dirs={"$HOME"} hidden=true<cr>', "Find file (hidden)" },
+					w = {
+						"<cmd>Telescope find_files search_dirs={'$HOME/Notes'}<cr>",
+						"Find file (VimWiki)",
+					},
 					g = { "<cmd>Telescope live_grep<cr>", "Grep in files (project root)" },
 					G = { '<cmd>Telescope live_grep search_dirs={"$HOME"}<cr>', "Grep in files (~)" },
 					p = { "<cmd>Telescope repo list bin=/usr/bin/fdfind<cr>", "Search Projects" },

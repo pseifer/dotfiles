@@ -1,21 +1,37 @@
 #!/bin/bash
 
-# Find out the current directory.
-dotfiles_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Clone the repository, bare, to $HOME/.dotfiles
+git clone --bare "https://github.com/pseifer/dotfiles" "${HOME}/.dotfiles"
 
-# Install punkt by setting link in ~/bin.
-mkdir -p "${HOME}/bin/"
-ln -sf "$dotfiles_dir/_punkt/punkt" "${HOME}/bin/punkt"
+# Temporary function for referring to the repo.
+function _dotfiles {
+    git --git-dir="${HOME}/.dotfiles/" --work-tree="${HOME}" "${@}"
+}
 
-# Create .punktrc and tell punkt to use >this< directory.
-cat > "${HOME}/.punktrc" << END
-PUNKT_DOTFILES="${dotfiles_dir}"
-END
+# Checkout the repo. Creates backups of conflicting dotfiles.
+if _dotfiles checkout; then
+    echo "Checked out dotfiles."
+else
+    echo "Creating backup of conflicting dotfiles."
+    mkdir -p .config-backup
+    _dotfiles checkout 2>&1 | grep -E "\s+\." | awk "{'print $1'}" | xargs -I{} mv {} .config-backup/{}
+fi
+_dotfiles checkout
+
+# Disable tracking of all $HOME.
+_dotfiles config status.showUntrackedFiles no
+
+# Install punkt.
+# TODO
 
 # Generate SSH keys, and update remote.
 if [[ ! -f "${HOME}/.ssh/id_rsa.pub" ]]; then
     ssh-keygen -t rsa -b 4096 -C 'github@seifer.me'
     cat "${HOME}/.ssh/id_rsa.pub"
-    git remote set-url origin 'git@github.com:pseifer/dotfiles.git'
 fi
+_dotfiles remote set-url origin 'git@github.com:pseifer/dotfiles.git'
 
+# Remove README.md from local.
+_dotfiles update-index --assume-unchanged "${HOME}"/README.md
+rm "${HOME}"/README.md
+# Note: _dotfiles update-index --no-assume-unchanged README.md

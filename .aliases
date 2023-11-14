@@ -1,17 +1,29 @@
 #!/bin/bash
 
+# Dotfiles.
+
+alias dot='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+# Notes and todo.txt.
+
+alias t='todoman'
+alias ti='todofzf'
+alias notes='vi ~/Notes/index.md'
+alias cal='khal calendar'
+alias ical='ikhal'
+
 # File system.
 
 alias l="ls --color --group-directories-first -AlFh"
 alias ll="ls --color --group-directories-first -AlFhL"
-alias t='tree -C .'
+alias tr='tree -C .'
 alias ta='tree -Ca .'
 alias t1='tree -C . -L 1'
 alias t2='tree -C . -L 2'
 alias t3='tree -C . -L 3'
 alias t4='tree -C . -L 4'
 alias t5='tree -C . -L 5'
-alias ti='tree . -C -L'
+alias tn='tree . -C -L'
 
 # Navigation.
 
