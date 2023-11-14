@@ -6,6 +6,7 @@ a = "cal_local"
 b = "cal_remote"
 collections = ["from a", "from b"]
 metadata = ["color", "displayname"]
+conflict_resolution = "b wins"
 
 [storage cal_local]
 type = "filesystem"

@@ -8,6 +8,7 @@ alias dot='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 alias t='todoman'
 alias ti='todofzf'
+alias tsync='vdirsyncer sync'
 alias notes='vi ~/Notes/index.md'
 alias cal='khal calendar'
 alias ical='ikhal'
