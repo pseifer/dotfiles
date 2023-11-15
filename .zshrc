@@ -21,7 +21,7 @@
 #   bat/batcat
 
 # On WSL, go to linux home.
-grep -q icrosoft /proc/version && cd "$HOME" && export DISPLAY=localhost:0.0
+[ -f /proc/version ] && grep -q icrosoft /proc/version && cd "$HOME" && export DISPLAY=localhost:0.0
 
 # ----- Theme: s1ck3r -----
 
@@ -37,15 +37,11 @@ s1ck3r_prompt_suffix ()
 }
 
 # Load the s1ck3r theme.
-source "$HOME/.local/share/s1ck3r/s1ck3r.zsh"
+source "$HOME/.local/share/punkt/s1ck3r/s1ck3r.zsh"
 # Set alias for resetting prompt on clear.
 alias clear="unset S1CK3R_SPACIOUS_PROMPT && clear"
 
 # ----- Setup ZSH defaults and plugins. -----
-
-# Source aliases and functions.
-source "$HOME/.aliases"
-source "$HOME/.functions"
 
 # Setup history.
 export HISTFILE="$HOME/.zsh_history"
@@ -82,7 +78,7 @@ CASE_SENSITIVE="true"
 #setopt MENU_COMPLETE
 
 # Load additional completions.
-fpath=("$HOME/.local/share/zsh-completions" $fpath)
+fpath=("$HOME/.local/share/punkt/zsh-completions" $fpath)
 
 # Initialize compinit.
 autoload -Uz compinit 
@@ -104,7 +100,7 @@ case $(uname -s) in
 esac
 
 # Load fast-syntax-highlighting (skip on WSL).
-grep -q icrosoft /proc/version || source "$HOME/.local/share/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+[ -f /proc/version ] && grep -q icrosoft /proc/version || source "$HOME/.local/share/punkt/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 # Manually run: fast-theme XDG:overlay (once) to enable custom theme.
 
 # Initialize zoxide (z).
@@ -124,7 +120,7 @@ fi
 # Ctrl-T: Fuzzy search paths (.)
 # Ctrl-R: Fuzzy search history (takes partial line into account).
 # Ctrl-Y: Fuzzy CD folders ($HOME).
-source /usr/share/doc/fzf/examples/key-bindings.zsh
+source "$HOME/.local/share/punkt/fzf-key-bindings.zsh"
 # source /usr/share/doc/fzf/examples/completion.zsh # uncomment to enable ** completion
 
 # Setup fzf to use fd.

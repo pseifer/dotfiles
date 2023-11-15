@@ -1,0 +1,15 @@
+
+# Setup brew (path).
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# System specific aliases.
+
+alias todoman='todo'
+
+alias l="ls --color -AlFh"
+alias ll="ls --color -AlFhL"
+
+alias rm='rm -I'
+alias rmr='rm -rI'
+

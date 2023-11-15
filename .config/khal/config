@@ -20,6 +20,14 @@
         path = ~/.local/share/calendars/tasks
         priority = 10
 
+    [[work]]
+        path = ~/.local/share/calendars/work
+        priority = 10
+
+    [[shared]]
+        path = ~/.local/share/calendars/shared
+        priority = 10
+
 [default]
 default_calendar = arbeit
 

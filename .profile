@@ -26,3 +26,15 @@ export PYTHONSTARTUP="$HOME/.pythonrc"
 
 # Add Haskell (GHCup) environment.
 [ -f "/home/pseifer/.ghcup/env" ] && source "/home/pseifer/.ghcup/env" # ghcup-env
+
+# Source aliases and functions.
+source "$HOME/.aliases"
+source "$HOME/.functions"
+
+osuname="$(uname -s)"
+# Load system-specific files.
+if [[ "${osuname}" == "Darwin" ]]; then
+    source "$HOME/.onmacrc"
+else
+    source "$HOME/.onlinuxrc"
+fi

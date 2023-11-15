@@ -1,0 +1,20 @@
+
+# System specific aliases.
+
+alias l="ls --color --group-directories-first -AlFh"
+alias ll="ls --color --group-directories-first -AlFhL"
+
+alias rm='rm -I --preserve-root'
+alias rmr='rm -rI --preserve-root'
+
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chgrp='chgrp --preserve-root'
+
+alias fix-keyboard-ctrl='setxkbmap -option "ctrl:nocaps"'
+alias fix-keyboard-rate='xset r rate 250 30'
+alias fixkb='fix-keyboard-ctrl; fix-keyboard-rate'
+alias FIXKB='xdotool key Caps_Lock; fixkb'
+
+# WSL
+alias wslgui='export DISPLAY=localhost:0.0'

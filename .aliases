@@ -9,14 +9,12 @@ alias dot='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias t='todoman'
 alias ti='todofzf'
 alias tsync='vdirsyncer sync'
-alias notes='vi ~/Notes/index.md'
+alias notes='nvim ~/Notes/index.md'
 alias cal='khal calendar'
 alias ical='ikhal'
 
 # File system.
 
-alias l="ls --color --group-directories-first -AlFh"
-alias ll="ls --color --group-directories-first -AlFhL"
 alias tr='tree -C .'
 alias ta='tree -Ca .'
 alias t1='tree -C . -L 1'
@@ -34,18 +32,14 @@ alias ....=../../../
 
 # Safety.
 
-alias rm='rm -I --preserve-root'
-alias rmr='rm -rI --preserve-root'
 alias ln='ln -i'
 alias mv='mv -i'
-alias chown='chown --preserve-root'
-alias chmod='chmod --preserve-root'
-alias chgrp='chgrp --preserve-root'
 
 # Editor (666).
 
 alias vim='nvim'
 alias vi='nvim'
+alias ogvi='/usr/bin/vi'
 alias emacs='nvim'
 alias nano='nvim'
 
@@ -66,11 +60,6 @@ alias gga='git add'
 alias url-decode='python3 -c "import sys, urllib.parse as ulp; print(ulp.unquote(sys.argv[1]))"'
 alias url-encode='python3 -c "import sys, urllib.parse as ulp; print(ulp.quote(sys.argv[1]))"'
 
-alias fix-keyboard-ctrl='setxkbmap -option "ctrl:nocaps"'
-alias fix-keyboard-rate='xset r rate 250 30'
-alias fixkb='fix-keyboard-ctrl; fix-keyboard-rate'
-alias FIXKB='xdotool key Caps_Lock; fixkb'
-
 alias c='clear'
 alias j='jobs'
 
@@ -82,6 +71,3 @@ alias zsh-reload='. $HOME/.zshrc'
 
 alias pyva='source $(poetry env info --path)/bin/activate'
 alias pyvd='deactivate'
-
-# WSL
-alias wslgui='export DISPLAY=localhost:0.0'
