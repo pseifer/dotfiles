@@ -2,7 +2,7 @@
 
 # If on macOS, install homebrew.
 if punkt_os_is 'darwin'; then
-    echo "TODO: Install Homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 # Install very basic packages.

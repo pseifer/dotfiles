@@ -11,3 +11,8 @@ if punkt_has "fc-cache"; then
 	fc-cache -f -v
 fi
 
+# mac
+# brew tap homebrew/cask-fonts
+# brew search nerd-font
+# brew install font-sauce-code-pro-nerd-font
+

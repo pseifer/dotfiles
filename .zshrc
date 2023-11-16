@@ -63,7 +63,8 @@ else
   export EDITOR='nvim'
 fi
 
-export PAGER='most'
+export PAGER='less'
+export INBOX=~/Notes/inbox.md
 
 # And setup VI-style bindings.
 bindkey -v

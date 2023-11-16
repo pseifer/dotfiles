@@ -32,3 +32,5 @@ punkt_git "https://github.com/zsh-users/zsh-completions.git"
 
 # Install s1ck3r prompt.
 punkt_git "https://github.com/pseifer/s1ck3r"
+
+punkt_curl https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh

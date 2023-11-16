@@ -10,6 +10,7 @@ alias t='todoman'
 alias ti='todofzf'
 alias tsync='vdirsyncer sync'
 alias notes='nvim ~/Notes/index.md'
+alias inbox='nvim ~/Notes/inbox.md'
 alias cal='khal calendar'
 alias ical='ikhal'
 
