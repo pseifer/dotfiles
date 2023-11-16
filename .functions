@@ -3,12 +3,11 @@
 # Setup some general workspaces.
 thi() {
     tmux rename-window 'home'
-    tmux new-window -n 'notes'
-    tmux send-keys -t 'notes' 'notes' 'Enter'
-    tmux split-window -h -p 50 -t 'notes'
-    tmux send-keys -t 'notes' 'vdirsyncer sync; clear; ical' 'Enter'
-    tmux split-window -v -p 50 -t 'notes'
-    tmux last-window
+    tmux send-keys -t 'home' 'notes' 'Enter'
+    tmux split-window -h -p 50 -t 'home'
+    tmux send-keys -t 'home' 'vdirsyncer sync; clear; ical' 'Enter'
+    tmux split-window -v -p 50 -t 'home'
+    tmux send-key -t 'home' 't' 'Enter'
     clear
 }
 
