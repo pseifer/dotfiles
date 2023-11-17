@@ -13,7 +13,6 @@ fi
 # Perhaps add delete task command.
 
 eval " ${launch} --color=always list" | fzf +x --ansi \
-    --bind="enter:become(${launch} show {3} | glow)" \
     --bind="ctrl-d:execute(${launch} done {3})" \
     --bind="ctrl-d:+reload(${launch} --color=always list)" \
     --bind="ctrl-e:execute(${launch} edit {3})" \
@@ -29,6 +28,7 @@ eval " ${launch} --color=always list" | fzf +x --ansi \
     --bind="ctrl-s:execute(${launch} edit --priority none {3} )" \
     --bind="ctrl-s:+reload(${launch} --color=always list)" \
     --bind="ctrl-q:become()" \
+    --bind="enter:become(${launch} show {3} | glow)" \
     --header='
 CTRL-E edit | CTRL-R apply arguments | CTRL-D mark as done
 CTRL-T high | CTRL-M medium | CTRL-B low | CTRL-S no priority 
