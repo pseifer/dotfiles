@@ -64,7 +64,6 @@ else
 fi
 
 export PAGER='less'
-export INBOX=~/Notes/inbox.md
 
 # And setup VI-style bindings.
 bindkey -v
