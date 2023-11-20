@@ -9,15 +9,8 @@ common=(
 )
 
 if punkt_pack_is "apt"; then
-    punkt_pack_install "${common[@]}" "fd-find"
-    # Install glow:
-    sudo mkdir -p /etc/apt/keyrings
-    curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
-    echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" |
-        sudo tee /etc/apt/sources.list.d/charm.list
-    sudo apt update && sudo apt install glow
-    # Only linux:
-    sudo apt install fim zsh
+    punkt_pack_install "${common[@]}" fd-find fim zsh tmux
+    sudo snap install glow
 else
     punkt_pack_install "${common[@]}" "fd" "glow"
 fi

@@ -6,12 +6,15 @@ window:
 
 # Linux
 shell:
-  program: /opt/homebrew/bin/tmux
+  program: tmux
   args:
     - new-session
     - -A
     - -s
     - base
+
+key_bindings:
+  - { key: F11, action: ToggleFullscreen }
 
 # Windows (WSL)
 # shell:
