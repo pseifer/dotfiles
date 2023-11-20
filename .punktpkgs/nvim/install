@@ -9,13 +9,3 @@ else
     punkt_pack_install "nvim"
 fi
 
-# #!/bin/bash
-#
-# if punkt test --os="linux"; then
-#   punkt curl "https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz" --tar --gz
-#   punkt bin "nvim-linux64/bin/nvim"
-# else
-#   punkt curl https://github.com/neovim/neovim/releases/download/nightly/nvim-macos.tar.gz --tar --gz
-#   punkt bin "nvim-macos/bin/nvim"
-# fi
-#

@@ -2,11 +2,9 @@
 
 # Install ZSH and requirements / related tools.
 common=(
-    "zsh"
     "fzf"
     "bat"
     "zoxide"
-    "fim"
     "imagemagick"
 )
 
@@ -18,6 +16,8 @@ if punkt_pack_is "apt"; then
     echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" |
         sudo tee /etc/apt/sources.list.d/charm.list
     sudo apt update && sudo apt install glow
+    # Only linux:
+    sudo apt install fim zsh
 else
     punkt_pack_install "${common[@]}" "fd" "glow"
 fi
@@ -33,4 +33,5 @@ punkt_git "https://github.com/zsh-users/zsh-completions.git"
 # Install s1ck3r prompt.
 punkt_git "https://github.com/pseifer/s1ck3r"
 
-punkt_curl https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh
+# curl https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh > .local/share/punkt/fzf-key-bindings.zsh
+punkt_curl https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh "fzf-key-bindings.zsh"

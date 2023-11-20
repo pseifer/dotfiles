@@ -7,7 +7,7 @@ fi
 
 # Install basic packages, depending on system.
 if punkt_os_is 'darwin'; then
-    punkt_pack_install tmux
+    punkt_pack_install tmux tree
 else
     # Install very basic packages.
     punkt_pack_install zip tar git curl fontconfig
@@ -21,8 +21,10 @@ if punkt_os_is 'darwin'; then
     brew install --cask firefox
 else
     punkt_pack_install firefox vlc arandr zathura thunar x11-xserver-utils
+    # gpodder gsconnect
 fi
 
 # Make some directories.
 mkdir -p ~/.config
 mkdir -p ~/bin
+
