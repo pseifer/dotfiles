@@ -3,6 +3,10 @@ env:
 
 window:
   startup_mode: Maximized
+  decorations: None
+  padding:
+    x: 5
+    y: 5
 
 shell:
   program: tmux

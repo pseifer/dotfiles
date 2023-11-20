@@ -22,9 +22,9 @@ if punkt_os_is 'darwin'; then
 else
     punkt_pack_install firefox vlc arandr zathura thunar x11-xserver-utils
     # gpodder gsconnect
+    # steam gimp
 fi
 
 # Make some directories.
 mkdir -p ~/.config
 mkdir -p ~/bin
-
