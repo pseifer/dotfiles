@@ -6,14 +6,14 @@ if punkt_os_is 'darwin'; then
 fi
 
 # Install very basic packages.
-punkt_pack_install zip tar git curl fontconfig 
+punkt_pack_install zip tar git curl fontconfig
 
 # Install other essential tools.
 punkt_pack_install tmux xclip w3m ripgrep tree rlwrap make htop most
 
 # Install GUI tools
 if punkt_os_is 'darwin'; then
-    brew install --cask firefox 
+    brew install --cask firefox
 else
     punkt_pack_install firefox vlc arandr zathura thunar x11-xserver-utils
 fi
@@ -28,3 +28,7 @@ fi
 # Make some directories.
 mkdir -p ~/.config
 mkdir -p ~/bin
+
+# More stuff to add here:
+# brew install syncthing
+# brew services start syncthing
