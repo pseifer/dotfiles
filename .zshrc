@@ -49,19 +49,19 @@ alias clear="unset S1CK3R_SPACIOUS_PROMPT && clear"
 # Set history file to host version.
 HISTFILE=${ZDOTDIR:-~}/.zsh_histories/zsh_history_${(%):-%m}
 
+export HISTSIZE=1000000 # size of the loaded history (memory)
+export SAVEHIST=1000000 # size of the history file
+#setopt SHARE_HISTORY # sync between sessions
+setopt HIST_IGNORE_ALL_DUPS # do not save dublicates
+
 # Load history from all other host-based histories as well.
 () {
   emulate -L zsh -o extended_glob
   local hist
   for hist in ~/.zsh_histories/zsh_history_*~$HISTFILE(N); do
-    fc -RI -- $hist
+    fc -RI -- "${hist}"
   done
 }
-
-export HISTSIZE=1000000 # size of the loaded history (memory)
-export SAVEHIST=1000000 # size of the history file
-#setopt SHARE_HISTORY # sync between sessions
-setopt HIST_IGNORE_ALL_DUPS # do not save dublicates
 
 setopt AUTO_CD # cd if not a command
 
