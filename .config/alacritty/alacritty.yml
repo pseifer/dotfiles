@@ -4,7 +4,6 @@ env:
 window:
   startup_mode: Maximized
 
-# Linux
 shell:
   program: tmux
   args:
@@ -15,17 +14,6 @@ shell:
 
 key_bindings:
   - { key: F11, action: ToggleFullscreen }
-
-# Windows (WSL)
-# shell:
-#   program: wsl
-#   args:
-#     - --
-#     - tmux
-#     - new-session
-#     - -A
-#     - -s
-#     - base
 
 font:
   normal:
