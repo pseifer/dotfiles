@@ -15,3 +15,4 @@ curl https://raw.githubusercontent.com/pimutils/vdirsyncer/main/contrib/vdirsync
 
 # Register with systemd.
 systemctl --user enable vdirsyncer.timer
+systemctl --user start vdirsyncer.timer
