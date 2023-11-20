@@ -18,8 +18,8 @@ else
 fi
 _dotfiles checkout
 
-# Disable tracking of all $HOME.
-_dotfiles config status.showUntrackedFiles no
+# Disable tracking of all $HOME (not really required with .gitignore).
+# _dotfiles config status.showUntrackedFiles no
 
 # Install punkt.
 # TODO
@@ -34,4 +34,4 @@ _dotfiles remote set-url origin 'git@github.com:pseifer/dotfiles.git'
 # Remove README.md from local.
 _dotfiles update-index --assume-unchanged "${HOME}"/README.md
 rm "${HOME}"/README.md
-# Note: _dotfiles update-index --no-assume-unchanged README.md
+# Note: '_dotfiles update-index --no-assume-unchanged README.md' to track again.
