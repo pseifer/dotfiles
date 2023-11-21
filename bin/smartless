@@ -7,7 +7,7 @@ extension="${filename##*.}"
 
 # Show markdown files with glow,
 if [ "${extension}" = "md" ]; then
-    glow -s dracula "${1}" | less -r
+    cat "${1}" | glow -s dracula "${1}" | less -r
 # html files with W3M,
 elif [ "${extension}" = "html" ]; then
     w3m -dump "${1}" | less -r
