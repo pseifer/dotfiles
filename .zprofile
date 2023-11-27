@@ -7,3 +7,4 @@
 # .zshrc    | interactive shell setup
 # .zlogin   | not used
 # .zlogout  | not used
+

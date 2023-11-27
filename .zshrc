@@ -23,6 +23,20 @@
 # On WSL, go to linux home.
 [ -f /proc/version ] && grep -q icrosoft /proc/version && cd "$HOME" && export DISPLAY=localhost:0.0
 
+# ----- Setup interactive functions and aliases -----
+
+# Setup functions and aliases.
+source "$HOME/.aliases"
+source "$HOME/.functions"
+
+# Load system-specific setup files.
+osuname="$(uname -s)"
+if [[ "${osuname}" == "Darwin" ]]; then
+    source "$HOME/.onmacrc"
+else
+    source "$HOME/.onlinuxrc"
+fi
+
 # ----- Theme: s1ck3r -----
 
 # Add virtual environment as suffix.
