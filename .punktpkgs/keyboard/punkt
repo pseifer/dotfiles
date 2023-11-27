@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd "$HOME/.local/share/punkt" || exit
+git clone https://github.com/rvaiya/keyd
+cd keyd || exit
+make && sudo make install
+sudo systemctl enable keyd && sudo systemctl start keyd
+ln -s "$HOME/.keyd.conf" "/etc/keyd/default.conf"
