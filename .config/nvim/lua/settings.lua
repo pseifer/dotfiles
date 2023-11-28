@@ -7,6 +7,7 @@ vim.cmd("colorscheme dracula") -- Set color scheme to Dracula.
 
 go.showmatch = true -- Highlight matching parens.
 go.inccommand = split -- Preview replacements in split.
+go.so = 999 -- keep cursor in middle of screen
 
 go.clipboard = "unnamedplus" -- Use system clipboard.
 

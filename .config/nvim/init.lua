@@ -1,7 +1,5 @@
 -- Core init.lua; handles lazy.nvim setup.
 
--- Remap <leader> to <Space>.
-
 vim.api.nvim_set_keymap("n", "<Space>", "", {})
 vim.g.mapleader = " "
 
