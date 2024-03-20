@@ -39,8 +39,12 @@ return {
 				"ruff-lsp", -- LSP
 				-- "pylint", -- Linter
 				"black", -- Formatter
+				-- Spelling
 				-- 'misspell', -- Linter
 				-- 'codespell' -- Linter
+				-- Clojure
+				--"clj-kondo", -- included in clojure-lsp
+				"clojure-lsp",
 			},
 		})
 		-- (2) Setup mason-lspconfig bridge.
@@ -49,6 +53,7 @@ return {
 		-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 		require("lspconfig").pyright.setup({})
 		require("lspconfig").ruff_lsp.setup({})
+		require("lspconfig").clojure_lsp.setup({})
 		require("lspconfig").lua_ls.setup({
 			settings = {
 				diagnostics = {
@@ -84,6 +89,7 @@ return {
 		-- https://github.com/mfussenegger/nvim-lint
 		require("lint").linters_by_ft = {
 			sh = { "shellcheck" },
+			--clojure = { "clj-kondo" },
 			-- python = { "pylint" },
 			-- lua = { 'luacheck' }
 		}

@@ -60,8 +60,8 @@ return {
 					i = { "<cmd>Telescope diagnostics<cr>", "Find diagnostics" },
 					["."] = { "<cmd>Telescope spell_suggest<cr>", "Spell suggestion" },
 					v = { "<cmd>Telescope treesitter<cr>", "Treesitter" },
-					d = { "<cmd>DevdocsOpenCurrentFloat<cr>", "Devdocs" },
-					D = { "<cmd>DevdocsOpenCurrent<cr>", "Devdocs" },
+					--d = { "<cmd>DevdocsOpenCurrentFloat<cr>", "Devdocs" },
+					--D = { "<cmd>DevdocsOpenCurrent<cr>", "Devdocs" },
 				},
 			}, { prefix = "<leader>" })
 		end,
@@ -81,24 +81,24 @@ return {
 		"cljoly/telescope-repo.nvim",
 	},
 	-- Devdocs browser for Telescope.
-	{
-		"luckasRanarison/nvim-devdocs",
-		opts = {
-			wrap = true,
-			previewer_cmd = "glow",
-			cmd_args = { "-s", "dark", "-w", "80" },
-			picker_cmd = "glow",
-			picker_cmd_args = { "-s", "dark", "-w", "50" },
-			-- Floating window to the right.
-			float_win = {
-				relative = "editor",
-				height = 25,
-				width = 100,
-				border = "none",
-			},
-			--  ensure_installed = {}
-		},
-	},
+	--{
+	--	"luckasRanarison/nvim-devdocs",
+	--	opts = {
+	--		wrap = true,
+	--		previewer_cmd = "glow",
+	--		cmd_args = { "-s", "dark", "-w", "80" },
+	--		picker_cmd = "glow",
+	--		picker_cmd_args = { "-s", "dark", "-w", "50" },
+	--		-- Floating window to the right.
+	--		float_win = {
+	--			relative = "editor",
+	--			height = 25,
+	--			width = 100,
+	--			border = "none",
+	--		},
+	--		--  ensure_installed = {}
+	--	},
+	--},
 }
 
 -- See also https://github.com/nvim-telescope/telescope.nvim
