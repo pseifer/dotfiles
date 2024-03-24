@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# (Re-)Install punkt.
+# TODO
+
+if [ -d "${HOME}/.dotfiles" ]; then
+    echo "${HOME}/.dotfiles exists. Delete to reinstall."
+    exit 0
+fi
+
 # Clone the repository, bare, to $HOME/.dotfiles
 git clone --bare "https://github.com/pseifer/dotfiles" "${HOME}/.dotfiles"
 
@@ -20,9 +28,6 @@ _dotfiles checkout
 
 # Disable tracking of all $HOME (not really required with .gitignore).
 # _dotfiles config status.showUntrackedFiles no
-
-# Install punkt.
-# TODO
 
 # Generate SSH keys, and update remote.
 if [[ ! -f "${HOME}/.ssh/id_rsa.pub" ]]; then

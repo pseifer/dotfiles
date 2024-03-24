@@ -73,3 +73,7 @@ alias zsh-reload='. $HOME/.zshrc'
 
 alias pyva='source $(poetry env info --path)/bin/activate'
 alias pyvd='deactivate'
+
+# Clojure
+
+alias nrepl="clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version \"1.0.0\"} cider/cider-nrepl {:mvn/version \"0.42.1\"}}}' -M --main nrepl.cmdline --middleware '[\"cider.nrepl/cider-middleware\"]' --interactive"

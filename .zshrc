@@ -186,3 +186,8 @@ export FZF_DEFAULT_OPTS="\
 
 # TODO: Setup custom completions.
 # https://seb.jambor.dev/posts/improving-shell-workflows-with-fzf/
+
+# Note: Keep this at the end of the file.
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
