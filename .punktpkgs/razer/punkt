@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if punkt test --pack "apt"; then
+    sudo add-apt-repository ppa:polychromatic/stable
+    sudo add-apt-repository ppa:openrazer/stable
+    sudo apt update
+
+    sudo apt install polychromatic openrazer-meta
+fi

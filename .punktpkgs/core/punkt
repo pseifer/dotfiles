@@ -18,7 +18,7 @@ else
     punkt system "zip" "tar" "git" "curl" "fontconfig"
 
     # Install other essential tools.
-    punkt system "build-essentials" "tmux" "w3m" "ripgrep" "tree" "rlwrap" "make" "btop"
+    punkt system "libc-dev" "cmake" "gcc" "g++" "tmux" "w3m" "ripgrep" "tree" "rlwrap" "make" "btop"
 
     # Install GUI tools.
     punkt system "vlc" "gimp" "inkscape"

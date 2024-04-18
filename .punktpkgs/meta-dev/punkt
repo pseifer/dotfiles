@@ -1,0 +1,3 @@
+#!/bin/bash
+
+punkt install clojure haskell scala python shell roc

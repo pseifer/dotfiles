@@ -2,11 +2,10 @@
 
 if punkt test --os "linux"; then
     # Download NeoVim and link.
-    #curl -L "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz" | tar -C "$(punkt get-storage)/nvim-linux64" -xzf nvim-linux64.tar.gz
     punkt curl --tar "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
-    #punkt link "nvim-linux64/bin/nvim" "nvim"
+    punkt link "nvim-linux64/bin/nvim" "nvim"
+    punkt system "python3-pip" "python3-venv"
 else
     # Install package.
     punkt system "nvim"
 fi
-

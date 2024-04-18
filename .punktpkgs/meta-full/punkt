@@ -1,0 +1,3 @@
+#!/bin/bash
+
+punkt install "meta-core" "meta-dev"
