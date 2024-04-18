@@ -1,0 +1,4 @@
+#!/bin/bash
+
+borg create -s --compression auto,lzma --patterns-from .borgpatterns --progress "Borg::everything-{now}"
+rclone sync -P Borg nextcloud:Borg
