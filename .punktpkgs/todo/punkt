@@ -6,7 +6,7 @@
 #ln -s ~/.local/share/todo-txt/todo.sh ~/bin/todo
 
 # Install required tools.
-sudo apt install khal todoman vdirsyncer
+punkt system khal todoman vdirsyncer
 
 # Download service.
 mkdir -p ~/.local/share/systemd/user
@@ -16,3 +16,4 @@ curl https://raw.githubusercontent.com/pimutils/vdirsyncer/main/contrib/vdirsync
 # Register with systemd.
 systemctl --user enable vdirsyncer.timer
 systemctl --user start vdirsyncer.timer
+

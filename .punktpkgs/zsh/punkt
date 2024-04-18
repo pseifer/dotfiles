@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if punkt test --pack "apt"; then
+    punkt system fzf bat zoxide imagemagick fd-find fim zsh tmux
+    sudo snap install glow
+else
+    punkt system fzf bat zoxide imagemagick fd glow
+fi
+
+# Install fast-syntax-highlighting for ZSH.
+punkt git "https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
+
+# Install additional zsh-completions for ZSH.
+punkt git "https://github.com/zsh-users/zsh-completions.git"
+
+# Install s1ck3r prompt.
+punkt git "https://github.com/pseifer/s1ck3r"
+
+# curl https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh > .local/share/punkt/fzf-key-bindings.zsh
+punkt curl "https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh" "fzf-key-bindings.zsh"

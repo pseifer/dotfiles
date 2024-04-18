@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if punkt test --os "linux"; then
+    # Install Clojure (clj) tools.
+    punkt curl --sh "https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh"
+    # Install Babashka.
+    punkt curl --sh "https://raw.githubusercontent.com/babashka/babashka/master/install"
+else
+    brew install clojure/tools/clojure
+    brew install babashka
+fi
+

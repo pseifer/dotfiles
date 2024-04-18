@@ -1,4 +1,0 @@
-#!/bin/bash
-
-punkt_pack_install "nextcloud-desktop"
-

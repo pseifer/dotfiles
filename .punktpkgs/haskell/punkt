@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Install GHCup.
+punkt curl --sh "https://get-ghcup.haskell.org"
