@@ -22,7 +22,7 @@ if _dotfiles checkout; then
 else
     echo "Creating backup of conflicting dotfiles."
     mkdir -p .config-backup
-    _dotfiles checkout 2>&1 | grep -E "\s+\." | awk "{'print $1'}" | xargs -I{} mv {} .config-backup/{}
+    _dotfiles checkout 2>&1 | grep -E "\s+\." | awk "{print $1}" | xargs -I{} mv {} .config-backup/{}
 fi
 _dotfiles checkout
 
