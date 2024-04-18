@@ -64,6 +64,7 @@ alias url-encode='python3 -c "import sys, urllib.parse as ulp; print(ulp.quote(s
 
 alias c='clear'
 alias j='jobs'
+alias top='btop -t'
 
 # Zsh
 
