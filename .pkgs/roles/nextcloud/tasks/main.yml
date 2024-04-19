@@ -12,6 +12,7 @@
       - khal
       - khard
       - todoman
+      - newsboat
 
 - name: Start service vdirsyncer
   systemd:
