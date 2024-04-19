@@ -1,24 +1,8 @@
 #!/bin/bash
 
-# Setup/update script.
-#
-# Requires:
-# - git
-# - ansible
-# On stable systems it might be best to install pipx and then
-#   pipx install --include-deps ansible
-#
-# Does the following:
-# - Create some basic paths in home.
-# - Pull, or clone and setup, the dotfiles repository.
-# - Run ansible, which will:
-#   - Update the sytem.
-#   - Install all packages (see roles).
-#
+# Clone the dotfiles bare repository, if it does not exist.
+# Run ansible playbook to install packages.
 # Will use local .pkgs/local.yml > .pkgs/setup.yml if it exists.
-
-# CD into user home directory.
-cd "${HOME}" || exit 1
 
 # Check for dependencies.
 if ! command -v "git" &>/dev/null; then
@@ -29,8 +13,17 @@ if ! command -v "pipx" &>/dev/null; then
     echo "The setup requires 'pipx'. Please install it, e.g., using 'sudo apt install pipx'."
     exit 1
 fi
+
+# Change into user home directory.
+cd "${HOME}" || exit 1
+
+# Update path, so ansible is available (pipx).
+if [ -d "$HOME/.local/bin" ]; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+# Install ansbile, via pipx, if not available.
 if ! command -v "ansible" &>/dev/null; then
-    # Install ansbile, via pipx.
     pipx install --include-deps ansible
 fi
 
@@ -39,20 +32,13 @@ mkdir -p "${HOME}/.local/share/punkt"
 mkdir -p "${HOME}/bin"
 mkdir -p "${HOME}/.config"
 
-# Update PATH, in case ansible is installed with pipx.
-if [ -d "$HOME/.local/bin" ]; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
-
 # Temporary function for referring to the repo.
 function _dotfiles {
     git --git-dir="${HOME}/.dotfiles/" --work-tree="${HOME}" "${@}"
 }
 
 # Check if .dotfiles already exists; pull or clone.
-if [ -d "${HOME}/.dotfiles" ]; then
-    _dotfiles pull || exit 1
-else
+if [ ! -d "${HOME}/.dotfiles" ]; then
     # Clone the repository, bare, to $HOME/.dotfiles
     git clone --bare "https://github.com/pseifer/dotfiles" "${HOME}/.dotfiles"
 
@@ -83,7 +69,7 @@ else
     # Note: '_dotfiles update-index --no-assume-unchanged README.md' to track again.
 fi
 
-# Launch Ansible.
+# Run Ansible, either with default setup.yml or a local overwrite local.yml.
 if [ -f "${HOME}/.pkgs/local.yml" ]; then
     echo "Running local ansible playbook, enter user password"
     ansible-playbook -K -i "${HOME}/.pkgs/hosts" "${HOME}/.pkgs/local.yml"
