@@ -25,9 +25,13 @@ if ! command -v "git" &>/dev/null; then
     echo "The setup requires 'git'. Please install it, e.g., using 'sudo apt install git'."
     exit 1
 fi
-if ! command -v "ansible" &>/dev/null; then
-    echo "The setup requires 'ansible'. Please install it, e.g., using 'pipx install --include-deps ansible'."
+if ! command -v "pipx" &>/dev/null; then
+    echo "The setup requires 'pipx'. Please install it, e.g., using 'sudo apt install pipx'."
     exit 1
+fi
+if ! command -v "ansible" &>/dev/null; then
+    # Install ansbile, via pipx.
+    pipx install --include-deps ansible
 fi
 
 # Ensure that basic required paths exist.
