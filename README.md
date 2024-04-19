@@ -6,10 +6,10 @@ This repository contains configuration files, primarily for my `alacritty`, `tmu
 
 The [`setup`](setup) script requires (and checks for) the following two dependencies:
 
-- ansible
+- pipx
 - git
 
-On most distributions, these can be installed via the system package manager.
+On most distributions, `git` is already installed and `pipx` can be installed via the system package manager.
 
 ## Setup
 
