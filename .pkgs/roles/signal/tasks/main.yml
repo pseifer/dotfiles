@@ -1,0 +1,15 @@
+- block:
+  - name: Configure signal
+    include_tasks: lib/add-repo.yml
+    vars:
+      name: signal-xenial
+      url: "https://updates.signal.org/desktop/apt"
+      key: "https://updates.signal.org/desktop/apt/keys.asc"
+      suite: xenial
+      component: main
+      architecture: amd64
+
+  - name: Install signal
+    include_tasks: lib/packages.yml
+    vars:
+      packages: signal-desktop

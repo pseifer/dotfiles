@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mkdir -p "roles/$1/tasks"
+touch "roles/$1/tasks/main.yml"
+

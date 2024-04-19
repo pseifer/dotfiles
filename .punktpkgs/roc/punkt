@@ -1,7 +1,0 @@
-#!/bin/bash
-
-if punkt test --os "linux"; then
-    punkt curl --tar "https://github.com/roc-lang/roc/releases/download/nightly/roc_nightly-linux_x86_64-latest.tar.gz"
-else
-    punkt curl --tar "https://github.com/roc-lang/roc/releases/download/nightly/roc_nightly-macos_apple_silicon-latest.tar.gz"
-fi

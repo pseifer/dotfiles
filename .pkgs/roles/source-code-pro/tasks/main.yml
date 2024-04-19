@@ -1,0 +1,16 @@
+
+# If this does not exist yet, call fc-cache in final step.
+- name: Test whether fonts need to be updated
+  stat:
+    path: "{{ ansible_env.HOME }}/.local/share/fonts"
+  register: result
+
+- name: Download nerdfonts (sauce code pro)
+  include_tasks: lib/download-unpack-to.yml
+  vars:
+    url: https://github.com/ryanoasis/nerd-fonts/releases/latest/download/SourceCodePro.zip
+    creates: .local/share/fonts
+
+- name: Install fonts
+  shell: fc-cache
+  when: not result.stat.exists

@@ -1,0 +1,10 @@
+- block:
+  - name: Configure proton
+    include_tasks: lib/package-deb.yml
+    vars:
+      url: "https://repo2.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3-3_all.deb"
+
+  - name: Install proton-vpn
+    include_tasks: lib/packages.yml
+    vars:
+      packages: proton-vpn-gnome-desktop

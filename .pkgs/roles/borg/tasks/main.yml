@@ -1,0 +1,6 @@
+- name: Install borg
+  include_tasks: lib/packages.yml
+  vars:
+    packages:
+      - borgbackup
+      - rclone

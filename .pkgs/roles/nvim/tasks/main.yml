@@ -1,0 +1,17 @@
+- name: Install neovim
+  include_tasks: lib/packages.yml
+  vars:
+    packages:
+      - neovim
+  when: ansible_os_family != "Debian"
+
+- name: Install neovim (release)
+  include_tasks: lib/download-unpack-link.yml
+  vars:
+    url: https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+    creates: nvim-linux64
+    linkname: bin/nvim
+    linktarget: bin/nvim
+    
+  when: ansible_os_family == "Debian"
+

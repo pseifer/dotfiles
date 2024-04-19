@@ -1,0 +1,22 @@
+- name: Install nextcloud
+  include_tasks: lib/packages.yml
+  vars:
+    packages:
+      - nextcloud-desktop
+
+- name: Install nextcloud tools
+  include_tasks: lib/packages.yml
+  vars:
+    packages:
+      - vdirsyncer
+      - khal
+      - khard
+      - todoman
+
+- name: Start service vdirsyncer
+  systemd:
+    name: vdirsyncer.timer
+    enabled: yes
+    state: started
+    scope: user
+  when: ansible_os_family == "Debian"

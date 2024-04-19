@@ -1,0 +1,5 @@
+- name: Install roc (nightly)
+  include_tasks: lib/download-unpack-to.yml
+  vars:
+    url: "https://github.com/roc-lang/roc/releases/download/nightly/roc_nightly-linux_x86_64-latest.tar.gz"
+    creates: .local/share/punkt/roc

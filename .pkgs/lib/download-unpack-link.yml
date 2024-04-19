@@ -1,0 +1,41 @@
+
+### Usage #############################################################
+# Download and unpack archive named 'creates' from 'url'
+# to $HOME/.local/share/punkt and create a link named $HOME/'linkname'
+# for $HOME/.local/share/punkt/'creates'/'linktarget'.
+#
+# url: The URL to download to a temporary directory
+# creates: The folder that is extracted from url
+# linkname: Name of the created link, relative to $HOME
+# linktarget: Target relative to $HOME/.local/store/punkt/creates/
+#######################################################################
+
+- name: Check whether already installed
+  stat:
+    path: "{{ ansible_env.HOME }}/.local/share/punkt/{{ creates }}"
+  register: result
+
+- block:
+  - name: Create temporary directory 
+    tempfile:
+      state: directory
+    register: temp_dir
+
+  - name: Download 
+    get_url:
+      url: "{{ url }}"
+      dest: "{{ temp_dir.path }}/downloaded-file"
+
+  - name: Extract
+    unarchive:
+      src: "{{ temp_dir.path }}/downloaded-file"
+      dest: "{{ ansible_env.HOME }}/.local/share/punkt"
+
+  when: not result.stat.exists
+
+- name: Create link at "{{ linkname }}"
+  file:
+    src: "{{ ansible_env.HOME }}/.local/share/punkt/{{ creates }}/{{ linktarget }}"
+    dest: "{{ ansible_env.HOME }}/{{ linkname }}"
+    state: link
+

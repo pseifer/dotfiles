@@ -1,0 +1,31 @@
+
+### Usage #############################################################
+# Create shallow clone of a git repository at 
+#     $HOME/.local/share/punkt/$local"
+# and build with make && sudo make install
+#
+# repo: Repository URL.
+# local: Local name for the repository.
+# version: Version to use, e.g., tag, branch, SHA. Defaults to HEAD.
+#######################################################################
+
+- name: Clone "{{ repo }}"
+  git:
+    repo: "{{ repo }}"
+    dest: "{{ ansible_env.HOME }}/.local/share/punkt/{{ local }}"
+    version: "{{ version | default('HEAD') }}"
+    depth: 1
+  register: cloned
+
+- name: Build "{{ local }}"
+  community.general.make:
+    chdir: "{{ ansible_env.HOME }}/.local/share/punkt/{{ local }}"
+    target: all
+  when: cloned.changed
+
+- name: Build "{{ local }}"
+  community.general.make:
+    chdir: "{{ ansible_env.HOME }}/.local/share/punkt/{{ local }}"
+    target: install
+  become: true
+  when: cloned.changed

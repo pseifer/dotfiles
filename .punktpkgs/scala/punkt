@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if punkt test --os "linux"; then
-    punkt curl --zip "https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz" --name "cs"
-else
-    punkt curl --zip "https://github.com/VirtusLab/coursier-m1/releases/latest/download/cs-aarch64-apple-darwin.gz" --name "cs"
-fi
-
-./"$(punkt get-storage)"/cs setup

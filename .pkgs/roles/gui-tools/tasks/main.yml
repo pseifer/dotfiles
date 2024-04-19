@@ -1,0 +1,9 @@
+- name: Install important GUI tools
+  include_tasks: lib/packages.yml
+  vars:
+    packages:
+      - fim
+      - feh
+      - vlc
+      - gimp
+      - inkscape

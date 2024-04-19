@@ -1,0 +1,5 @@
+- name: Install scala coursier
+  include_tasks: lib/download-unpack-to.yml
+  vars:
+    url: "https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz"
+    creates: bin

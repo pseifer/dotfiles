@@ -1,0 +1,37 @@
+
+### Usage #############################################################
+# Download and unpack archive from 'url' to $HOME/'creates'
+#
+# url: The URL to download to a temporary directory
+# creates: A path, where the file is created, relative to $HOME
+#######################################################################
+
+- name: Check whether already installed
+  stat:
+    path: "{{ ansible_env.HOME }}/{{ creates }}"
+  register: result
+
+- block:
+
+  - name: Creates target directory
+    ansible.builtin.file:
+      path: "{{ ansible_env.HOME }}/{{ creates }}"
+      state: directory
+
+  - name: Create temporary directory 
+    tempfile:
+      state: directory
+    register: temp_dir
+
+  - name: Download 
+    get_url:
+      url: "{{ url }}"
+      dest: "{{ temp_dir.path }}/downloaded-file"
+
+  - name: Extract
+    unarchive:
+      src: "{{ temp_dir.path }}/downloaded-file"
+      dest: "{{ ansible_env.HOME }}/{{ creates }}"
+
+  when: not result.stat.exists
+

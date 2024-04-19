@@ -3,6 +3,9 @@
 /*
 !/.punktpkgs
 !/.punktpkgs/*
+!/.pkgs
+!/.pkgs/*
+/.pkgs/local.yml
 !/.config
 #.config/*
 !/.config/nvim

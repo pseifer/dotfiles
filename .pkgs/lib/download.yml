@@ -1,0 +1,12 @@
+
+### Usage #############################################################
+# Download and run script from 'url', if 'cmd' is not available.
+# url: The URL to download to a temporary directory
+# cmd: The cmd that decides whether to install.
+#######################################################################
+
+- name: Download "{{ cmd }}"
+  get_url:
+    url: "{{ url }}"
+    dest: "{{ cmd }}"
+    mode: 'u+rwx'

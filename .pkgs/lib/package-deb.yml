@@ -1,0 +1,24 @@
+
+### Usage #############################################################
+# Download and install deb package.
+#
+# url: The URL to download to a temporary directory
+#######################################################################
+
+- block:
+
+  - name: Create temporary directory 
+    tempfile:
+      state: directory
+    register: temp_dir
+
+  - name: Download 
+    get_url:
+      url: "{{ url }}"
+      dest: "{{ temp_dir.path }}/downloaded-package"
+
+  - name: Install deb
+    apt:
+      deb: "{{ temp_dir.path }}/downloaded-package"
+
+  when: ansible_os_family == "Debian"

@@ -1,0 +1,31 @@
+
+### Usage #############################################################
+# Download and run script from 'url', if 'cmd' is not available.
+# url: The URL to download to a temporary directory
+# cmd: The cmd that decides whether to install.
+#######################################################################
+
+- name: Check for "{{ cmd }}"
+  raw: which "{{ cmd }}"
+  check_mode: false
+  changed_when: false
+  failed_when: installed.rc > 1
+  register: installed
+
+- name: Download "{{ cmd }}"
+  get_url:
+    url: "{{ url }}"
+    dest: /tmp/this-file-here-punkt
+    mode: 'u+rwx'
+  when: installed.rc != 0
+  register: download
+
+- name: Run the installer
+  shell: /tmp/this-file-here-punkt
+  when: download.changed
+
+- name: Remove the installer
+  file:
+    path: /tmp/thils-file-here-punkt
+    state: absent
+
