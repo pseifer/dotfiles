@@ -1,9 +1,3 @@
-# Install
-
-```
-punkt install backup
-```
-
 # System
 
 Assuming a folder `~/Borg` for storing backups (usually a link to a secondary disk) and a folder `~/Storage/Secure` for data that should be backed up.
