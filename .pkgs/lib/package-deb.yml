@@ -3,22 +3,26 @@
 # Download and install deb package.
 #
 # url: The URL to download to a temporary directory
+# name: Name for the locally stored package
 #######################################################################
 
 - block:
 
-  - name: Create temporary directory 
-    tempfile:
-      state: directory
-    register: temp_dir
-
   - name: Download 
     get_url:
       url: "{{ url }}"
-      dest: "{{ temp_dir.path }}/downloaded-package"
+      dest: "{{ ansible_env.HOME }}/.local/share/punkt/{{ name }}.deb"
 
-  - name: Install deb
+  - name: Install "{{ name }}"
     apt:
-      deb: "{{ temp_dir.path }}/downloaded-package"
+      deb: "{{ ansible_env.HOME }}/.local/share/punkt/{{ name }}.deb"
+    become: true
+    register: addedrepo
+
+  - name: Update system
+    apt:
+      upgrade: no
+      update_cache: yes
+    when: addedrepo.changed
 
   when: ansible_os_family == "Debian"

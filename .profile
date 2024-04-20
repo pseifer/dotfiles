@@ -15,6 +15,10 @@ if [ -d "$HOME/.local/bin" ]; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+if [ -d "$HOME/.cargo/bin" ]; then
+    PATH="$HOME/.cargo/bin:$PATH"
+fi
+
 # Add Haskell (GHCup) environment.
 
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"

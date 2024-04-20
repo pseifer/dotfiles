@@ -1,3 +1,14 @@
+- name: Install dependencies (debian)
+  include_tasks: lib/packages.yml
+  vars:
+    packages:
+      - pkg-config 
+      - libfreetype6-dev
+      - libfontconfig1-dev
+      - libxcb-xfixes0-dev 
+      - libxkbcommon-dev
+  when: ansible_os_family == "Debian"
+
 - name: Install alacritty
   community.general.cargo:
     name: alacritty

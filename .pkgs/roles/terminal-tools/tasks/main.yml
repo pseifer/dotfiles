@@ -27,8 +27,8 @@
       - fd
   when: ansible_os_family != "Debian"
 
-- name: Install zoxide
-  include_tasks: lib/download-run.yml
-  vars:
-    url: https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh
-    cmd: zoxide
+# - name: Install zoxide
+#   include_tasks: lib/download-run.yml
+#   vars:
+#     url: https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh
+#     cmd: zoxide
