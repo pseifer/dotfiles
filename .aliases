@@ -69,6 +69,8 @@ alias j='jobs'
 alias top='btop -t'
 alias bat='bat -pp --theme=base16'
 
+alias man='w3mman'
+
 # Zsh
 
 alias zsh-reload='. $HOME/.zshrc'
