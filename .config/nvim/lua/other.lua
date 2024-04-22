@@ -6,7 +6,7 @@ function modify_hl(ns, name, changes)
 end
 
 local set_hl_for_floating_window = function()
-	modify_hl(0, "NormalFloat", { bg = "#44475a" }) -- Dracula: Current row
+	modify_hl(0, "NormalFloat", { bg = "#4c566a" }) -- Nord: Current row
 end
 
 set_hl_for_floating_window()

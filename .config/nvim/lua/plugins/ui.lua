@@ -38,6 +38,16 @@ return {
 		},
 		init = function()
 			vim.g.barbar_auto_setup = false
+			require("barbar").setup({
+				icons = {
+					separator = { left = "", right = "" },
+					separator_at_end = false,
+					filetype = {
+						-- Disable icons.
+						enabled = false,
+					},
+				},
+			})
 		end,
 		opts = {},
 		version = "^1.0.0", -- optional: only update when a new 1.x version is released
