@@ -3,10 +3,10 @@
 local go = vim.o -- Global.
 
 go.termguicolors = true -- Enable true colors.
-vim.cmd("colorscheme nord") -- Set color scheme to Dracula.
+--vim.cmd("colorscheme gruvbox") -- Set color scheme.
 
 go.showmatch = true -- Highlight matching parens.
-go.inccommand = split -- Preview replacements in split.
+go.inccommand = "split" -- Preview replacements in split.
 go.so = 999 -- keep cursor in middle of screen
 
 go.clipboard = "unnamedplus" -- Use system clipboard.

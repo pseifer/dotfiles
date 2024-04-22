@@ -1,9 +1,71 @@
--- Configuration for the UI.
+-- Configuration for the UI.ui
 
 return {
-	-- The dracula color theme.
-	--"Mofiqul/dracula.nvim",
-	"nordtheme/vim",
+
+	-- Everforest
+	--{
+	--	"sainnhe/everforest",
+	--	priority = 1000,
+	--	config = function()
+	--		vim.o.background = "light" -- or 'light'
+	--		vim.cmd("colorscheme everforest")
+	--	end,
+	--},
+
+	-- Gruvmox Material
+	--{
+	--	"sainnhe/gruvbox-material",
+	--	lazy = false,
+	--	priority = 1000,
+	--	config = function()
+	--		vim.o.background = "light" -- or 'light'
+	--		vim.g.gruvbox_material_foreground = "original"
+	--		vim.g.gruvbox_material_background = "medium"
+	--		vim.cmd.colorscheme("gruvbox-material")
+	--	end,
+	--},
+
+	-- Solarized
+	{
+		"Tsuzat/NeoSolarized.nvim",
+		lazy = false, -- make sure we load this during startup if it is your main colorscheme
+		priority = 1000, -- make sure to load this before all the other start plugins
+		config = function()
+			require("NeoSolarized").setup({
+				style = "light", -- "dark" or "light"
+				transparent = false,
+				terminal_colors = true,
+				enable_italics = true,
+				styles = {
+					-- Style to be applied to different syntax groups
+					comments = { italic = true },
+					keywords = { italic = true },
+					functions = { bold = true },
+					variables = {},
+					string = { italic = true },
+					underline = true, -- true/false; for global underline
+					undercurl = true, -- true/false; for global undercurl
+				},
+				-- Add specific hightlight groups
+				on_highlights = function(highlights, colors)
+					-- highlights.Include.fg = colors.red -- Using `red` foreground for Includes
+				end,
+				--vim.cmd("hi BufferCurrentModBtn guibg=#110000"),
+			})
+			--vim.o.background = "dark"
+			vim.cmd([[ colorscheme NeoSolarized ]])
+		end,
+	},
+
+	-- Catpuccin
+	--{
+	--	"catppuccin/nvim",
+	--	name = "catppuccin",
+	--	priority = 1000,
+	--	config = function()
+	--		vim.cmd("colorscheme catppuccin-latte")
+	--	end,
+	--},
 
 	-- Configuration for lualine.
 	{
@@ -15,7 +77,7 @@ return {
 				options = {
 					component_separators = "",
 					section_separators = "",
-					theme = "auto",
+					theme = "NeoSolarized",
 				},
 				-- tabline = {
 				-- 	lualine_a = { "tabs" },
@@ -29,29 +91,38 @@ return {
 		end,
 	},
 
-	-- Configure barbar.
 	{
-		"romgrk/barbar.nvim",
-		dependencies = {
-			"lewis6991/gitsigns.nvim",
-			"nvim-tree/nvim-web-devicons",
-		},
-		init = function()
-			vim.g.barbar_auto_setup = false
-			require("barbar").setup({
-				icons = {
-					separator = { left = "", right = "" },
-					separator_at_end = false,
-					filetype = {
-						-- Disable icons.
-						enabled = false,
-					},
-				},
-			})
+		"akinsho/bufferline.nvim",
+		version = "*",
+		dependencies = "nvim-tree/nvim-web-devicons",
+		config = function()
+			require("bufferline").setup({})
 		end,
-		opts = {},
-		version = "^1.0.0", -- optional: only update when a new 1.x version is released
 	},
+
+	-- Configure barbar.
+	--{
+	--	"romgrk/barbar.nvim",
+	--	dependencies = {
+	--		"lewis6991/gitsigns.nvim",
+	--		"nvim-tree/nvim-web-devicons",
+	--	},
+	--	init = function()
+	--		vim.g.barbar_auto_setup = false
+	--		require("barbar").setup({
+	--			icons = {
+	--				separator = { left = "", right = "" },
+	--				separator_at_end = false,
+	--				filetype = {
+	--					-- Disable icons.
+	--					enabled = false,
+	--				},
+	--			},
+	--		})
+	--	end,
+	--	opts = {},
+	--	version = "^1.0.0", -- optional: only update when a new 1.x version is released
+	--},
 
 	-- Configuration for the alpha greeter.
 	{

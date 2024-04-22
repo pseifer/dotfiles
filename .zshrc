@@ -180,23 +180,23 @@ fi
 # Setup preview with bat or tree, depending on type.
 export FZF_CTRL_T_OPTS="--preview '$BAT -n --theme=base16 --color=always {} 2> /dev/null || tree -C {}'"
 
-# Colors (Nord).
-export COLOR_BLACK="#3b4252"
-export COLOR_RED="#bf616a"
-export COLOR_GREEN="#a3be8c"
-export COLOR_YELLOW="#ebcb8b"
-export COLOR_BLUE="#81a1c1"
-export COLOR_MAGENTA="#b48ead"
-export COLOR_CYAN="#88c0d0"
-export COLOR_WHITE="#e5e9f0"
-export COLOR_BACKGROUND="#2e3440"
-export COLOR_FOREGROUND="#d8dee9"
+# Colors (Solarized Light).
+export COLOR_BLACK='#073642'
+export COLOR_RED='#dc322f'
+export COLOR_GREEN='#859900'
+export COLOR_YELLOW='#b58900'
+export COLOR_BLUE='#268bd2'
+export COLOR_MAGENTA='#d33682'
+export COLOR_CYAN='#2aa198'
+export COLOR_WHITE='#eee8d5'
+export COLOR_BACKGROUND='#fdf6e3'
+export COLOR_FOREGROUND='#586e75'
 
 # Set the FZF color theme to dracula.
 export FZF_DEFAULT_OPTS="\
   --preview-window noborder
   --color=fg:"$COLOR_FOREGROUND",bg:"$COLOR_BACKGROUND",hl:"$COLOR_FOREGROUND" \
-  --color=fg+:"$COLOR_FOREGROUND",bg+:"$COLOR_BLACK",hl+:"$COLOR_FOREGROUND" \
+  --color=fg+:"$COLOR_FOREGROUND",bg+:"$COLOR_WHITE",hl+:"$COLOR_BLUE" \
   --color=info:"$COLOR_FOREGROUND",prompt:"$COLOR_CYAN",pointer:"$COLOR_CYAN" \
   --color=marker:"$COLOR_FOREGROUND",spinner:"$COLOR_FOREGROUND",header:"$COLOR_BLUE""
 

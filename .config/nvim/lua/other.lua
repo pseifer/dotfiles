@@ -5,8 +5,9 @@ function modify_hl(ns, name, changes)
 	vim.api.nvim_set_hl(ns, name, vim.tbl_deep_extend("force", def, changes))
 end
 
+-- Set color for floating windows.
 local set_hl_for_floating_window = function()
-	modify_hl(0, "NormalFloat", { bg = "#4c566a" }) -- Nord: Current row
+	modify_hl(0, "NormalFloat", { bg = "#f4f0d9" })
 end
 
 set_hl_for_floating_window()
