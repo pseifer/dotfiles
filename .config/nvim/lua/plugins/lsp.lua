@@ -66,10 +66,12 @@ return {
 		--lsp.roc_lsp.setup({})
 		lsp.lua_ls.setup({
 			settings = {
-				diagnostics = {
-					globals = {
-						"vim",
-						"require",
+				Lua = {
+					diagnostics = {
+						globals = {
+							"vim",
+							"require",
+						},
 					},
 				},
 				workspace = {

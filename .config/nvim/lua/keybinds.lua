@@ -12,17 +12,20 @@ nmap("j", "gj", "visual line down")
 nmap("k", "gk", "visual line up")
 
 -- Navigate buffers and tabs.
-nmap("<leader>n", ":bnext<cr>", "next buffer")
-nmap("<leader>p", ":bprev<cr>", "previous buffer")
-nmap("<S-l>", ":tabn<CR>", "next tab")
-nmap("<S-h>", ":tabp<CR>", "previous tab")
+-- nmap("<leader>n", ":bnext<cr>", "next buffer")
+-- nmap("<leader>p", ":bprev<cr>", "previous buffer")
 
--- Manage tabs.
+-- Manage tabs (buffers).
+nmap("<S-l>", ":BufferNext<CR>", "next tab")
+nmap("<S-h>", ":BufferPrevious<CR>", "previous tab")
 nmap("<leader>tt", ":$tabnew<CR>", "new tab")
-nmap("<leader>tc", ":tabclose<CR>", "close tab")
-nmap("<leader>to", ":tabclose<CR>", "only - close other tabs")
-nmap("<leader>tn", ":+tabmove<CR>", "move tab right")
-nmap("<leader>tp", ":-tabmove<CR>", "move tab left")
+nmap("<leader>tc", ":BufferClose<CR>", "close tab")
+nmap("<leader>t<S-c>", ":BufferPickDelete<CR>", "pick to close tab(s)")
+nmap("<leader>to", ":BufferOrderByDirectory<CR>", "order tabs by directory")
+nmap("<leader>tn", ":BufferMoveNext<CR>", "move tab right")
+nmap("<leader>tp", ":BufferMovePrevious<CR>", "move tab left")
+nmap("<leader><tab>", ":BufferPick<CR>", "pick a buffer")
+nmap("<leader>ts", ":BufferPin<CR>", "pin tab")
 
 -- These mirror tmux hotkeys for moving and resizing,
 -- but use C-w instead of C-a (my tmux leader).

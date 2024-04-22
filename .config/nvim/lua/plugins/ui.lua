@@ -2,32 +2,45 @@
 
 return {
 	-- The dracula color theme.
-	"Mofiqul/dracula.nvim",
+	--"Mofiqul/dracula.nvim",
+	"nordtheme/vim",
 
 	-- Configuration for lualine.
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons", opt = true },
-		opts = {
-			theme = "dracula-nvim",
-		},
 		config = function()
 			require("lualine").setup({
 				separator = nil,
 				options = {
 					component_separators = "",
 					section_separators = "",
+					theme = "auto",
 				},
-				tabline = {
-					lualine_a = { "tabs" },
-					lualine_b = {},
-					lualine_c = {},
-					lualine_x = {},
-					lualine_y = {},
-					lualine_z = {},
-				},
+				-- tabline = {
+				-- 	lualine_a = { "tabs" },
+				-- 	lualine_b = {},
+				-- 	lualine_c = {},
+				-- 	lualine_x = {},
+				-- 	lualine_y = {},
+				-- 	lualine_z = {},
+				-- },
 			})
 		end,
+	},
+
+	-- Configure barbar.
+	{
+		"romgrk/barbar.nvim",
+		dependencies = {
+			"lewis6991/gitsigns.nvim",
+			"nvim-tree/nvim-web-devicons",
+		},
+		init = function()
+			vim.g.barbar_auto_setup = false
+		end,
+		opts = {},
+		version = "^1.0.0", -- optional: only update when a new 1.x version is released
 	},
 
 	-- Configuration for the alpha greeter.
