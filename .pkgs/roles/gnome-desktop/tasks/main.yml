@@ -22,13 +22,13 @@
   - name: Download dracula theme
     include_tasks: lib/download-unpack-to.yml
     vars:
-      url: https://github.com/dracula/gtk/archive/master.zip
+      url: https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic-darker-v40.tar.xz
       creates: .themes
 
   - name: Apply gnome theme
     shell: |
-      gsettings set org.gnome.desktop.interface gtk-theme "Dracula"
-      gsettings set org.gnome.desktop.wm.preferences theme "Dracula"
+      gsettings set org.gnome.desktop.interface gtk-theme "Nordic-v40"
+      gsettings set org.gnome.desktop.wm.preferences theme "Nordic-v40"
     when: not result.stat.exists
 
   when: current_desktop.stdout is match(".*GNOME.*")

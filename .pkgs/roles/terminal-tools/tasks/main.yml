@@ -4,6 +4,7 @@
     packages:
       - tmux
       - w3m
+      - tldr
       - ripgrep
       - tree
       - rlwrap
