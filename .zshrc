@@ -147,7 +147,11 @@ fi
 # Ctrl-T: Fuzzy search paths (.)
 # Ctrl-R: Fuzzy search history (takes partial line into account).
 # Ctrl-Y: Fuzzy CD folders ($HOME).
-[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
+if [ -f "/usr/share/doc/fzf/examples/key-bindings.zsh" ]; then 
+    source "/usr/share/doc/fzf/examples/key-bindings.zsh"
+elif [ -f "$HOME/.local/share/punkt/fzf-key-bindings.zsh" ]; then
+    source "$HOME/.local/share/punkt/fzf-key-bindings.zsh"
+fi
 # source /usr/share/doc/fzf/examples/completion.zsh # uncomment to enable ** completion
 
 # Setup fzf to use fd.
@@ -176,13 +180,25 @@ fi
 # Setup preview with bat or tree, depending on type.
 export FZF_CTRL_T_OPTS="--preview '$BAT -n --theme=base16 --color=always {} 2> /dev/null || tree -C {}'"
 
+# Colors (Nord).
+export COLOR_BLACK="#3b4252"
+export COLOR_RED="#bf616a"
+export COLOR_GREEN="#a3be8c"
+export COLOR_YELLOW="#ebcb8b"
+export COLOR_BLUE="#81a1c1"
+export COLOR_MAGENTA="#b48ead"
+export COLOR_CYAN="#88c0d0"
+export COLOR_WHITE="#e5e9f0"
+export COLOR_BACKGROUND="#2e3440"
+export COLOR_FOREGROUND="#d8dee9"
+
 # Set the FZF color theme to dracula.
 export FZF_DEFAULT_OPTS="\
   --preview-window noborder
-  --color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 \
-  --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 \
-  --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 \
-  --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4"
+  --color=fg:"$COLOR_FOREGROUND",bg:"$COLOR_BACKGROUND",hl:"$COLOR_FOREGROUND" \
+  --color=fg+:"$COLOR_FOREGROUND",bg+:"$COLOR_BLACK",hl+:"$COLOR_FOREGROUND" \
+  --color=info:"$COLOR_FOREGROUND",prompt:"$COLOR_CYAN",pointer:"$COLOR_CYAN" \
+  --color=marker:"$COLOR_FOREGROUND",spinner:"$COLOR_FOREGROUND",header:"$COLOR_BLUE""
 
 # TODO: Setup custom completions.
 # https://seb.jambor.dev/posts/improving-shell-workflows-with-fzf/
