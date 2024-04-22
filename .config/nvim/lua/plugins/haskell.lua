@@ -1,6 +1,10 @@
 -- Configuration for Haskell and haskell-language-server.
 
 return {
+	-- Roc lang.
+	"ChrisWellsWood/roc.vim",
+	-- Haskell stuff below.
+
 	"mrcjkb/haskell-tools.nvim",
 	version = "^3",
 	ft = { "haskell", "lhaskell", "cabal", "cabalproject" },
