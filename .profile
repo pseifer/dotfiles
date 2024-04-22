@@ -17,7 +17,7 @@ fi
 
 # Add Haskell (GHCup) environment.
 
-[ -f "/home/pseifer/.ghcup/env" ] && source "/home/pseifer/.ghcup/env"
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
 
 # Add Coursier and Java to PATH.
 

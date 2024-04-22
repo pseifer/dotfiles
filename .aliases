@@ -61,6 +61,7 @@ alias gga='git add'
 
 alias url-decode='python3 -c "import sys, urllib.parse as ulp; print(ulp.unquote(sys.argv[1]))"'
 alias url-encode='python3 -c "import sys, urllib.parse as ulp; print(ulp.quote(sys.argv[1]))"'
+alias glowme='ls *.md | entr -c glow README.md'
 
 alias c='clear'
 alias j='jobs'
