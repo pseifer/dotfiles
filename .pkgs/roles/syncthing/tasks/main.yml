@@ -1,0 +1,13 @@
+- name: Install syncthing
+  include_tasks: lib/packages.yml
+  vars:
+    packages: syncthing
+
+- name: Start service syncthing
+  systemd:
+    name: syncthing
+    enabled: yes
+    state: started
+    scope: user
+  when: ansible_os_family == "Debian"
+ 

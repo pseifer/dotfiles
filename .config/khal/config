@@ -10,6 +10,14 @@
 
     [[arbeit]]
         path = ~/.local/share/calendars/arbeit
+        priority = 70
+
+    [[katrin-arbeit_shared_by_katrin]]
+        path = ~/.local/share/calendars/katrin-arbeit_shared_by_katrin
+        priority = 10
+
+    [[personal_shared_by_katrin]]
+        path = ~/.local/share/calendars/personal_shared_by_katrin
         priority = 20
 
     [[erinnerungen]]

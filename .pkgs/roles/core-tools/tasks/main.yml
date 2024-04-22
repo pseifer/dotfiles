@@ -1,0 +1,11 @@
+- name: Install core tools
+  include_tasks: lib/packages.yml
+  vars:
+    packages:
+      - zip
+      - tar
+      - git
+      - curl
+      - fontconfig
+
+

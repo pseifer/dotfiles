@@ -1,0 +1,12 @@
+- block:
+  - name: Update debian-based systems
+    apt:
+      upgrade: full
+      update_cache: yes
+      autoremove: yes
+      autoclean: yes
+      # Only check once per day.
+      cache_valid_time: 86400
+    when: ansible_os_family == 'Debian'
+
+  become: yes

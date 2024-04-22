@@ -1,37 +1,79 @@
 #!/bin/bash
 
-# Clone the repository, bare, to $HOME/.dotfiles
-git clone --bare "https://github.com/pseifer/dotfiles" "${HOME}/.dotfiles"
+# Clone the dotfiles bare repository, if it does not exist.
+# Run ansible playbook to install packages.
+# Will use local .pkgs/local.yml > .pkgs/setup.yml if it exists.
+
+# Check for dependencies.
+if ! command -v "git" &>/dev/null; then
+    echo "The setup requires 'git'. Please install it, e.g., using 'sudo apt install git'."
+    exit 1
+fi
+if ! command -v "pipx" &>/dev/null; then
+    echo "The setup requires 'pipx'. Please install it, e.g., using 'sudo apt install pipx'."
+    exit 1
+fi
+
+# Change into user home directory.
+cd "${HOME}" || exit 1
+
+# Update path, so ansible is available (pipx).
+if [ -d "$HOME/.local/bin" ]; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+# Install ansbile, via pipx, if not available.
+if ! command -v "ansible" &>/dev/null; then
+    pipx install --include-deps ansible
+fi
+
+# Ensure that basic required paths exist.
+mkdir -p "${HOME}/.local/share/punkt"
+mkdir -p "${HOME}/bin"
+mkdir -p "${HOME}/.config"
 
 # Temporary function for referring to the repo.
 function _dotfiles {
     git --git-dir="${HOME}/.dotfiles/" --work-tree="${HOME}" "${@}"
 }
 
-# Checkout the repo. Creates backups of conflicting dotfiles.
-if _dotfiles checkout; then
-    echo "Checked out dotfiles."
+# Check if .dotfiles already exists; pull or clone.
+if [ ! -d "${HOME}/.dotfiles" ]; then
+    # Clone the repository, bare, to $HOME/.dotfiles
+    git clone --bare "https://github.com/pseifer/dotfiles" "${HOME}/.dotfiles"
+
+    # Checkout the repo. Creates backups of conflicting dotfiles.
+    if _dotfiles checkout; then
+        echo "Checked out all dotfiles without conflicts."
+    else
+        echo "Creating backup of conflicting dotfiles."
+        mkdir -p .config-backup
+        _dotfiles checkout 2>&1 | grep -E "\s+\." | awk "{print $1}" | xargs -I{} mv {} .config-backup/{}
+    fi
+    _dotfiles checkout
+
+    # Disable tracking of all $HOME (not really required with .gitignore).
+    # _dotfiles config status.showUntrackedFiles no
+
+    # Generate SSH keys (if none exist), and update remote.
+    if [[ ! -f "${HOME}/.ssh/id_rsa.pub" ]]; then
+        echo "(2.3) Generating ssh key..."
+        ssh-keygen -t rsa -b 4096 -C 'github@seifer.me'
+        cat "${HOME}/.ssh/id_rsa.pub"
+    fi
+    _dotfiles remote set-url origin 'git@github.com:pseifer/dotfiles.git'
+
+    # Remove README.md from local.
+    _dotfiles update-index --assume-unchanged "${HOME}"/README.md
+    rm "${HOME}"/README.md
+    # Note: '_dotfiles update-index --no-assume-unchanged README.md' to track again.
+fi
+
+# Run Ansible, either with default setup.yml or a local overwrite local.yml.
+if [ -f "${HOME}/.pkgs/local.yml" ]; then
+    echo "Running local ansible playbook, enter user password"
+    ansible-playbook -K -i "${HOME}/.pkgs/hosts" "${HOME}/.pkgs/local.yml"
 else
-    echo "Creating backup of conflicting dotfiles."
-    mkdir -p .config-backup
-    _dotfiles checkout 2>&1 | grep -E "\s+\." | awk "{'print $1'}" | xargs -I{} mv {} .config-backup/{}
+    echo "Running default ansible playbook, enter user password"
+    ansible-playbook -K -i "${HOME}/.pkgs/hosts" "${HOME}/.pkgs/setup.yml"
 fi
-_dotfiles checkout
-
-# Disable tracking of all $HOME (not really required with .gitignore).
-# _dotfiles config status.showUntrackedFiles no
-
-# Install punkt.
-# TODO
-
-# Generate SSH keys, and update remote.
-if [[ ! -f "${HOME}/.ssh/id_rsa.pub" ]]; then
-    ssh-keygen -t rsa -b 4096 -C 'github@seifer.me'
-    cat "${HOME}/.ssh/id_rsa.pub"
-fi
-_dotfiles remote set-url origin 'git@github.com:pseifer/dotfiles.git'
-
-# Remove README.md from local.
-_dotfiles update-index --assume-unchanged "${HOME}"/README.md
-rm "${HOME}"/README.md
-# Note: '_dotfiles update-index --no-assume-unchanged README.md' to track again.

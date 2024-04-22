@@ -3,6 +3,7 @@
 # Dotfiles.
 
 alias dot='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias update='$HOME/setup'
 
 # Notes and todo.txt.
 
@@ -65,6 +66,7 @@ alias glowme='ls *.md | entr -c glow README.md'
 
 alias c='clear'
 alias j='jobs'
+alias top='btop -t'
 
 # Zsh
 
@@ -74,3 +76,7 @@ alias zsh-reload='. $HOME/.zshrc'
 
 alias pyva='source $(poetry env info --path)/bin/activate'
 alias pyvd='deactivate'
+
+# Clojure
+
+alias nrepl="clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version \"1.0.0\"} cider/cider-nrepl {:mvn/version \"0.42.1\"}}}' -M --main nrepl.cmdline --middleware '[\"cider.nrepl/cider-middleware\"]' --interactive"

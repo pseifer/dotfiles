@@ -10,3 +10,4 @@
 
 [core]
     pager = "less -F"
+

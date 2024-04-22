@@ -1,0 +1,34 @@
+- name: Find the current desktop
+  shell:
+    cmd: "echo $XDG_CURRENT_DESKTOP"
+  register: current_desktop
+  changed_when: false
+
+- block:
+  - name: Install gnome tools
+    include_tasks: lib/packages.yml
+    vars:
+      packages:
+        - gnome-tweaks
+        - gnome-shell-extensions
+        - chrome-gnome-shell
+
+  # If this does not exist yet, call gsettings in final step.
+  - name: Test whether themes need to be updated
+    stat:
+      path: "{{ ansible_env.HOME }}/.themes"
+    register: result
+
+  - name: Download dracula theme
+    include_tasks: lib/download-unpack-to.yml
+    vars:
+      url: https://github.com/dracula/gtk/archive/master.zip
+      creates: .themes
+
+  - name: Apply gnome theme
+    shell: |
+      gsettings set org.gnome.desktop.interface gtk-theme "Dracula"
+      gsettings set org.gnome.desktop.wm.preferences theme "Dracula"
+    when: not result.stat.exists
+
+  when: current_desktop.stdout is match(".*GNOME.*")

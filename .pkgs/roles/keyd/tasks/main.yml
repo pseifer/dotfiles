@@ -1,0 +1,14 @@
+- name: Clone keyd keyboard daemon
+  include_tasks: lib/clone-make-install.yml
+  vars:
+    repo: https://github.com/rvaiya/keyd
+    local: keyd
+    version: v2.4.3
+
+- name: Start service keyd
+  systemd:
+    name: keyd
+    enabled: yes
+    state: started
+  when: ansible_os_family == "Debian"
+ 

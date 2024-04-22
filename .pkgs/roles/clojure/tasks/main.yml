@@ -1,0 +1,11 @@
+- name: Install clojure
+  include_tasks: lib/download-run.yml
+  vars:
+    url: https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
+    cmd: clj
+
+- name: Install babashka
+  include_tasks: lib/download-run.yml
+  vars:
+    url: https://raw.githubusercontent.com/babashka/babashka/master/install
+    cmd: bb

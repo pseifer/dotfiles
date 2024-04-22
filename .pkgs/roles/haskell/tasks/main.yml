@@ -1,0 +1,5 @@
+- name: Install haskell
+  include_tasks: lib/download-run.yml
+  vars:
+    url: https://get-ghcup.haskell.org
+    cmd: ghcup

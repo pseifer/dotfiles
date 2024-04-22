@@ -147,7 +147,7 @@ fi
 # Ctrl-T: Fuzzy search paths (.)
 # Ctrl-R: Fuzzy search history (takes partial line into account).
 # Ctrl-Y: Fuzzy CD folders ($HOME).
-source "$HOME/.local/share/punkt/fzf-key-bindings.zsh"
+source /usr/share/doc/fzf/examples/key-bindings.zsh
 # source /usr/share/doc/fzf/examples/completion.zsh # uncomment to enable ** completion
 
 # Setup fzf to use fd.
@@ -186,3 +186,8 @@ export FZF_DEFAULT_OPTS="\
 
 # TODO: Setup custom completions.
 # https://seb.jambor.dev/posts/improving-shell-workflows-with-fzf/
+
+# Note: Keep this at the end of the file.
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+

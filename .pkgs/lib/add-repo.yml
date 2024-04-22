@@ -1,0 +1,34 @@
+
+### Usage #############################################################
+# Add a Debian deb822 apt repository.
+#
+# name: X-Repolib-Name
+# url: URI for the resource
+# key: URI (or local file) for key
+# suite: "/" or some os version, e.g., focal 
+# component: optional, e.g., main
+# architecture: optional, e.g., amd64
+#######################################################################
+
+- block:
+  - name: Add "{{ name }}" repository
+    ansible.builtin.deb822_repository:
+      name: "{{ name }}"
+      types: [deb]
+      uris: "{{ url }}"
+      signed_by: "{{ key }}"
+      suites: "{{ suite }}"
+      components: "{{ component | default(omit) }}"
+      state: present
+      enabled: yes
+      architectures: "{{ architecture | default(omit) }}"
+    register: addedrepo
+
+  - name: Update system
+    apt:
+      upgrade: no
+      update_cache: yes
+    when: addedrepo.changed
+
+  when: ansible_os_family == "Debian"
+  become: true

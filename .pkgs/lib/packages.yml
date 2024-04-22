@@ -1,0 +1,12 @@
+
+### Usage #############################################################
+# Install a list of packages via the systems package manager.
+# packages: The packages to install.
+#######################################################################
+
+- name: Install "{{packages}}"
+  package:
+    name: "{{packages}}"
+    state: present
+  become: yes
+

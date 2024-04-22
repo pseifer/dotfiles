@@ -1,0 +1,34 @@
+- name: Install tools for the terminal 
+  include_tasks: lib/packages.yml
+  vars:
+    packages:
+      - tmux
+      - w3m
+      - ripgrep
+      - tree
+      - rlwrap
+      - btop
+      - fzf
+      - bat
+      - zoxide
+      - imagemagick
+
+- name: Install tools for the terminal (Debian)
+  include_tasks: lib/packages.yml
+  vars:
+    packages:
+      - fd-find
+  when: ansible_os_family == "Debian"
+
+- name: Install tools for the terminal (Generic)
+  include_tasks: lib/packages.yml
+  vars:
+    packages:
+      - fd
+  when: ansible_os_family != "Debian"
+
+# - name: Install zoxide
+#   include_tasks: lib/download-run.yml
+#   vars:
+#     url: https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh
+#     cmd: zoxide

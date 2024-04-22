@@ -51,10 +51,20 @@ return {
 		require("mason-lspconfig").setup({})
 		-- (3) Setup language servers.
 		-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-		require("lspconfig").pyright.setup({})
-		require("lspconfig").ruff_lsp.setup({})
-		require("lspconfig").clojure_lsp.setup({})
-		require("lspconfig").lua_ls.setup({
+		local lsp = require("lspconfig")
+		-- vim.tbl_deep_extend("keep", lsp, {
+		-- 	roc_lsp = {
+		-- 		cmd = { "roc_language_server" },
+		-- 		filetypes = { "roc" },
+		-- 		single_file_support = true,
+		-- 		name = "roc_lsp",
+		-- 	},
+		-- })
+		lsp.pyright.setup({})
+		lsp.ruff_lsp.setup({})
+		lsp.clojure_lsp.setup({})
+		--lsp.roc_lsp.setup({})
+		lsp.lua_ls.setup({
 			settings = {
 				diagnostics = {
 					globals = {

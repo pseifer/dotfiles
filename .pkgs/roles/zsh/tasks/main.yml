@@ -1,0 +1,29 @@
+- name: Install zsh
+  include_tasks: lib/packages.yml
+  vars:
+    packages:
+      - zsh
+
+- name: Install fsh
+  include_tasks: lib/clone.yml
+  vars:
+    repo: "https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
+    local: fast-syntax-highlighting
+
+- name: Install completions
+  include_tasks: lib/clone.yml
+  vars:
+    repo: "https://github.com/zsh-users/zsh-completions.git"
+    local: zsh-completions
+
+- name: Install s1ck3r
+  include_tasks: lib/clone.yml
+  vars:
+    repo: "https://github.com/pseifer/s1ck3r"
+    local: s1ck3r
+
+- name: Download FZF keybindings
+  include_tasks: lib/clone.yml
+  vars:
+    repo: "https://github.com/pseifer/s1ck3r"
+    local: s1ck3r
