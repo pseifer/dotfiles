@@ -38,32 +38,81 @@ font:
 
   size: 12
 
-# Use the dracula color theme, slightly modified.
+# # Use the dracula color theme, slightly modified.
+# colors:
+#   # Default colors
+#   primary:
+#     background: '0x282a36' # background - Dracula Background
+#     foreground: '0xf8f8f2' # foreground - Dracula Foreground
+# 
+#   # Normal colors
+#   normal:
+#     black:   '0x44475a' # 000 - Dracula Current Line (!)
+#     red:     '0xff5555' # 001 - Dracula Red
+#     green:   '0x50fa7b' # 002 - Dracula Green
+#     yellow:  '0xf1fa8c' # 003 - Dracula Yellow
+#     blue:    '0xbd93f9' # 004 - Dracula Purple
+#     magenta: '0xff79c6' # 005 - Dracula Pink
+#     cyan:    '0x8be9fd' # 006 - Dracula Cyan
+#     white:   '0xffb86c' # 015 - Dracula Orange (!)
+# 
+#   # Bright colors
+#   bright:
+#     black:   '0x6272a4' # 008 - Dracula Comment (!)
+#     red:     '0xff5555' # 009 - Dracula Red
+#     green:   '0x50fa7b' # 010 - Dracula Green
+#     yellow:  '0xf1fa8c' # 011 - Dracula Yellow
+#     blue:    '0xcaa9fa' # 012 - Dracula Purple
+#     magenta: '0xff79c6' # 013 - Dracula Pink
+#     cyan:    '0x8be9fd' # 014 - Dracula Cyan
+#     white:   '0xf8f8f2' # 007 - Dracula Foreground (!)
+
+# The Nord color theme.
 colors:
-  # Default colors
   primary:
-    background: '0x282a36' # background - Dracula Background
-    foreground: '0xf8f8f2' # foreground - Dracula Foreground
-
-  # Normal colors
+    background: "#2e3440"
+    foreground: "#d8dee9"
+    dim_foreground: "#a5abb6"
+  cursor:
+    text: "#2e3440"
+    cursor: "#d8dee9"
+  vi_mode_cursor:
+    text: "#2e3440"
+    cursor: "#d8dee9"
+  selection:
+    text: CellForeground
+    background: "#4c566a"
+  search:
+    matches:
+      foreground: CellBackground
+      background: "#88c0d0"
+    bar:
+      background: "#434c5e"
+      foreground: "#d8dee9"
   normal:
-    black:   '0x44475a' # 000 - Dracula Current Line (!)
-    red:     '0xff5555' # 001 - Dracula Red
-    green:   '0x50fa7b' # 002 - Dracula Green
-    yellow:  '0xf1fa8c' # 003 - Dracula Yellow
-    blue:    '0xbd93f9' # 004 - Dracula Purple
-    magenta: '0xff79c6' # 005 - Dracula Pink
-    cyan:    '0x8be9fd' # 006 - Dracula Cyan
-    white:   '0xffb86c' # 015 - Dracula Orange (!)
-
-  # Bright colors
+    black: "#3b4252"
+    red: "#bf616a"
+    green: "#a3be8c"
+    yellow: "#ebcb8b"
+    blue: "#81a1c1"
+    magenta: "#b48ead"
+    cyan: "#88c0d0"
+    white: "#e5e9f0"
   bright:
-    black:   '0x6272a4' # 008 - Dracula Comment (!)
-    red:     '0xff5555' # 009 - Dracula Red
-    green:   '0x50fa7b' # 010 - Dracula Green
-    yellow:  '0xf1fa8c' # 011 - Dracula Yellow
-    blue:    '0xcaa9fa' # 012 - Dracula Purple
-    magenta: '0xff79c6' # 013 - Dracula Pink
-    cyan:    '0x8be9fd' # 014 - Dracula Cyan
-    white:   '0xf8f8f2' # 007 - Dracula Foreground (!)
-
+    black: "#4c566a"
+    red: "#bf616a"
+    green: "#a3be8c"
+    yellow: "#ebcb8b"
+    blue: "#81a1c1"
+    magenta: "#b48ead"
+    cyan: "#8fbcbb"
+    white: "#eceff4"
+  dim:
+    black: "#373e4d"
+    red: "#94545d"
+    green: "#809575"
+    yellow: "#b29e75"
+    blue: "#68809a"
+    magenta: "#8c738c"
+    cyan: "#6d96a5"
+    white: "#aeb3bb"

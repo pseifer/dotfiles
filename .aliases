@@ -67,6 +67,7 @@ alias glowme='ls *.md | entr -c glow README.md'
 alias c='clear'
 alias j='jobs'
 alias top='btop -t'
+alias bat='bat -pp --theme=base16'
 
 # Zsh
 
