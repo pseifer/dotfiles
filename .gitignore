@@ -7,6 +7,6 @@
 !/.pkgs/*
 /.pkgs/local.yml
 !/.config
-#.config/*
+.config/*
 !/.config/nvim
 !/.config/nvim/*

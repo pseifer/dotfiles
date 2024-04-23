@@ -1,7 +1,7 @@
 # Load color theme.
 
 import = [
-    "~/.config/alacritty/themes/onenord-light.toml"
+    "~/.config/alacritty/themes/gruvbox_material.toml"
 ]
 
 # Alacritty configuration, connecting to single tmux session 'base'.

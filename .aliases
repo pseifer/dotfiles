@@ -66,8 +66,8 @@ alias glowme='ls *.md | entr -c glow README.md'
 
 alias c='clear'
 alias j='jobs'
-alias top='btop -t'
-alias bat='bat -pp --theme=base16'
+alias top='btop'
+alias bat='batcat -pp --theme=base16'
 
 alias man='w3mman'
 

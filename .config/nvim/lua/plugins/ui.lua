@@ -2,109 +2,25 @@
 
 return {
 
-	-- Everforest
-	-- + Works really well with redshift/flux.
-	-- - Very yellowish and thus a bit ugly.
-	--
-	--{
-	--	"sainnhe/everforest",
-	--	priority = 1000,
-	--	config = function()
-	--		vim.o.background = "light" -- or 'light'
-	--		vim.cmd("colorscheme everforest")
-	--	end,
-	--},
-
-	-- Gruvmox Material
-	-- - Works not as well as Everforest with redshift/flux.
-	-- - Is similarly yellowish.
-	--
-	--{
-	--	"sainnhe/gruvbox-material",
-	--	lazy = false,
-	--	priority = 1000,
-	--	config = function()
-	--		vim.o.background = "light" -- or 'light'
-	--		vim.g.gruvbox_material_foreground = "original"
-	--		vim.g.gruvbox_material_background = "medium"
-	--		vim.cmd.colorscheme("gruvbox-material")
-	--	end,
-	--},
-
-	-- Solarized
-	-- ~ Works OK with redshift/flux.
-	-- ~ Not as yellowish as Gruvbox or Everforest.
-	--
-	--{
-	--	"Tsuzat/NeoSolarized.nvim",
-	--	lazy = false, -- make sure we load this during startup if it is your main colorscheme
-	--	priority = 1000, -- make sure to load this before all the other start plugins
-	--	config = function()
-	--		require("NeoSolarized").setup({
-	--			style = "light",
-	--			transparent = false,
-	--			terminal_colors = true,
-	--			enable_italics = true,
-	--		})
-	--		vim.o.background = "dark"
-	--		vim.cmd([[ colorscheme NeoSolarized ]])
-	--	end,
-	--},
-
-	-- Catpuccin
-	-- + Nice neutral grey.
-	-- - Does not work so well with redshift/flux.
-	--
-	--{
-	--	"catppuccin/nvim",
-	--	name = "catppuccin",
-	--	priority = 1000,
-	--	config = function()
-	--		vim.cmd("colorscheme catppuccin-latte")
-	--	end,
-	--},
-
-	-- Onenord
-	-- + Nice neutral grey
-	-- + redshift? Pretty good.
-	-- + Really good vim plugin.
-	--
+	-- Gruvmox Material Theme.
 	{
-		"rmehri01/onenord.nvim",
+		"sainnhe/gruvbox-material",
+		lazy = false,
 		priority = 1000,
 		config = function()
-			require("onenord").setup({
-				--theme = "light",
-				--borders = true, -- Split window borders
-				--fade_nc = false, -- Fade non-current windows, making them more distinguishable
-				---- Style that is applied to various groups: see `highlight-args` for options
-				--styles = {
-				--	comments = "NONE",
-				--	strings = "NONE",
-				--	keywords = "NONE",
-				--	functions = "NONE",
-				--	variables = "NONE",
-				--	diagnostics = "underline",
-				--},
-				--disable = {
-				--	background = false, -- Disable setting the background color
-				--	float_background = false, -- Disable setting the background color for floating windows
-				--	cursorline = false, -- Disable the cursorline
-				--	eob_lines = true, -- Hide the end-of-buffer lines
-				--},
-				---- Inverse highlight for different groups
-				--inverse = {
-				--	match_paren = false,
-				--},
-				--custom_highlights = {}, -- Overwrite default highlight groups
-				--custom_colors = {}, -- Overwrite default colors
-			})
-			vim.cmd("colorscheme onenord")
-			vim.o.background = "light"
+			vim.o.background = "dark"
+			vim.g.gruvbox_material_foreground = "material"
+			vim.g.gruvbox_material_background = "medium"
+			vim.cmd.colorscheme("gruvbox-material")
+			-- Universal fix for plugins that fuck up BufferLineFill:
+			vim.cmd.hi("BufferLineFill guibg=#282828")
+			--vim.cmd.hi("BufferLineFill guibg=#fbf1c7") -- (light mode)
+			-- Set telescope selection to not-ugyl.
+			vim.cmd.hi("TelescopeSelection guibg=#32302f")
 		end,
 	},
 
-	-- Configuration for lualine.
+	-- Configuration for LuaLine.
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons", opt = true },
@@ -114,21 +30,13 @@ return {
 				options = {
 					component_separators = "",
 					section_separators = "",
-					theme = "onenord",
+					theme = "gruvbox-material",
 				},
-				-- tabline = {
-				-- 	lualine_a = { "tabs" },
-				-- 	lualine_b = {},
-				-- 	lualine_c = {},
-				-- 	lualine_x = {},
-				-- 	lualine_y = {},
-				-- 	lualine_z = {},
-				-- },
 			})
 		end,
 	},
 
-	-- Configuration for bufferline.
+	-- Configuration for BufferLine.
 	{
 		"akinsho/bufferline.nvim",
 		--lazy = false,
@@ -195,6 +103,78 @@ return {
 		end,
 	},
 }
+
+-- Storage for color theme configs.
+--
+-- Everforest
+-- + Works really well with redshift/flux.
+-- - Very yellowish and thus a bit ugly.
+--
+--{
+--	"sainnhe/everforest",
+--	priority = 1000,
+--	config = function()
+--		vim.o.background = "light" -- or 'light'
+--		vim.cmd("colorscheme everforest")
+--	end,
+--},
+
+-- Solarized -- Need better implementation.
+-- ~ Works OK with redshift/flux.
+-- ~ Not as yellowish as Gruvbox or Everforest.
+--
+--{
+--	"Tsuzat/NeoSolarized.nvim",
+--	lazy = false, -- make sure we load this during startup if it is your main colorscheme
+--	priority = 1000, -- make sure to load this before all the other start plugins
+--	config = function()
+--		require("NeoSolarized").setup({
+--			style = "light",
+--			transparent = false,
+--			terminal_colors = true,
+--			enable_italics = true,
+--		})
+--		vim.o.background = "dark"
+--		vim.cmd([[ colorscheme NeoSolarized ]])
+--	end,
+--},
+
+-- Catpuccin
+-- + Nice neutral grey.
+-- - Does not work so well with redshift/flux.
+--
+--{
+--	"catppuccin/nvim",
+--	name = "catppuccin",
+--	priority = 1000,
+--	config = function()
+--		vim.cmd("colorscheme catppuccin-latte")
+--	end,
+--},
+
+-- Onenord
+-- + Nice neutral grey
+-- + redshift? Pretty good.
+-- + Really good vim plugin.
+--{
+--	"rmehri01/onenord.nvim",
+--	priority = 1000,
+--	config = function()
+--		require("onenord").setup({
+--			theme = "light",
+--		})
+--		vim.cmd("colorscheme onenord")
+--		vim.o.background = "light"
+--	end,
+--},
+
+-- Nightfox + Variants
+--{
+--	"EdenEast/nightfox.nvim",
+--	config = function()
+--		vim.cmd("colorscheme dayfox")
+--	end,
+--},
 
 -- Storage for alternative splash images.
 
