@@ -180,25 +180,25 @@ fi
 # Setup preview with bat or tree, depending on type.
 export FZF_CTRL_T_OPTS="--preview '$BAT -n --theme=base16 --color=always {} 2> /dev/null || tree -C {}'"
 
-# Colors (Solarized Light).
-export COLOR_BLACK='#073642'
-export COLOR_RED='#dc322f'
-export COLOR_GREEN='#859900'
-export COLOR_YELLOW='#b58900'
-export COLOR_BLUE='#268bd2'
-export COLOR_MAGENTA='#d33682'
-export COLOR_CYAN='#2aa198'
-export COLOR_WHITE='#eee8d5'
-export COLOR_BACKGROUND='#fdf6e3'
-export COLOR_FOREGROUND='#586e75'
+# Colors (Onenord Light).
+export COLOR_BLACK='#2E3440'
+export COLOR_RED='#CB4F53'
+export COLOR_GREEN='#48A53D'
+export COLOR_YELLOW='#EE5E25'
+export COLOR_BLUE='#3879C5'
+export COLOR_MAGENTA='#9F4ACA'
+export COLOR_CYAN='#3EA1AD'
+export COLOR_WHITE='#E5E9F0'
+export COLOR_BACKGROUND='#F7F8FA'
+export COLOR_FOREGROUND='#2E3440'
 
-# Set the FZF color theme to dracula.
+# Set the FZF color theme.
 export FZF_DEFAULT_OPTS="\
   --preview-window noborder
   --color=fg:"$COLOR_FOREGROUND",bg:"$COLOR_BACKGROUND",hl:"$COLOR_FOREGROUND" \
   --color=fg+:"$COLOR_FOREGROUND",bg+:"$COLOR_WHITE",hl+:"$COLOR_BLUE" \
   --color=info:"$COLOR_FOREGROUND",prompt:"$COLOR_CYAN",pointer:"$COLOR_CYAN" \
-  --color=marker:"$COLOR_FOREGROUND",spinner:"$COLOR_FOREGROUND",header:"$COLOR_BLUE""
+  --color=marker:"$COLOR_FOREGROUND",spinner:"$COLOR_GREEN",header:"$COLOR_BLUE""
 
 # TODO: Setup custom completions.
 # https://seb.jambor.dev/posts/improving-shell-workflows-with-fzf/
@@ -207,5 +207,11 @@ export FZF_DEFAULT_OPTS="\
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
+# Clear the screen with CTRL-O, instead of CTRL-L.
+bindkey "^O" clear-screen
+
 # Return success in any case; zsh reports any errors.
 return 0
+
+
+
