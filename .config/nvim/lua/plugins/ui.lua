@@ -3,6 +3,9 @@
 return {
 
 	-- Everforest
+	-- + Works really well with redshift/flux.
+	-- - Very yellowish and thus a bit ugly.
+	--
 	--{
 	--	"sainnhe/everforest",
 	--	priority = 1000,
@@ -13,6 +16,9 @@ return {
 	--},
 
 	-- Gruvmox Material
+	-- - Works not as well as Everforest with redshift/flux.
+	-- - Is similarly yellowish.
+	--
 	--{
 	--	"sainnhe/gruvbox-material",
 	--	lazy = false,
@@ -26,38 +32,29 @@ return {
 	--},
 
 	-- Solarized
-	{
-		"Tsuzat/NeoSolarized.nvim",
-		lazy = false, -- make sure we load this during startup if it is your main colorscheme
-		priority = 1000, -- make sure to load this before all the other start plugins
-		config = function()
-			require("NeoSolarized").setup({
-				style = "light", -- "dark" or "light"
-				transparent = false,
-				terminal_colors = true,
-				enable_italics = true,
-				styles = {
-					-- Style to be applied to different syntax groups
-					comments = { italic = true },
-					keywords = { italic = true },
-					functions = { bold = true },
-					variables = {},
-					string = { italic = true },
-					underline = true, -- true/false; for global underline
-					undercurl = true, -- true/false; for global undercurl
-				},
-				-- Add specific hightlight groups
-				on_highlights = function(highlights, colors)
-					-- highlights.Include.fg = colors.red -- Using `red` foreground for Includes
-				end,
-				--vim.cmd("hi BufferCurrentModBtn guibg=#110000"),
-			})
-			--vim.o.background = "dark"
-			vim.cmd([[ colorscheme NeoSolarized ]])
-		end,
-	},
+	-- ~ Works OK with redshift/flux.
+	-- ~ Not as yellowish as Gruvbox or Everforest.
+	--
+	--{
+	--	"Tsuzat/NeoSolarized.nvim",
+	--	lazy = false, -- make sure we load this during startup if it is your main colorscheme
+	--	priority = 1000, -- make sure to load this before all the other start plugins
+	--	config = function()
+	--		require("NeoSolarized").setup({
+	--			style = "light",
+	--			transparent = false,
+	--			terminal_colors = true,
+	--			enable_italics = true,
+	--		})
+	--		vim.o.background = "dark"
+	--		vim.cmd([[ colorscheme NeoSolarized ]])
+	--	end,
+	--},
 
 	-- Catpuccin
+	-- + Nice neutral grey.
+	-- - Does not work so well with redshift/flux.
+	--
 	--{
 	--	"catppuccin/nvim",
 	--	name = "catppuccin",
@@ -66,6 +63,46 @@ return {
 	--		vim.cmd("colorscheme catppuccin-latte")
 	--	end,
 	--},
+
+	-- Onenord
+	-- + Nice neutral grey
+	-- + redshift? Pretty good.
+	-- + Really good vim plugin.
+	--
+	{
+		"rmehri01/onenord.nvim",
+		priority = 1000,
+		config = function()
+			require("onenord").setup({
+				--theme = "light",
+				--borders = true, -- Split window borders
+				--fade_nc = false, -- Fade non-current windows, making them more distinguishable
+				---- Style that is applied to various groups: see `highlight-args` for options
+				--styles = {
+				--	comments = "NONE",
+				--	strings = "NONE",
+				--	keywords = "NONE",
+				--	functions = "NONE",
+				--	variables = "NONE",
+				--	diagnostics = "underline",
+				--},
+				--disable = {
+				--	background = false, -- Disable setting the background color
+				--	float_background = false, -- Disable setting the background color for floating windows
+				--	cursorline = false, -- Disable the cursorline
+				--	eob_lines = true, -- Hide the end-of-buffer lines
+				--},
+				---- Inverse highlight for different groups
+				--inverse = {
+				--	match_paren = false,
+				--},
+				--custom_highlights = {}, -- Overwrite default highlight groups
+				--custom_colors = {}, -- Overwrite default colors
+			})
+			vim.cmd("colorscheme onenord")
+			vim.o.background = "light"
+		end,
+	},
 
 	-- Configuration for lualine.
 	{
@@ -77,7 +114,7 @@ return {
 				options = {
 					component_separators = "",
 					section_separators = "",
-					theme = "NeoSolarized",
+					theme = "onenord",
 				},
 				-- tabline = {
 				-- 	lualine_a = { "tabs" },
@@ -91,38 +128,21 @@ return {
 		end,
 	},
 
+	-- Configuration for bufferline.
 	{
 		"akinsho/bufferline.nvim",
+		--lazy = false,
 		version = "*",
 		dependencies = "nvim-tree/nvim-web-devicons",
 		config = function()
-			require("bufferline").setup({})
+			require("bufferline").setup({
+				options = {
+					show_buffer_icons = false,
+					buffer_close_icon = " ",
+				},
+			})
 		end,
 	},
-
-	-- Configure barbar.
-	--{
-	--	"romgrk/barbar.nvim",
-	--	dependencies = {
-	--		"lewis6991/gitsigns.nvim",
-	--		"nvim-tree/nvim-web-devicons",
-	--	},
-	--	init = function()
-	--		vim.g.barbar_auto_setup = false
-	--		require("barbar").setup({
-	--			icons = {
-	--				separator = { left = "", right = "" },
-	--				separator_at_end = false,
-	--				filetype = {
-	--					-- Disable icons.
-	--					enabled = false,
-	--				},
-	--			},
-	--		})
-	--	end,
-	--	opts = {},
-	--	version = "^1.0.0", -- optional: only update when a new 1.x version is released
-	--},
 
 	-- Configuration for the alpha greeter.
 	{

@@ -6,17 +6,17 @@ function modify_hl(ns, name, changes)
 end
 
 -- Set color for floating windows.
-local set_hl_for_floating_window = function()
-	modify_hl(0, "NormalFloat", { bg = "#f4f0d9" })
-end
-
-set_hl_for_floating_window()
-
-vim.api.nvim_create_autocmd("ColorScheme", {
-	pattern = "*",
-	desc = "Avoid overwritten by loading color schemes later",
-	callback = set_hl_for_floating_window,
-})
+-- local set_hl_for_floating_window = function()
+-- 	modify_hl(0, "NormalFloat", { bg = "#f4f0d9" })
+-- end
+--
+--set_hl_for_floating_window()
+--
+--vim.api.nvim_create_autocmd("ColorScheme", {
+--	pattern = "*",
+--	desc = "Avoid overwritten by loading color schemes later",
+--	callback = set_hl_for_floating_window,
+--})
 
 -- Open telescope file browser when opening directories.
 

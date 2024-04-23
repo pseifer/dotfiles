@@ -2,6 +2,7 @@
 
 local go = vim.o -- Global.
 
+go.showmode = false
 go.termguicolors = true -- Enable true colors.
 --vim.cmd("colorscheme gruvbox") -- Set color scheme.
 

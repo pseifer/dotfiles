@@ -45,3 +45,6 @@ nmap("<leader>f", "<Nop>", "")
 -- Stay in visual mode when indenting.
 vmap("<", "<gv", "stay indent <")
 vmap(">", ">gv", "stay indent >")
+
+-- Exit terminal mode with <Esc>.
+tmap("<Esc>", "<C-\\><C-n>", "Exit terminal mode")

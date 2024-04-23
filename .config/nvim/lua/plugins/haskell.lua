@@ -2,7 +2,7 @@
 
 return {
 	-- Roc lang.
-	"ChrisWellsWood/roc.vim",
+	--"ChrisWellsWood/roc.vim",
 	-- Haskell stuff below.
 
 	"mrcjkb/haskell-tools.nvim",
