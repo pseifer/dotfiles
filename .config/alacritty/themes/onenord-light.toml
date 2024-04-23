@@ -1,0 +1,44 @@
+[colors.primary]
+background = '#F7F8FA'
+foreground = '#2E3440'
+
+  # Normal colors
+[colors.normal]
+black =   '#2E3440'
+red =     '#CB4F53'
+green =   '#48A53D'
+yellow =  '#EE5E25'
+blue =    '#3879C5'
+magenta = '#9F4ACA'
+cyan =    '#3EA1AD'
+white =   '#E5E9F0'
+
+[colors.bright]
+black =   '#646A76'
+red =     '#D16366'
+green =   '#5F9E9D'
+yellow =  '#BA793E'
+blue =    '#1B40A6'
+magenta = '#9665AF'
+cyan =    '#8FBCBB'
+white =   '#ECEFF4'
+
+[colors.search.matches]
+foreground = '#3879C5'
+background = '#646A76'
+
+[colors.search.focused_match]
+foreground = '#EE5E25'
+background = '#646A76'
+
+[colors.hints.start]
+foreground = '#9665AF'
+background = '#646A76'
+
+[colors.hints.end]
+foreground = '#3879C5'
+background = '#646A76'
+
+[colors.selection]
+text = '#F7F8FA'
+background = '#EAEBED'

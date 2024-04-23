@@ -1,7 +1,7 @@
 # Load color theme.
 
 import = [
-    "~/.config/alacritty/themes/solarized_light.toml"
+    "~/.config/alacritty/themes/onenord-light.toml"
 ]
 
 # Alacritty configuration, connecting to single tmux session 'base'.
@@ -13,7 +13,7 @@ program = "tmux"
 # Window setup
 
 [window]
-decorations = "None"
+#decorations = "None"
 startup_mode = "Maximized"
 
 [window.padding]
