@@ -10,7 +10,7 @@
     - core-tools               # Ensure core tools are available (e.g., curl or zip).
     - terminal-tools           # Basic terminal tools like bat or fzf.
     - gui-tools                # Utility applications with a GUI, when needed.
-    - source-code-pro          # Nerdfonts: Sauce Code Pro
+    - fonts                    # Install a few nerdfonts.
 
     ### Install dedicated applications.
     - zsh

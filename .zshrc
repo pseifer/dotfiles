@@ -185,7 +185,7 @@ export FZF_DEFAULT_OPTS="
   --preview-window noborder
   --color=dark
   --color=prompt:green
-  --color=pointer:green"
+  --color=pointer:black"
 
 # TODO: Setup custom completions.
 # https://seb.jambor.dev/posts/improving-shell-workflows-with-fzf/

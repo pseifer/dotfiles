@@ -4,11 +4,23 @@
 thi() {
     tmux rename-window 'home'
     tmux send-keys -t 'home' 'notes' 'Enter'
-    tmux split-window -h -p 50 -t 'home'
+    tmux split-window -h -l '50%' -t 'home'
     tmux send-keys -t 'home' 'vdirsyncer sync; clear; ical' 'Enter'
-    tmux split-window -v -p 50 -t 'home'
+    tmux split-window -v -l '50%' -t 'home'
     tmux send-key -t 'home' 't' 'Enter'
     clear
+}
+
+# Set up the notes workspace.
+tnotes() {
+    tmux rename-window 'notes'
+    tmux send-keys -t 'notes' 'notes' 'Enter'
+}
+
+# Set up a fresh tmnux session with defaults.
+tmain() {
+    tnotes
+    tmux new-window -n 'main'
 }
 
 # Setup a generic development session in a certain directory,
@@ -32,7 +44,7 @@ tdev() {
     tmux send-keys -t "${name}" "cd $dir; $precmd; clear; vi ." 'Enter'
 
     # Split one third off and run $precmd ; $cmd.
-    tmux split-window -h -p 30 -t "${name}"
+    tmux split-window -h -l '30%' -t "${name}"
     tmux send-keys -t "${name}" "cd $dir; $precmd; clear; $cmd" 'Enter'
     tmux last-pane # select VI
 

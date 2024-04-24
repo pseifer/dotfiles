@@ -2,21 +2,19 @@
 
 return {
 
-	-- Gruvmox Material Theme.
+	-- Contrast-based "Zenbones" theme.
 	{
-		"sainnhe/gruvbox-material",
-		lazy = false,
+		"mcchrish/zenbones.nvim",
 		priority = 1000,
+		dependencies = { "rktjmp/lush.nvim" },
 		config = function()
-			vim.o.background = "dark"
-			vim.g.gruvbox_material_foreground = "material"
-			vim.g.gruvbox_material_background = "medium"
-			vim.cmd.colorscheme("gruvbox-material")
-			-- Universal fix for plugins that fuck up BufferLineFill:
-			vim.cmd.hi("BufferLineFill guibg=#282828")
-			--vim.cmd.hi("BufferLineFill guibg=#fbf1c7") -- (light mode)
-			-- Set telescope selection to not-ugyl.
-			vim.cmd.hi("TelescopeSelection guibg=#32302f")
+			--require("zenbones").setup({
+			--})
+			vim.cmd("colorscheme zenbones")
+			vim.o.background = "light"
+			-- Background: #F0EDEC
+			-- Fix BuffeLine background color (blend with main background).
+			vim.cmd.hi("BufferLineFill guibg=#F0EDEC")
 		end,
 	},
 
@@ -30,7 +28,7 @@ return {
 				options = {
 					component_separators = "",
 					section_separators = "",
-					theme = "gruvbox-material",
+					theme = "zenbones",
 				},
 			})
 		end,
@@ -104,7 +102,40 @@ return {
 	},
 }
 
+-- END
+
 -- Storage for color theme configs.
+--
+-- Gruvmox Material Theme.
+--{
+--	"sainnhe/gruvbox-material",
+--	lazy = false,
+--	priority = 1000,
+--	config = function()
+--		vim.o.background = "dark"
+--		vim.g.gruvbox_material_foreground = "material"
+--		vim.g.gruvbox_material_background = "medium"
+--		vim.cmd.colorscheme("gruvbox-material")
+--		-- Universal fix for plugins that fuck up BufferLineFill:
+--		vim.cmd.hi("BufferLineFill guibg=#282828")
+--		--vim.cmd.hi("BufferLineFill guibg=#fbf1c7") -- (light mode)
+--		-- Set telescope selection to not-ugyl.
+--		vim.cmd.hi("TelescopeSelection guibg=#32302f")
+--	end,
+--},
+
+--{
+--	"rmehri01/onenord.nvim",
+--	priority = 1000,
+--	config = function()
+--		require("onenord").setup({
+--			theme = "light",
+--		})
+--		vim.cmd("colorscheme onenord")
+--		vim.o.background = "light"
+--	end,
+--},
+--
 --
 -- Everforest
 -- + Works really well with redshift/flux.

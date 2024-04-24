@@ -10,3 +10,6 @@
 .config/*
 !/.config/nvim
 !/.config/nvim/*
+!/.config/alacritty
+!/.config/alacritty/*
+/.config/alacritty/themes
