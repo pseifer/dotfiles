@@ -1,4 +1,8 @@
 
+# Setup system specific alacritty config.
+[ -f "$HOME/.config/alacritty/os.toml" ]\
+    || ln -s "$HOME/.config/alacritty/linux.toml" "$HOME/.config/alacritty/os.toml"
+
 # System specific aliases.
 
 alias l="ls --color --group-directories-first -AlFh"

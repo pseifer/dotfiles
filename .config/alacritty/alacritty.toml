@@ -1,20 +1,10 @@
-# Load color theme.
 
 import = [
-    "~/.config/alacritty/themes/zenbones-light.toml"
+    # Load color theme.
+    "~/.config/alacritty/themes/zenbones-light.toml",
+    # Load OS specific settings.
+    "~/.config/alacritty/os.toml"
 ]
-
-# Alacritty configuration, connecting to single tmux session 'base'.
-
-[shell]
-args = ["new-session", "-A", "-s", "base"]
-program = "tmux"
-
-# Window setup.
-
-[window]
-decorations = "None"
-startup_mode = "Maximized"
 
 [window.padding]
 x = 5
@@ -26,7 +16,7 @@ TERM = "xterm-256color"
 # Font settings.
 
 [font]
-size = 14
+size = 16
 
 [font.bold]
 family = "SauceCodePro Nerd Font"

@@ -19,7 +19,19 @@ return {
 
 	-- Small plugin for seamless navigation between
 	-- VIM windows and TMUX panes.
-	"christoomey/vim-tmux-navigator",
+	--"christoomey/vim-tmux-navigator",
+	{
+		"numToStr/Navigator.nvim",
+		config = function()
+			require("Navigator").setup()
+			require("util")
+			nmap("<C-h>", "<CMD>NavigatorLeft<CR>")
+			nmap("<C-l>", "<CMD>NavigatorRight<CR>")
+			nmap("<C-k>", "<CMD>NavigatorUp<CR>")
+			nmap("<C-j>", "<CMD>NavigatorDown<CR>")
+			nmap("<C-p>", "<CMD>NavigatorPrevious<CR>")
+		end,
+	},
 
 	-- Rooter: Updates working directory to project root.
 	{

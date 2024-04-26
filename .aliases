@@ -64,6 +64,8 @@ alias url-decode='python3 -c "import sys, urllib.parse as ulp; print(ulp.unquote
 alias url-encode='python3 -c "import sys, urllib.parse as ulp; print(ulp.quote(sys.argv[1]))"'
 alias glowme='ls *.md | entr -c glow README.md'
 
+alias fixfonts='defaults write -g AppleFontSmoothing -int 0'
+
 alias c='clear'
 alias j='jobs'
 alias top='btop'
