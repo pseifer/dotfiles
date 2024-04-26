@@ -1,4 +1,4 @@
--- Configuration for the UI.ui
+-- Configuration for the UI.
 
 return {
 
