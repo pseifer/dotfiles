@@ -25,6 +25,8 @@ return {
 					-- Files
 					f = { "<cmd>Telescope find_files<cr>", "Find file (project root)" },
 					F = { '<cmd>Telescope find_files search_dirs={"$HOME"}<cr>', "Find file (~)" },
+					d = { "<cmd>Telescope git_files<cr>", "Search git files" },
+					-- Files (other)
 					c = {
 						"<cmd>Telescope find_files search_dirs={'$HOME/.config/nvim'} hidden=true<cr>",
 						"Find file (NeoVim config)",
@@ -40,8 +42,8 @@ return {
 					},
 					g = { "<cmd>Telescope live_grep<cr>", "Grep in files (project root)" },
 					G = { '<cmd>Telescope live_grep search_dirs={"$HOME"}<cr>', "Grep in files (~)" },
-					p = { "<cmd>Telescope repo list bin=/usr/bin/fdfind<cr>", "Search Projects" },
-					P = { "<cmd>Telescope repo cached_list<cr>", "Search Projects" },
+					p = { "<cmd>Telescope repo list<cr>", "Search Projects" },
+					P = { "<cmd>Telescope repo cached_list<cr>", "Search Projects (cached)" },
 					r = { "<cmd>Telescope oldfiles<cr>", "Find recent file" },
 					e = {
 						"<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>",
@@ -60,8 +62,7 @@ return {
 					i = { "<cmd>Telescope diagnostics<cr>", "Find diagnostics" },
 					["."] = { "<cmd>Telescope spell_suggest<cr>", "Spell suggestion" },
 					v = { "<cmd>Telescope treesitter<cr>", "Treesitter" },
-					--d = { "<cmd>DevdocsOpenCurrentFloat<cr>", "Devdocs" },
-					--D = { "<cmd>DevdocsOpenCurrent<cr>", "Devdocs" },
+					D = { "<cmd>Telescope git_commits<cr>", "Search git commits" },
 				},
 			}, { prefix = "<leader>" })
 		end,
@@ -79,26 +80,10 @@ return {
 	-- A repository finder for Telescope.
 	{
 		"cljoly/telescope-repo.nvim",
+		config = function()
+			require("telescope").load_extension("repo")
+		end,
 	},
-	-- Devdocs browser for Telescope.
-	--{
-	--	"luckasRanarison/nvim-devdocs",
-	--	opts = {
-	--		wrap = true,
-	--		previewer_cmd = "glow",
-	--		cmd_args = { "-s", "dark", "-w", "80" },
-	--		picker_cmd = "glow",
-	--		picker_cmd_args = { "-s", "dark", "-w", "50" },
-	--		-- Floating window to the right.
-	--		float_win = {
-	--			relative = "editor",
-	--			height = 25,
-	--			width = 100,
-	--			border = "none",
-	--		},
-	--		--  ensure_installed = {}
-	--	},
-	--},
 }
 
 -- See also https://github.com/nvim-telescope/telescope.nvim

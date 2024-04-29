@@ -3,29 +3,16 @@
 require("util")
 
 -- Remove search highlights with enter.
-nmap("<enter>", ":nohlsearch<cr>", "clear search results")
+nmap("<enter>", ":nohlsearch<cr>", "Clear search results")
+
+-- Search highlighted term.
+nmap("<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", "Replace word")
 
 -- Fundamental mappings / navigation.
 
 -- Navigate visual lines with j/k.
 nmap("j", "gj", "visual line down")
 nmap("k", "gk", "visual line up")
-
--- Navigate buffers and tabs.
--- nmap("<leader>n", ":bnext<cr>", "next buffer")
--- nmap("<leader>p", ":bprev<cr>", "previous buffer")
-
--- Manage tabs (buffers).
-nmap("<S-l>", ":BufferLineCycleNext<CR>", "next tab")
-nmap("<S-h>", ":BufferLineCyclePrev<CR>", "previous tab")
-nmap("<leader>tt", ":$tabnew<CR>", "new tab")
-nmap("<leader>tc", ":bdelete<CR>", "close tab")
-nmap("<leader>t<S-c>", ":BufferLinePickClose<CR>", "pick to close tab(s)")
-nmap("<leader>to", ":BufferLineSortByDirectory<CR>", "order tabs by directory")
-nmap("<leader>tn", ":BufferLineMoveNext<CR>", "move tab right")
-nmap("<leader>tp", ":BufferLineMovePrev<CR>", "move tab left")
-nmap("<leader><tab>", ":BufferLinePick<CR>", "pick a buffer")
-nmap("<leader>ts", ":BufferLineTogglePin<CR>", "pin tab")
 
 -- These mirror tmux hotkeys for moving and resizing,
 -- but use C-w instead of C-a (my tmux leader).
@@ -39,6 +26,12 @@ nmap("<C-w><S-k>", ":resize -10<CR>", "Resize down")
 nmap("<C-w><S-j>", ":resize +10<CR>", "Resize up")
 nmap("<C-w><S-h>", ":vertical-resize -10<CR>", "Resize right")
 
+-- Keep things centered.
+nmap("<C-d>", "<C-d>zz")
+nmap("<C-u>", "<C-u>zz")
+nmap("n", "nzzzv")
+nmap("N", "Nzzzv")
+
 -- Remove default LSP binding for faster Telescope launch.
 nmap("<leader>f", "<Nop>", "")
 
@@ -46,5 +39,14 @@ nmap("<leader>f", "<Nop>", "")
 vmap("<", "<gv", "stay indent <")
 vmap(">", ">gv", "stay indent >")
 
+-- Move lines in visual mode with J/K.
+vmap("J", ":m '>+1<CR>gv=gv")
+vmap("K", ":m '<-2<CR>gv=gv")
+
 -- Exit terminal mode with <Esc>.
 tmap("<Esc>", "<C-\\><C-n>", "Exit terminal mode")
+
+-- Delete to void.
+nmap("d", '"_d', "Delete to void")
+vmap("d", '"_d', "Delete to void")
+xmap("<leader>p", '"_dP', "Overpaste to void")

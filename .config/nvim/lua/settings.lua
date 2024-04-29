@@ -1,14 +1,13 @@
--- Basic, toggleable settings.
+-- Global settings.
 
-local go = vim.o -- Global.
+local go = vim.o
 
 go.showmode = false
 go.termguicolors = true -- Enable true colors.
---vim.cmd("colorscheme gruvbox") -- Set color scheme.
 
 go.showmatch = true -- Highlight matching parens.
 go.inccommand = "split" -- Preview replacements in split.
-go.so = 999 -- keep cursor in middle of screen
+go.so = 15 -- keep cursor middle(ish) of screen
 
 go.clipboard = "unnamedplus" -- Use system clipboard.
 
@@ -40,16 +39,22 @@ go.foldenable = true
 --vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 --vim.o.foldmethod = "expr"
 
-local wo = vim.wo -- Local to Window.
+-- Window-local settings.
 
--- wo.cc = 80         --
+local wo = vim.wo
+
+-- wo.cc = 80         -- highlight column 80
 wo.cursorline = true -- Highlight the curent cursor line.
+wo.rnu = true -- set relative line numbers
 
-local bo = vim.bo -- Local to Buffer.
+-- Buffer-local settings.
+
+local bo = vim.bo
 
 bo.expandtab = true -- Use 4 spaces for tabs.
 bo.tabstop = 4 -- "
 bo.shiftwidth = 4 -- "
+bo.softtabstop = 4
 
 -- General (vim.opt) options.
 

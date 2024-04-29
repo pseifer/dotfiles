@@ -7,9 +7,19 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		opts = {
 			ensure_installed = {
-				"html",
-				"python",
+				"bash",
+				"bibtex",
+				"c",
 				"clojure",
+				"csv",
+				"haskell",
+				"html",
+				"lua",
+				"python",
+				"scala",
+				"vim",
+				"vimdoc",
+				"xml",
 			},
 		},
 	},
@@ -54,14 +64,3 @@ return {
 		opts = {},
 	},
 }
-
--- TODO
--- Setup general
---    spell checker + hotkeys
--- Setup hotkeys
---    org-mode
-
--- Further reading and examples:
--- https://github.com/edr3x/.dotfiles/
--- https://github.com/rockerBOO/awesome-neovim
--- https://github.com/AstroNvim/astrocommunity/tree/main/lua/astrocommunity/pack
