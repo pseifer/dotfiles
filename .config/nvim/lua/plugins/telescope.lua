@@ -25,6 +25,7 @@ return {
 					-- Files
 					f = { "<cmd>Telescope find_files<cr>", "Find file (project root)" },
 					F = { '<cmd>Telescope find_files search_dirs={"$HOME"}<cr>', "Find file (~)" },
+					p = { '<cmd>Telescope find_files search_dirs={"$HOME/Projects"}<cr>', "Find file (~/Projects)" },
 					d = { "<cmd>Telescope git_files<cr>", "Search git files" },
 					-- Files (other)
 					c = {
@@ -42,7 +43,7 @@ return {
 					},
 					g = { "<cmd>Telescope live_grep<cr>", "Grep in files (project root)" },
 					G = { '<cmd>Telescope live_grep search_dirs={"$HOME"}<cr>', "Grep in files (~)" },
-					p = { "<cmd>Telescope repo list<cr>", "Search Projects" },
+					R = { "<cmd>Telescope repo list<cr>", "Search Projects" },
 					P = { "<cmd>Telescope repo cached_list<cr>", "Search Projects (cached)" },
 					r = { "<cmd>Telescope oldfiles<cr>", "Find recent file" },
 					e = {
