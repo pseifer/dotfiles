@@ -68,6 +68,7 @@ alias fixfonts='defaults write -g AppleFontSmoothing -int 0'
 
 alias c='clear'
 alias j='jobs'
+alias s=' search-the-web' # intentionally starting with space
 alias top='btop'
 alias bat='batcat -pp --theme=base16'
 

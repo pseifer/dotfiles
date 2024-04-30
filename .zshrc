@@ -63,6 +63,9 @@ alias clear="unset S1CK3R_SPACIOUS_PROMPT && clear"
 # Set history file to host version.
 HISTFILE=${ZDOTDIR:-~}/.zsh_histories/zsh_history_${(%):-%m}
 
+# Ignore commands that start with whitespace.
+setopt HISTIGNORESPACE
+
 export HISTSIZE=1000000 # size of the loaded history (memory)
 export SAVEHIST=1000000 # size of the history file
 #setopt SHARE_HISTORY # sync between sessions
