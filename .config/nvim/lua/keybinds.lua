@@ -57,4 +57,4 @@ xmap("<leader>p", '"_dP', "Paste (after deleting to void)")
 nmap("<enter>", ":nohlsearch<cr>", "Clear search results")
 
 -- Search and replace the word under the cursor.
-nmap("<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", "Replace word")
+nmap("<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", "Replace current word")

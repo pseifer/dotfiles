@@ -1,0 +1,14 @@
+Library
+Downloads
+node_modules
+.cargo
+.ivy1
+.sbt
+.ghcup
+.stack
+.m2
+.cabal
+.local
+.cache
+.Trash
+.vim-undo

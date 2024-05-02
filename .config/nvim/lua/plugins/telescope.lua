@@ -12,11 +12,10 @@ return {
 		},
 		config = function()
 			-- local builtin = require('telescope.builtin')
-			local wk = require("which-key")
-
 			require("telescope").load_extension("file_browser")
 			require("telescope").load_extension("fzf")
 
+			local wk = require("which-key")
 			wk.register({
 				f = {
 					name = "telescope",
@@ -24,7 +23,11 @@ return {
 					t = { "<cmd>Telescope<cr>", "Search Telescope" },
 					-- Files
 					f = { "<cmd>Telescope find_files<cr>", "Find file (project root)" },
-					F = { '<cmd>Telescope find_files search_dirs={"$HOME"}<cr>', "Find file (~)" },
+					F = {
+						'<cmd>Telescope find_files search_dirs={"$HOME"}<cr>',
+						"Find file (~)",
+					},
+					C = { '<cmd>Telescope find_files search_dirs={"$HOME"} hidden=true<cr>', "Find file (hidden)" },
 					p = { '<cmd>Telescope find_files search_dirs={"$HOME/Projects"}<cr>', "Find file (~/Projects)" },
 					d = { "<cmd>Telescope git_files<cr>", "Search git files" },
 					-- Files (other)
@@ -32,7 +35,6 @@ return {
 						"<cmd>Telescope find_files search_dirs={'$HOME/.config/nvim'} hidden=true<cr>",
 						"Find file (NeoVim config)",
 					},
-					C = { '<cmd>Telescope find_files search_dirs={"$HOME"} hidden=true<cr>', "Find file (hidden)" },
 					w = {
 						"<cmd>Telescope find_files search_dirs={'$HOME/Notes'}<cr>",
 						"Find file (VimWiki)",
@@ -47,10 +49,10 @@ return {
 					P = { "<cmd>Telescope repo cached_list<cr>", "Search Projects (cached)" },
 					r = { "<cmd>Telescope oldfiles<cr>", "Find recent file" },
 					e = {
-						"<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>",
+						"<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr><esc>",
 						"File browser (current directory)",
 					},
-					E = { "<cmd>Telescope file_browser<cr>", "File browser (project root)" },
+					E = { "<cmd>Telescope file_browser<cr><esc>", "File browser (project root)" },
 					-- Vim
 					b = { "<cmd>Telescope buffers<cr>", "Buffers" },
 					s = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Search buffer" },

@@ -28,7 +28,7 @@ go.undolevels = 10000 -- Limit to 10.000 levels.
 -- Folding settings.
 -- go.foldcolumn = "1"
 -- go.foldlevel = 99
-go.foldmethod = "syntax"
+go.foldmethod = "manual"
 go.foldexpr = "nvim_treesitter#foldexpr()"
 go.foldlevelstart = 99
 go.foldenable = true

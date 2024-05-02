@@ -162,7 +162,7 @@ export FZF_DEFAULT_COMMAND="$FD ."
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="$FD -t d . $HOME"
 
-# Use Ctrl-E for FZF cd command.
+# Use Ctrl-Y for FZF cd command.
 bindkey "^Y" fzf-cd-widget
 
 # Preview tree for Ctrl-Y.
@@ -202,6 +202,4 @@ bindkey "^O" clear-screen
 
 # Return success in any case; zsh reports any errors.
 return 0
-
-
 

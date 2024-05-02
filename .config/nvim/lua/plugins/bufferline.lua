@@ -14,17 +14,24 @@ return {
 				},
 			})
 
+			local wk = require("which-key")
+			wk.register({
+				t = {
+					name = "tabs",
+					t = { ":$tabnew<CR>", "new tab" },
+					c = { ":bdelete<CR>", "close tab" },
+					C = { ":BufferLinePickClose<CR>", "pick to close tab(s)" },
+					o = { ":BufferLineSortByDirectory<CR>", "order tabs by directory" },
+					n = { ":BufferLineMoveNext<CR>", "move tab right" },
+					p = { ":BufferLineMovePrev<CR>", "move tab left" },
+					s = { ":BufferLineTogglePin<CR>", "pin tab" },
+				},
+			}, { prefix = "<leader>" })
+
 			require("util")
 			nmap("<S-l>", ":BufferLineCycleNext<CR>", "next tab")
 			nmap("<S-h>", ":BufferLineCyclePrev<CR>", "previous tab")
-			nmap("<leader>tt", ":$tabnew<CR>", "new tab")
-			nmap("<leader>tc", ":bdelete<CR>", "close tab")
-			nmap("<leader>t<S-c>", ":BufferLinePickClose<CR>", "pick to close tab(s)")
-			nmap("<leader>to", ":BufferLineSortByDirectory<CR>", "order tabs by directory")
-			nmap("<leader>tn", ":BufferLineMoveNext<CR>", "move tab right")
-			nmap("<leader>tp", ":BufferLineMovePrev<CR>", "move tab left")
 			nmap("<leader><tab>", ":BufferLinePick<CR>", "pick a buffer")
-			nmap("<leader>ts", ":BufferLineTogglePin<CR>", "pin tab")
 		end,
 	},
 }
