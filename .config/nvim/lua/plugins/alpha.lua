@@ -40,8 +40,8 @@ return {
 			dashboard.section.header.val = vim.split(logo, "\n")
 			dashboard.section.buttons.val = {
 				dashboard.button("f", "     Files", ":Telescope find_files<CR>"),
-				dashboard.button("p", "     Projects", ":Telescope repo list bin=/usr/bin/fdfind<CR>"),
 				dashboard.button("r", "     Recent", ":Telescope oldfiles<CR>"),
+				dashboard.button("e", "     Explore", ":Telescope file_browser<CR><ESC>"),
 				dashboard.button("l", "     Lazy", ":Lazy<CR>"),
 				dashboard.button("s", "     Settings", ":e $MYVIMRC<CR>"),
 				dashboard.button("q", "     Quit", ":qa<CR>"),
