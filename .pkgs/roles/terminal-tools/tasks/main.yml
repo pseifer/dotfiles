@@ -13,6 +13,7 @@
       - bat
       - zoxide
       - imagemagick
+      - plocate
 
 - name: Install tools for the terminal (Debian)
   include_tasks: lib/packages.yml
