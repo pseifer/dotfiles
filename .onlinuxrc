@@ -25,3 +25,4 @@ alias wslgui='export DISPLAY=localhost:0.0'
  
 # Open web search.
 search-the-web() { firefox "https://kagi.com/search?q=$*" }
+

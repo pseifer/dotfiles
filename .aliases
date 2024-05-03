@@ -5,7 +5,7 @@
 alias dot='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias update='$HOME/setup'
 
-# Notes and todo.txt.
+# Notes, todo.txt, et. al.
 
 alias t='todoman'
 alias ti='todofzf'
@@ -16,7 +16,7 @@ alias toinbox='cat >> ~/Notes/inbox.md'
 alias cal='khal calendar'
 alias ical='ikhal'
 
-# File system.
+# File system and navigation.
 
 alias tr='tree -C .'
 alias ta='tree -Ca .'
@@ -26,8 +26,6 @@ alias t3='tree -C . -L 3'
 alias t4='tree -C . -L 4'
 alias t5='tree -C . -L 5'
 alias tn='tree . -C -L'
-
-# Navigation.
 
 alias ..=../
 alias ...=../../
@@ -64,25 +62,29 @@ alias url-decode='python3 -c "import sys, urllib.parse as ulp; print(ulp.unquote
 alias url-encode='python3 -c "import sys, urllib.parse as ulp; print(ulp.quote(sys.argv[1]))"'
 alias glowme='ls *.md | entr -c glow README.md'
 
-alias fixfonts='defaults write -g AppleFontSmoothing -int 0'
-
 alias c='clear'
 alias j='jobs'
 alias s=' search-the-web' # intentionally starting with space
 alias top='btop'
-alias bat='batcat -pp --theme=base16'
 
+# Define an alias to bat(cat).
+if ! command -v bat &>/dev/null; then
+	alias bat='batcat -pp --theme=base16'
+else
+	alias bat='bat -pp --theme=base16'
+fi
+
+# Use w3mman for viewing manfiles.
 alias man='w3mman'
 
-# Zsh
-
+# Reload zsh.
 alias zsh-reload='. $HOME/.zshrc'
 
-# Python
+# Programming tools.
 
+# Python
 alias pyva='source $(poetry env info --path)/bin/activate'
 alias pyvd='deactivate'
 
 # Clojure
-
 alias nrepl="clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version \"1.0.0\"} cider/cider-nrepl {:mvn/version \"0.42.1\"}}}' -M --main nrepl.cmdline --middleware '[\"cider.nrepl/cider-middleware\"]' --interactive"

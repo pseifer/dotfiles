@@ -95,3 +95,4 @@ colors() {
     echo -e "\e[1;36mcolor\e[0m cyan"
     echo -e "\e[1;37mcolor\e[0m white"
 }
+

@@ -19,3 +19,7 @@ alias rmr='rm -rI'
 
 # Open web search.
 search-the-web() { open -a firefox "https://kagi.com/search?q=$*" }
+
+# Fix fonts
+alias fixfonts='defaults write -g AppleFontSmoothing -int 0'
+
