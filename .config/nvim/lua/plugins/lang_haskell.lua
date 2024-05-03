@@ -1,21 +1,13 @@
 -- Configuration for Haskell and haskell-language-server.
 
 return {
-	-- Roc lang.
-	--"ChrisWellsWood/roc.vim",
-	-- Haskell stuff below.
-
 	"mrcjkb/haskell-tools.nvim",
 	version = "^3",
 	ft = { "haskell", "lhaskell", "cabal", "cabalproject" },
 	config = function()
 		local ht = require("haskell-tools")
-		local bufnr = vim.api.nvim_get_current_buf()
-		local def_opts = { noremap = true, silent = true, buffer = bufnr }
-
+		-- Haskell LSP key mappings.
 		local wk = require("which-key")
-
-		-- Haskell LSP mappings.
 		wk.register({
 			l = {
 				name = "LSP",

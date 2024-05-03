@@ -1,4 +1,4 @@
--- Configuration for VimWiki, Markdown, and todo.txt.
+-- Configuration for VimWiki.
 
 return {
 	"vimwiki/vimwiki",

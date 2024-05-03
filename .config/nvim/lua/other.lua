@@ -1,3 +1,17 @@
+-- Other custom functions, etc.
+
+-- Open telescope file browser when opening directories.
+
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+		local path = vim.fn.expand("<afile>")
+		if vim.fn.argc(-1) == 1 and vim.fn.isdirectory(path) == 1 then
+			vim.api.nvim_buf_delete(0, { force = true })
+			require("telescope.builtin").find_files()
+		end
+	end,
+})
+
 -- Patch the background color of floating windows.
 
 --function modify_hl(ns, name, changes)
@@ -17,17 +31,3 @@
 --	desc = "Avoid overwritten by loading color schemes later",
 --	callback = set_hl_for_floating_window,
 --})
-
--- Open telescope file browser when opening directories.
-
-vim.api.nvim_create_autocmd("VimEnter", {
-	callback = function()
-		local path = vim.fn.expand("<afile>")
-		print(path)
-		if vim.fn.argc(-1) == 1 and vim.fn.isdirectory(path) == 1 then
-			vim.api.nvim_buf_delete(0, { force = true })
-			-- require("telescope").extensions.file_browser.file_browser()
-			require("telescope.builtin").find_files()
-		end
-	end,
-})

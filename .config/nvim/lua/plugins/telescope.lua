@@ -1,5 +1,6 @@
 -- Configuration for the Telescope fuzzy finder.
--- > This is the univeral finding and navigation tool of my setup.
+-- - This is the universal finding and navigation tool of my setup.
+-- - This uses the prefix <leader>f for everything.
 
 return {
 	{
@@ -7,11 +8,10 @@ return {
 		"nvim-telescope/telescope.nvim",
 		version = "0.1.3",
 		dependencies = {
-			-- A general LUA library.
+			-- A general lua library for interfaces.
 			"nvim-lua/plenary.nvim",
 		},
 		config = function()
-			-- local builtin = require('telescope.builtin')
 			require("telescope").load_extension("file_browser")
 			require("telescope").load_extension("fzf")
 
@@ -70,16 +70,19 @@ return {
 			}, { prefix = "<leader>" })
 		end,
 	},
+
 	-- A file browser for Telescope.
 	{
 		"nvim-telescope/telescope-file-browser.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
 	},
+
 	-- Native FZF written in C for Telescope.
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
 		build = "make",
 	},
+
 	-- A repository finder for Telescope.
 	{
 		"cljoly/telescope-repo.nvim",
@@ -88,5 +91,3 @@ return {
 		end,
 	},
 }
-
--- See also https://github.com/nvim-telescope/telescope.nvim

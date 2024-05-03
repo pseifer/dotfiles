@@ -28,10 +28,9 @@ return {
 				},
 			}, { prefix = "<leader>" })
 
-			require("util")
-			nmap("<S-l>", ":BufferLineCycleNext<CR>", "next tab")
-			nmap("<S-h>", ":BufferLineCyclePrev<CR>", "previous tab")
-			nmap("<leader><tab>", ":BufferLinePick<CR>", "pick a buffer")
+			Nmap("<S-l>", ":BufferLineCycleNext<CR>", "next tab")
+			Nmap("<S-h>", ":BufferLineCyclePrev<CR>", "previous tab")
+			Nmap("<leader><tab>", ":BufferLinePick<CR>", "pick a buffer")
 		end,
 	},
 }

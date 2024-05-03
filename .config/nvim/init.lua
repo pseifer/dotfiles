@@ -1,9 +1,14 @@
 -- Core init.lua; handles lazy.nvim setup.
 
+require("util") -- global utility functions.
+
+-- Set <leader> to <Space>.
+
 vim.api.nvim_set_keymap("n", "<Space>", "", {})
 vim.g.mapleader = " "
 
--- Bootstrap Lazy.
+-- Bootstrap the 'Lazy' package manager.
+-- Access with ':Lazy' or via 'l' in the greeter menu.
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -19,7 +24,7 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
--- Plugin configuration, load plugins (see lua/plugins/...).
+-- Plugin configuration, load plugins (from lua/plugins/...).
 
 local plugins = {
 	{ import = "plugins" },
@@ -36,6 +41,6 @@ require("lazy").setup(plugins, opts)
 
 -- Load basic configurations (i.e., settings and essential keybinds).
 
-require("settings")
-require("keybinds")
-require("other")
+require("settings") -- basic nvim settings.
+require("keybinds") -- basic nvim remappings.
+require("other") -- custom lua code.

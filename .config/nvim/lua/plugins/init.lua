@@ -1,5 +1,5 @@
 -- Essentiall plugins.
--- See remaining files in plugins/ for more.
+-- See remaining files in 'plugins' for more.
 
 return {
 	-- NVIM interface to tree-sitter.
@@ -24,22 +24,22 @@ return {
 		},
 	},
 
-	-- Syntax highlighting for many languages.
+	-- Basic syntax highlighting for many languages.
 	"sheerun/vim-polyglot",
 
 	-- Small plugin for seamless navigation between
 	-- VIM windows and TMUX panes.
-	--"christoomey/vim-tmux-navigator",
+	-- Alternative: "christoomey/vim-tmux-navigator"
+	-- Navigator.nvim works with other tools, e.g, WezTerm.
 	{
 		"numToStr/Navigator.nvim",
 		config = function()
 			require("Navigator").setup()
-			require("util")
-			nmap("<C-h>", "<CMD>NavigatorLeft<CR>")
-			nmap("<C-l>", "<CMD>NavigatorRight<CR>")
-			nmap("<C-k>", "<CMD>NavigatorUp<CR>")
-			nmap("<C-j>", "<CMD>NavigatorDown<CR>")
-			nmap("<C-p>", "<CMD>NavigatorPrevious<CR>")
+			Nmap("<C-h>", "<CMD>NavigatorLeft<CR>")
+			Nmap("<C-l>", "<CMD>NavigatorRight<CR>")
+			Nmap("<C-k>", "<CMD>NavigatorUp<CR>")
+			Nmap("<C-j>", "<CMD>NavigatorDown<CR>")
+			Nmap("<C-p>", "<CMD>NavigatorPrevious<CR>")
 		end,
 	},
 
@@ -52,7 +52,7 @@ return {
 	},
 
 	-- Keybindings/Documentation
-	-- This is used for managing keybinds, that provide documentation.
+	-- This is used for managing keybinds that provide documentation
 	-- in a special buffer, similar to Spacemacs.
 	{
 		"folke/which-key.nvim",

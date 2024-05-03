@@ -1,3 +1,8 @@
+-- Zen mode with a few different modes.
+-- - Ataraxis: Full focus mode.
+-- - Focus Window: Zoom in on one window.
+-- - Focus Line: Zoom in on line(s).
+
 return {
 	"Pocco81/true-zen.nvim",
 	config = function()

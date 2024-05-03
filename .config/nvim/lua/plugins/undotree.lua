@@ -1,7 +1,8 @@
+-- Browse files edit history with "<leader>u".
+
 return {
 	"mbbill/undotree",
 	config = function()
-		require("util")
-		nmap("<leader>u", vim.cmd.UndotreeToggle, "undo(tree)")
+		Nmap("<leader>u", vim.cmd.UndotreeToggle, "undo(tree)")
 	end,
 }

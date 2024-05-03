@@ -1,10 +1,6 @@
+-- General configuration for Language Servers.
+
 return {
-	-- Setup ALE linter engine.
-	-- see https://github.com/dense-analysis/ale/blob/master/supported-tools.md
-	-- for available linters.
-	--{
-	--  'dense-analysis/ale'
-	--},
 	-- Add the lspconfig package.
 	"neovim/nvim-lspconfig",
 	dependencies = {
@@ -47,23 +43,16 @@ return {
 				"clojure-lsp",
 			},
 		})
+
 		-- (2) Setup mason-lspconfig bridge.
 		require("mason-lspconfig").setup({})
+
 		-- (3) Setup language servers.
 		-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 		local lsp = require("lspconfig")
-		-- vim.tbl_deep_extend("keep", lsp, {
-		-- 	roc_lsp = {
-		-- 		cmd = { "roc_language_server" },
-		-- 		filetypes = { "roc" },
-		-- 		single_file_support = true,
-		-- 		name = "roc_lsp",
-		-- 	},
-		-- })
 		lsp.pyright.setup({})
 		lsp.ruff_lsp.setup({})
 		lsp.clojure_lsp.setup({})
-		--lsp.roc_lsp.setup({})
 		lsp.lua_ls.setup({
 			settings = {
 				Lua = {
@@ -82,6 +71,7 @@ return {
 				},
 			},
 		})
+
 		-- (4) Setup formatters.
 		-- https://github.com/mhartington/formatter.nvim
 		require("formatter").setup({
@@ -97,6 +87,7 @@ return {
 				},
 			},
 		})
+
 		-- (5) Setup linters.
 		-- https://github.com/mfussenegger/nvim-lint
 		require("lint").linters_by_ft = {
