@@ -158,9 +158,9 @@ fi
 # source /usr/share/doc/fzf/examples/completion.zsh # uncomment to enable ** completion
 
 # Setup fzf to use fd.
-export FZF_DEFAULT_COMMAND="$FD ."
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="$FD -t d . $HOME"
+export FZF_DEFAULT_COMMAND="$FD -L"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND ."
+export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND -t d . $HOME"
 
 # Use Ctrl-Y for FZF cd command.
 bindkey "^Y" fzf-cd-widget

@@ -1,6 +1,10 @@
 Library
+Pictures
+Archive
+Storage
 Downloads
 node_modules
+snap
 .cargo
 .ivy1
 .sbt
@@ -12,3 +16,5 @@ node_modules
 .cache
 .Trash
 .vim-undo
+.steam
+.gitlibs
