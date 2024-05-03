@@ -9,3 +9,9 @@ program = "/opt/homebrew/bin/tmux"
 [window]
 #decorations = "None"
 startup_mode = "Maximized"
+
+# Font size update.
+
+[font]
+size = 16
+

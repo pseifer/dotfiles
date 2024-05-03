@@ -9,3 +9,9 @@ program = "tmux"
 [window]
 decorations = "None"
 startup_mode = "Maximized"
+
+# Font size update.
+
+[font]
+size = 14
+

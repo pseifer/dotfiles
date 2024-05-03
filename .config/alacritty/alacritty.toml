@@ -15,9 +15,6 @@ TERM = "xterm-256color"
 
 # Font settings.
 
-[font]
-size = 16
-
 [font.bold]
 family = "SauceCodePro Nerd Font"
 style = "Bold"
