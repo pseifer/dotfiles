@@ -10,6 +10,10 @@
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
 [ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
 
+# Ad ~/scripts to path, which is used for user-scripts.
+
+[ -d "$HOME/scripts" ] && PATH="$HOME/scripts:$PATH"
+
 # Add Cargo binary location to path.
 
 [ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.cargo/bin:$PATH"

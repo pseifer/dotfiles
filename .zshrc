@@ -23,6 +23,10 @@
 # On WSL, go to linux home.
 [ -f /proc/version ] && grep -q icrosoft /proc/version && cd "$HOME" && export DISPLAY=localhost:0.0
 
+# ----- Setup custom constants -----
+
+export SEARCH_PROVIDER="https://kagi.com/search?q=" # Search to use for 's' command.
+
 # ----- Setup interactive functions and aliases -----
 
 # Setup functions and aliases.
@@ -85,6 +89,9 @@ setopt AUTO_CD # cd if not a command
 setopt AUTO_PUSHD # push visited directories
 setopt PUSHD_IGNORE_DUPS # ignore dublicates on stack
 setopt PUSHD_SILENT # do not print directories
+
+# Disable history expansion with '!'.
+set -K
 
 # Use VIM as default editor...
 if [[ -n "$SSH_CONNECTION" ]]; then

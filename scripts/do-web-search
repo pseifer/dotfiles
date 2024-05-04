@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# In shell config, export SEARCH_PROVIDER to customize.
+provider=${SEARCH_PROVIDER:-"https://duckduckgo.com/?q="}
+
+# Construct a search string, using : instead of ! for bangs.
+function make-web-search() {
+    arguments=("$@")
+    mode="$1"
+    rest=("${arguments[@]:1}")
+
+    # See if users wants a 'bang' (using ':' instead of '!').
+    if [[ "${mode}" == :* ]]; then
+        bang=${mode//:/!}
+        echo "${provider}${bang} ${rest[*]}"
+    # Otherwise, run a normal search.
+    else
+        echo "${provider}${arguments[*]}"
+    fi
+}
+
+open "$(make-web-search "$*")" &>/dev/null

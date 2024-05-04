@@ -64,7 +64,7 @@ alias glowme='ls *.md | entr -c glow README.md'
 
 alias c='clear'
 alias j='jobs'
-alias s=' search-the-web' # intentionally starting with space
+alias s=' do-web-search' # intentionally starting with space
 alias top='btop'
 
 # Define an alias to bat(cat).
