@@ -14,20 +14,25 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 -- Patch the background color of floating windows.
 
---function modify_hl(ns, name, changes)
---	local def = vim.api.nvim_get_hl(ns, { name = name, link = false })
---	vim.api.nvim_set_hl(ns, name, vim.tbl_deep_extend("force", def, changes))
---end
---
+local function modify_hl(ns, name, changes)
+	local def = vim.api.nvim_get_hl(ns, { name = name, link = false })
+	vim.api.nvim_set_hl(ns, name, vim.tbl_deep_extend("force", def, changes))
+end
+
 -- Set color for floating windows.
--- local set_hl_for_floating_window = function()
--- 	modify_hl(0, "NormalFloat", { bg = "#f4f0d9" })
--- end
---
---set_hl_for_floating_window()
---
---vim.api.nvim_create_autocmd("ColorScheme", {
---	pattern = "*",
---	desc = "Avoid overwritten by loading color schemes later",
---	callback = set_hl_for_floating_window,
---})
+local set_hl_for_floating_window = function()
+	modify_hl(0, "NormalFloat", { bg = "#f0edec" })
+	modify_hl(0, "FloatBorder", { bg = "#f0edec" })
+	modify_hl(0, "WhichKeyFloat", { bg = "#ddd6d3" })
+	vim.diagnostic.config({
+		float = { border = "rounded" },
+	})
+end
+
+set_hl_for_floating_window()
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+	pattern = "*",
+	desc = "Avoid overwritten by loading color schemes later.",
+	callback = set_hl_for_floating_window,
+})
