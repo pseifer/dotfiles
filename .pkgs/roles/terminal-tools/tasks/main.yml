@@ -2,31 +2,31 @@
   include_tasks: lib/packages.yml
   vars:
     packages:
-      - tmux
-      - w3m
-      - tldr
-      - ripgrep
-      - tree
-      - rlwrap
-      - btop
-      - fzf
-      - bat
-      - zoxide
-      - imagemagick
-      - plocate
+      - tmux        # terminal multiplexer
+      - w3m         # terminal browser
+      - tldr        # short command overview
+      - ripgrep     # fast grep
+      - tree        # print directory tree
+      - rlwrap      # wrap readline
+      - btop        # better top
+      - fzf         # fast fuzzy finder
+      - bat         # better cat with syntax highlighting
+      - zoxide      # better cd with smarts
+      - imagemagick # convert images
+      - plocate     # find things with index
 
 - name: Install tools for the terminal (Debian)
   include_tasks: lib/packages.yml
   vars:
     packages:
-      - fd-find
+      - fd-find     # find things
   when: ansible_os_family == "Debian"
 
 - name: Install tools for the terminal (Generic)
   include_tasks: lib/packages.yml
   vars:
     packages:
-      - fd
+      - fd          # find things
   when: ansible_os_family != "Debian"
 
 # - name: Install zoxide
