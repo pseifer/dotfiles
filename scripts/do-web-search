@@ -1,11 +1,3 @@
-#!/usr/bin/env lua
+#!/usr/bin/env bash
 
--- Lookup the search provider from the environment.
-local provider = os.getenv("SEARCH_PROVIDER") or "https://duckduckgo.com/?q="
-
--- Build the query string from the provider, concatenated command line,
--- while replacing a leading ":" with "!", as a bang pattern.
-local query = provider .. table.concat(arg, " "):gsub("^:", "!")
-
--- Open new tab in standard browser.
-os.execute(('open "%s"'):format(query))
+open "${SEARCH_PROVIDER:-https://duckduckgo.com/?q=}$(echo "$*" | sed 's/^:/!/')" 1>/dev/null 2>/dev/null
