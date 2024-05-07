@@ -56,6 +56,7 @@ s1ck3r_prompt_suffix ()
 
 # Load the s1ck3r theme.
 source "$HOME/.local/share/punkt/s1ck3r/s1ck3r.zsh"
+
 # Set alias for resetting prompt on clear.
 alias clear="unset S1CK3R_SPACIOUS_PROMPT && clear"
 

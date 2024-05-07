@@ -28,7 +28,7 @@
   "nvim-metals": { "branch": "main", "commit": "c6268555d0b471262af78818f11a086ddf30688b" },
   "nvim-nio": { "branch": "master", "commit": "8765cbc4d0c629c8158a5341e1b4305fd93c3a90" },
   "nvim-paredit": { "branch": "master", "commit": "8dd4ffd6ee0d798026f9ad6cf04344560207b9f1" },
-  "nvim-treesitter": { "branch": "master", "commit": "440f177277e6049d665382a94ce1af602900b5c7" },
+  "nvim-treesitter": { "branch": "master", "commit": "99d3e799b46f5c2a1fc0d7a42d7ab452de48c067" },
   "nvim-web-devicons": { "branch": "master", "commit": "794bba734ec95eaff9bb82fbd112473be2087283" },
   "plenary.nvim": { "branch": "master", "commit": "08e301982b9a057110ede7a735dd1b5285eb341f" },
   "roc.vim": { "branch": "master", "commit": "a4b2edc029b349f05221249a6ab922d2787d2962" },
@@ -42,7 +42,7 @@
   "vim-polyglot": { "branch": "master", "commit": "bc8a81d3592dab86334f27d1d43c080ebf680d42" },
   "vim-rooter": { "branch": "master", "commit": "45e53f01e4e1c4a3ee20814de232162713aff578" },
   "vim-vsnip": { "branch": "master", "commit": "02a8e79295c9733434aab4e0e2b8c4b7cea9f3a9" },
-  "vimtex": { "branch": "master", "commit": "e4e659b088a082f6b7bb895ccbefb1f96a5b2710" },
+  "vimtex": { "branch": "master", "commit": "a80934749c69cc6875b3c9b13ef59573a4824fb2" },
   "vimwiki": { "branch": "dev", "commit": "69318e74c88ef7677e2496fd0a836446ceac61e8" },
   "which-key.nvim": { "branch": "main", "commit": "4433e5ec9a507e5097571ed55c02ea9658fb268a" },
   "zenbones.nvim": { "branch": "main", "commit": "453ec69d82d644ee6998a3464da49d0261df9f80" }

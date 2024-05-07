@@ -26,20 +26,21 @@ return {
 				-- Lua
 				"lua-language-server", -- LSP
 				"stylua", -- Formatter
-				-- 'luacheck',            -- Linter (requires luarocks)
+				-- "luacheck", -- Linter (requires luarocks); unused
+
 				-- Shell
 				"shellcheck", -- Linter
 				"shfmt", -- Formatter
+
 				-- Python
-				-- "pyright", -- LSP (manually installed via pip install pyright)
+				-- "pyright", -- LSP (manually installed via pipx install pyright)
 				"ruff-lsp", -- LSP
-				-- "pylint", -- Linter
 				"black", -- Formatter
+
 				-- Spelling
 				-- 'misspell', -- Linter
 				-- 'codespell' -- Linter
 				-- Clojure
-				--"clj-kondo", -- included in clojure-lsp
 				"clojure-lsp",
 			},
 		})
@@ -50,9 +51,12 @@ return {
 		-- (3) Setup language servers.
 		-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 		local lsp = require("lspconfig")
+		-- Python
 		lsp.pyright.setup({})
 		lsp.ruff_lsp.setup({})
+		-- Clojure
 		lsp.clojure_lsp.setup({})
+		-- Lua
 		lsp.lua_ls.setup({
 			settings = {
 				Lua = {
@@ -92,10 +96,10 @@ return {
 		-- https://github.com/mfussenegger/nvim-lint
 		require("lint").linters_by_ft = {
 			sh = { "shellcheck" },
-			--clojure = { "clj-kondo" },
-			-- python = { "pylint" },
-			-- lua = { 'luacheck' }
+			-- lua = { "luacheck" },
 		}
+
+		-- Run on save.
 		vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 			callback = function()
 				require("lint").try_lint()

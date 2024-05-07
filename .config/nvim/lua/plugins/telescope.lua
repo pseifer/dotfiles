@@ -60,9 +60,13 @@ return {
 					x = { "<cmd>Telescope commands<cr>", "Commands" },
 					k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
 					o = { "<cmd>Telescope vim_options<cr>", "Options" },
-					-- Other
+					-- Basic vim tools
+					['"'] = { "<cmd>Telescope registers<cr>", "Registers" },
+					m = { "<cmd>Telescope marks<cr>", "Marks" },
 					q = { "<cmd>Telescope quickfix<cr>", "Quickfix" },
 					i = { "<cmd>Telescope diagnostics<cr>", "Find diagnostics" },
+					--l = { "<cmd>Telescope loclist<cr>", "Loclist" },
+					-- Other
 					["."] = { "<cmd>Telescope spell_suggest<cr>", "Spell suggestion" },
 					v = { "<cmd>Telescope treesitter<cr>", "Treesitter" },
 					D = { "<cmd>Telescope git_commits<cr>", "Search git commits" },

@@ -2,10 +2,12 @@
 
 # Dotfiles.
 
+# Access the bare repository with 'dot'.
 alias dot='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+# Run updates by (re-)execution of setup.
 alias update='$HOME/setup'
 
-# Notes, todo.txt, et. al.
+# Notes, todos, and calendar shorthands.
 
 alias t='todoman'
 alias ti='todofzf'
@@ -16,7 +18,7 @@ alias toinbox='cat >> ~/Notes/inbox.md'
 alias cal='khal calendar'
 alias ical='ikhal'
 
-# File system and navigation.
+# File system and navigation defaults.
 
 alias tr='tree -C .'
 alias ta='tree -Ca .'
@@ -36,16 +38,19 @@ alias ....=../../../
 alias ln='ln -i'
 alias mv='mv -i'
 
-# Editor (666).
+# Editor (666) All is Neovim.
 
 alias vim='nvim'
 alias vi='nvim'
-alias ogvi='/usr/bin/vi'
 alias emacs='nvim'
 alias nano='nvim'
 
+# In case I actually want 'vi' for some reason.
+alias ogvi='/usr/bin/vi'
+
 # Git (gg).
 
+# Unlock ssh-agent for a session.
 alias agent-unlock='eval `ssh-agent -s`; ssh-add'
 
 alias ggl='git log'
@@ -58,14 +63,19 @@ alias gga='git add'
 
 # Utility.
 
+# Encode and decode URLs.
 alias url-decode='python3 -c "import sys, urllib.parse as ulp; print(ulp.unquote(sys.argv[1]))"'
 alias url-encode='python3 -c "import sys, urllib.parse as ulp; print(ulp.quote(sys.argv[1]))"'
+
+# Visualize README with glow, updating on file change.
 alias glowme='ls *.md | entr -c glow README.md'
 
 alias c='clear'
 alias j='jobs'
-alias s=' do-web-search' # intentionally starting with space
 alias top='btop'
+
+# Run a web search; do not add to history.
+alias s=' do-web-search' # intentionally starting with space
 
 # Define an alias to bat(cat).
 if ! command -v bat &>/dev/null; then
@@ -80,11 +90,19 @@ alias man='w3mman'
 # Reload zsh.
 alias zsh-reload='. $HOME/.zshrc'
 
-# Programming tools.
+# Programming Tools.
 
 # Python
-alias pyva='source $(poetry env info --path)/bin/activate'
-alias pyvd='deactivate'
+
+alias python='python3'
+alias py='python3'
+
+# Create venv, activate (project venv), deactivate (any) venv.
+alias pye='python3 -m venv venv'
+alias pya='source venv/bin/activate'
+alias pyd='deactivate'
 
 # Clojure
+
+# Launch a REPL that Conjure (Neovim) can connect to.
 alias nrepl="clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version \"1.0.0\"} cider/cider-nrepl {:mvn/version \"0.42.1\"}}}' -M --main nrepl.cmdline --middleware '[\"cider.nrepl/cider-middleware\"]' --interactive"
