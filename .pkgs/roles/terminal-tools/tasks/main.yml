@@ -14,6 +14,7 @@
       - zoxide      # better cd with smarts
       - imagemagick # convert images
       - plocate     # find things with index
+      - jc          # JSON-ify output from tools
 
 - name: Install tools for the terminal (Debian)
   include_tasks: lib/packages.yml
