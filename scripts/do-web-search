@@ -1,3 +1,10 @@
 #!/usr/bin/env bash
 
-open "${SEARCH_PROVIDER:-https://duckduckgo.com/?q=}$(echo "$*" | sed 's/^:/!/')" 1>/dev/null 2>/dev/null
+# Fetch search provider from the environment; use DDG as fallback.
+provider=${SEARCH_PROVIDER:-https://duckduckgo.com/?q=}
+
+# Join arguments, replacing (initial, optional) ':' with '!' as bang pattern.
+query=$(echo "$*" | sed 's/^:/!/')
+
+# Open new browser tab, ignoring any output.
+open "${provider}${query}" 1>/dev/null 2>/dev/null
