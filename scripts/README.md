@@ -14,10 +14,10 @@ Run Borg backup and `rclone` to Nextcloud. Only on desktop.
 
 Combines various tools for pretty printing and then viewing files.
 
-# `todofzf`
+# `fzf-todo`
 
 An interactive wrapper around the `todo(man)` TODO manager, using FZF. Aliased to `ti`.
 
-# `templatefzf`
+# `fzf-template`
 
 Show all files in `$HOME/templates` and print the selected to stdout. Usage `templatefzf > something.clj`.
