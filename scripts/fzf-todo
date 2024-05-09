@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# User documentation.
+header='
+CTRL-E edit | CTRL-A apply arguments | CTRL-R mark as done
+CTRL-T high | CTRL-M medium | CTRL-B low | CTRL-S no priority 
+ENTER show task | ESC quit'
+
+# Optional arguments to todo(man), used in some modes; defaults to 'show'.
+args="${*:-show}"
+
+# Define tool to launch as 'todoman' is sometimes called 'todo'.
+if command -v todoman >/dev/null; then
+    launch='todoman'
+else
+    launch='todo'
+fi
+
+# Helper commands to
+# ...reload todo(man)
+and_reload="+reload(${launch} --color=always list)"
+# ...clear the input line
+and_clear_line="+toggle+end-of-line+unix-line-discard"
+# ...reload and clear the input line
+and_rc="${and_reload}${and_clear_line}"
+# ...select the current item
+cur="{3}"
+
+# Close todofzf gracefully.
+close="become()"
+
+# Show the selected todo-item.
+show="become(${launch} show ${cur})"
+
+# Mark selected item as completed (mem: 'resolved').
+comp="execute(${launch} done ${cur})${and_rc}"
+
+# Edit the selected item.
+edit="execute(${launch} edit ${cur})${and_reload}"
+
+# Apply todo(man) comman line arguments to the selected task.
+apply="execute(${launch} ${args} ${cur})" \
+
+# Set priority to high/medium/low/none.
+prio_hi="execute(${launch} edit --priority high ${cur})${and_rc}"
+prio_md="execute(${launch} edit --priority medium ${cur})${and_rc}"
+prio_lo="execute(${launch} edit --priority low ${cur})${and_rc}"
+prio_no="execute(${launch} edit --priority none ${cur})${and_rc}"
+
+# Load tasks from todo(man) and show with FZF.
+eval " ${launch} --color=always list" | fzf +x --ansi \
+    --bind="enter:${comp}" \
+    --bind="ctrl-e:${edit}" \
+    --bind="ctrl-a:${apply}" \
+    --bind="ctrl-t:${prio_hi}" \
+    --bind="ctrl-m:${prio_md}" \
+    --bind="ctrl-l:${prio_lo}" \
+    --bind="ctrl-s:${prio_no}" \
+    --bind="ctrl-q:${close}" \
+    --bind="ctrl-d:${close}" \
+    --bind="esc:${close}" \
+    --bind="enter:${show}" \
+    --header="${header}"

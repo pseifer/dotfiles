@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# User documentation.
+header='ENTER to cat template | ESC quit'
+
+# Close todofzf gracefully.
+close="become()"
+
+# Show the selected todo-item.
+show="become(cat {1})"
+
+# Choose whether to use bat or batcat for preview.
+if command -v bat >/dev/null; then
+    BAT='bat'
+elif command -v batcat >/dev/null; then
+    BAT='batcat'
+else
+    BAT='cat'
+fi
+
+# Pre-process input, where {1} is used for outputting, but {2} is shown in FZF.
+function formatselections() {
+    echo "$1 $(basename "$1")"
+}
+# Export this function for the subshell launched in find.
+export -f formatselections
+
+# Find all templates (excluding README.md) and format as "fullpath basename" using selectformat.
+# Then, FZF shows {2} (see --with-nth "2") but selects {1} in the 'show' command (defined above).
+find "$HOME/templates" -type f ! -name "README.md" -exec bash -c 'formatselections "$0"' {} \; |\
+    fzf --ansi --preview "bat {1} 2> /dev/null" \
+               --preview-window 'border-rounded' \
+               --preview-label "[ Templates ]" \
+               --with-nth "2" \
+    --bind="ctrl-q:${close}" \
+    --bind="ctrl-d:${close}" \
+    --bind="esc:${close}" \
+    --bind="enter:${show}" \
+    --header="${header}"
