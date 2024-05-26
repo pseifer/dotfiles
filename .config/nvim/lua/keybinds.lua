@@ -43,9 +43,9 @@ Tmap("<Esc>", "<C-\\><C-n>", "Exit terminal mode")
 -- Delte to void with <leader>d.
 Nmap("<leader>d", '"_d', "Delete to void")
 Vmap("<leader>d", '"_d', "Delete to void")
--- Remap 'x' in visual mode to delete to void.
+-- Remap 'd' in visual mode to delete to void.
 -- (Usually, in visual mode, x and d have the same semantics.)
-Vmap("x", '"_d', "Delete to void")
+Vmap("d", '"_d', "Delete to void")
 -- Using <leader>p, paste over without cutting.
 Xmap("<leader>p", '"_dP', "Paste (after deleting to void)")
 
