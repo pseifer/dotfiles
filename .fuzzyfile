@@ -1,0 +1,123 @@
+#!/bin/bash
+
+# Do not execute directly; source instead.
+(return 0 2>/dev/null) || exit 0
+
+# Invoke FZF with specific flags.
+function fuzzyfile() {
+
+    # Set find_cmd to 'fd' or 'fdfind'
+    if command -v fd >/dev/null; then
+        find_cmd='fd'
+    else
+        find_cmd='fdfind'
+    fi
+
+    # Set bat_cmd to 'bat' or 'batcat'.
+    if command -v bat >/dev/null; then
+        bat_cmd='bat'
+    else
+        bat_cmd='batcat'
+    fi
+
+    # Setup FZF preview based on 'bat' and 'tree'.
+    fzf_preview_opts="--preview '$bat_cmd -n --theme=base16 --color=always {} 2> /dev/null || tree -C --filesfirst {}'"
+
+    # Setup the FZF GUI.
+    fzf_gui_opts="\
+        --preview-window 'border-rounded' \
+        --layout=reverse \
+        --color=dark \
+        --color=prompt:green \
+        --color=pointer:black"
+
+    # Print the result (not).
+    print_only=false
+
+    # Open files in VI (not).
+    vi_mode=false
+
+    # Do not follow symbolic links.
+    follow_links=""
+
+    # Location to search: Current dir.
+    search_location="."
+
+    # Entries to show: Directories.
+    search_type="--type directory"
+
+    # Use the default ignore files.
+    ignore_files=""
+
+    while getopts "hpvlfi" o; do
+        case "${o}" in
+        # Toggle HOME vs HERE mode.
+        h)
+            # Launch in home directory.
+            search_location=". $HOME"
+            ;;
+
+        # Toggle cd, print and vi modes.
+        p)
+            # Print result instead of using cd. Overwrites VI mode.
+            print_only=true
+            ;;
+        v)
+            # VI mode; enables file search by default.
+            vi_mode=true
+            ;;
+
+        # Toggleable options.
+        l)
+            # Follow symbolic links.
+            follow_links="-L"
+            ;;
+        f)
+            # Search files and directories.
+            search_type=""
+            ;;
+        i)
+            # Ignore ignore file.
+            ignore_files="--no-ignore"
+            ;;
+        *)
+            usage
+            ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    # Construct the fd | fzf command.
+    cmd="${find_cmd} \
+        ${follow_links} \
+        ${search_type} \
+        ${ignore_files} \
+        ${search_location} \
+        | fzf --ansi \
+        ${fzf_preview_opts} \
+        ${fzf_gui_opts}"
+
+    # Make a selection by evaluating the command.
+    selection="$(eval "${cmd}")"
+
+    # Quit on empty selection (stops, e.g., Vim from opening).
+    if [ -z "${selection}" ]; then
+        return 0
+    fi
+
+    # Launch with print, vim or cd mode.
+    if [ "${print_only}" = true ]; then
+        echo "${selection}"
+    elif [ "${vi_mode}" = true ]; then
+        nvim "${selection}"
+    else
+        # Strip the filename, if not a directory.
+        if [ -d "${selection}" ]; then
+            # Change to the selected directory.
+            cd "${selection}" || return 0
+        else
+            # Change to parent of the selected file.
+            cd "$(dirname "${selection}")" || return 0
+        fi
+    fi
+}

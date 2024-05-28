@@ -144,20 +144,22 @@ esac
 # Initialize zoxide (z).
 eval "$(zoxide init zsh)"
 
-# ----- Setup fzf support. -----
-
 # Auto-aliases for strangely named packages.
 
-if command -v fd > /dev/null; then
-    FD='fd'
-else
-    FD='fdfind'
+if command -v fdind > /dev/null; then
     alias fd='fdfind'
 fi
 
-# Ctrl-T: Fuzzy search paths (.)
+if command -v batcat > /dev/null; then
+    alias bat='batcat'
+fi
+
+# Clear the screen with CTRL-O, instead of CTRL-L.
+bindkey "^O" clear-screen
+
+# ----- Setup FZF History support. -----
+
 # Ctrl-R: Fuzzy search history (takes partial line into account).
-# Ctrl-Y: Fuzzy CD folders ($HOME).
 if [ -f "/usr/share/doc/fzf/examples/key-bindings.zsh" ]; then 
     source "/usr/share/doc/fzf/examples/key-bindings.zsh"
 elif [ -f "$HOME/.local/share/punkt/fzf-key-bindings.zsh" ]; then
@@ -165,31 +167,9 @@ elif [ -f "$HOME/.local/share/punkt/fzf-key-bindings.zsh" ]; then
 fi
 # source /usr/share/doc/fzf/examples/completion.zsh # uncomment to enable ** completion
 
-# Setup fzf to use fd.
-export FZF_DEFAULT_COMMAND="$FD -L"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND ."
-export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND -t d . $HOME"
-
-# Use Ctrl-Y for FZF cd command.
-bindkey "^Y" fzf-cd-widget
-
-# Preview tree for Ctrl-Y.
-export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
-
 # Uncomment: Inside a tmux session, open overlay for all FZF searches.
 # Opening tmnux panes introduces a small delay.
 #export FZF_TMUX_OPTS='-p80%,60%'
-
-# Setup bat preview in Ctrl-T.
-if command -v bat > /dev/null; then
-    BAT='bat'
-else
-    BAT='batcat'
-    alias bat='batcat'
-fi
-
-# Setup preview with bat or tree, depending on type.
-export FZF_CTRL_T_OPTS="--preview '$BAT -n --theme=base16 --color=always {} 2> /dev/null || tree -C {}'"
 
 # Set the FZF color theme (light).
 export FZF_DEFAULT_OPTS="
@@ -198,16 +178,29 @@ export FZF_DEFAULT_OPTS="
   --color=prompt:green
   --color=pointer:black"
 
-# TODO: Setup custom completions.
-# https://seb.jambor.dev/posts/improving-shell-workflows-with-fzf/
+# ----- Setup Fuzzyfile, the fuzzy file finder -----
+
+source "$HOME/.fuzzyfile"
+
+# Relative navigation.
+alias f=' fuzzyfile'
+alias ff=' fuzzyfile -f'
+alias fv=' fuzzyfile -fv'
+
+# Use Ctrl-T to cd to any directory.
+bindkey -s '^T' " fuzzyfile -h^M"
+
+# Use Ctrl-Y to cd to the dir of any file.
+bindkey -s '^Y' " fuzzyfile -fh^M"
+
+# Use Ctrl-E to edit and file in vim.
+bindkey -s '^E' " fuzzyfile -fhv^M"
+
+# ----- SDKman -----
 
 # Note: Keep this at the end of the file.
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-# Clear the screen with CTRL-O, instead of CTRL-L.
-bindkey "^O" clear-screen
-
 # Return success in any case; zsh reports any errors.
 return 0
-
