@@ -183,36 +183,33 @@ export FZF_DEFAULT_OPTS="
 # Source the 'fuzzyfile' function.
 source "$HOME/.fuzzyfile"
 
-# (Relative) navigation with aliases.
+# Basic fuzzyfile alias.
+alias f=' fuzzyfile' # Space on purpose to hide from history.
 
-# Basic fuzzyfile alias. Use for navigating to subdir, or with arguments.
-alias f=' fuzzyfile' # space on purpose, hide from history
-
-# Subdir navigation that also shows files.
-alias ff=' fuzzyfile -f' # "
-
-# Open any file in a (sub)directory.
-alias fv=' fuzzyfile -fv' # "
+# Use cd, vi, or open on files, disregarding ignore and showing hidden.
+alias ff='f -si'
+alias fv='f -sifv'
+alias fo='f -sifo'
 
 # Global navigation and file opening with ZSH keybinds.
 
 # Define a ZSH function for using fuzzyfile with some arguments, and reset the prompt.
-fuzzyfile_with() { local cmd=$1; eval "fuzzyfile $cmd"; zle reset-prompt }                                             
+_fuzzyfile_with() { local cmd=$1; eval "fuzzyfile $cmd"; zle reset-prompt }                                             
 
 # Use Ctrl-T to cd to any directory.
-fuzzyfile-h() { fuzzyfile_with "-h" }
-zle -N fuzzyfile-h
-bindkey ^T fuzzyfile-h
+_fuzzyfile_home() { _fuzzyfile_with "-u" }
+zle -N _fuzzyfile_home
+bindkey ^T _fuzzyfile_home
 
 # Use Ctrl-Y to cd to the dir of any file.
-fuzzyfile-fh() { fuzzyfile_with "-fh" }
-zle -N fuzzyfile-fh
-bindkey ^Y fuzzyfile-fh
+_fuzzyfile_homefile() { _fuzzyfile_with "-fu" }
+zle -N _fuzzyfile_homefile
+bindkey ^Y _fuzzyfile_homefile
 
 # Use Ctrl-E to edit and file in vim.
-fuzzyfile-fhv() { fuzzyfile_with "-fhv" }
-zle -N fuzzyfile-fhv
-bindkey ^E fuzzyfile-fhv
+_fuzzyfile_homevi() { _fuzzyfile_with "-fuv" }
+zle -N _fuzzyfile_homevi
+bindkey ^E _fuzzyfile_homevi
 
 
 
