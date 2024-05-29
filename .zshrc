@@ -3,9 +3,9 @@
 # ZSH interactive shell setup.
 
 # Optimized for short startup time.
-# Uses fzf via Ctrl-T/Ctrl-R/Ctrl-Y for fuzzy completion and 
+# Uses fzf via Ctrl-E/Ctrl-R/Ctrl-T/CTRL-Y for fuzzy completion and 
 # history search, which is much faster than ZSH completion
-# plugins. Sets a simple, transient prompt.
+# plugins. Sets a simple, transient prompt (s1ck3r).
 
 # Also see the following files:
 #
@@ -178,23 +178,43 @@ export FZF_DEFAULT_OPTS="
   --color=prompt:green
   --color=pointer:black"
 
-# ----- Setup Fuzzyfile, the fuzzy file finder -----
+# ----- Setup Fuzzyfile, the fuzzy file navigator -----
 
+# Source the 'fuzzyfile' function.
 source "$HOME/.fuzzyfile"
 
-# Relative navigation.
-alias f=' fuzzyfile'
-alias ff=' fuzzyfile -f'
-alias fv=' fuzzyfile -fv'
+# (Relative) navigation with aliases.
+
+# Basic fuzzyfile alias. Use for navigating to subdir, or with arguments.
+alias f=' fuzzyfile' # space on purpose, hide from history
+
+# Subdir navigation that also shows files.
+alias ff=' fuzzyfile -f' # "
+
+# Open any file in a (sub)directory.
+alias fv=' fuzzyfile -fv' # "
+
+# Global navigation and file opening with ZSH keybinds.
+
+# Define a ZSH function for using fuzzyfile with some arguments, and reset the prompt.
+fuzzyfile_with() { local cmd=$1; eval "fuzzyfile $cmd"; zle reset-prompt }                                             
 
 # Use Ctrl-T to cd to any directory.
-bindkey -s '^T' " fuzzyfile -h^M"
+fuzzyfile-h() { fuzzyfile_with "-h" }
+zle -N fuzzyfile-h
+bindkey ^T fuzzyfile-h
 
 # Use Ctrl-Y to cd to the dir of any file.
-bindkey -s '^Y' " fuzzyfile -fh^M"
+fuzzyfile-fh() { fuzzyfile_with "-fh" }
+zle -N fuzzyfile-fh
+bindkey ^Y fuzzyfile-fh
 
 # Use Ctrl-E to edit and file in vim.
-bindkey -s '^E' " fuzzyfile -fhv^M"
+fuzzyfile-fhv() { fuzzyfile_with "-fhv" }
+zle -N fuzzyfile-fhv
+bindkey ^E fuzzyfile-fhv
+
+
 
 # ----- SDKman -----
 
