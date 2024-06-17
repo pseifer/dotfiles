@@ -18,13 +18,16 @@ alias s=' do-web-search' # intentionally starting with space
 # Interactively choose a template.
 alias templ='fzf-template'
 
-# Notes, todos, and calendar shorthands.
+# Notes.
+alias zenvim='nvim -c "set norelativenumber"'
+alias notes='zenvim ~/Notes/home/index.md'
+alias journal='zenvim ~/Notes/home/journal.md'
+alias inbox='zenvim ~/Notes/home/inbox.md'
+alias toinbox='cat >> ~/Notes/home/inbox.md'
 
-alias t='todoman'
+# Todos and calendar shorthands.
+alias t='nb tasks open'
 alias tsync='vdirsyncer sync'
-alias notes='nvim ~/Notes/index.md -c TZAtaraxis'
-alias inbox='nvim ~/Notes/inbox.md -c TZAtaraxis'
-alias toinbox='cat >> ~/Notes/inbox.md'
 alias cal='khal calendar'
 alias ical='ikhal'
 

@@ -1,26 +1,14 @@
 #!/bin/bash
 
-# Setup some general workspaces.
-thi() {
-    tmux rename-window 'home'
-    tmux send-keys -t 'home' 'notes' 'Enter'
-    tmux split-window -h -l '50%' -t 'home'
-    tmux send-keys -t 'home' 'vdirsyncer sync; clear; ical' 'Enter'
-    tmux split-window -v -l '50%' -t 'home'
-    tmux send-key -t 'home' 't' 'Enter'
-    clear
-}
-
-# Set up the notes workspace.
-tnotes() {
+# Setup the 'base' workspace.
+tbase() {
     tmux rename-window 'notes'
-    tmux send-keys -t 'notes' 'notes' 'Enter'
-}
-
-# Set up a fresh tmnux session with defaults.
-tmain() {
-    tnotes
-    tmux new-window -n 'main'
+    tmux send-keys -t 'notes' 'nb shell' 'Enter' 'edit 1' 'Enter'
+    tmux new-window -n 'nb'
+    tmux send-keys -t 'nb' 'nb shell' 'Enter' 'Enter'
+    tmux new-window -n 'calendar'
+    tmux send-keys -t 'calendar' 'vdirsyncer sync; clear; ical' 'Enter'
+    tmux new-window -n 'zsh'
 }
 
 # Setup a generic development session in a certain directory,
@@ -94,4 +82,37 @@ colors() {
     echo -e "\e[1;35mcolor\e[0m magenta"
     echo -e "\e[1;36mcolor\e[0m cyan"
     echo -e "\e[1;37mcolor\e[0m white"
+}
+
+# Open some nextcloud app.
+next() {
+    # By default, open '/dashboard'.
+    app="${1:-dashboard}"
+
+    # Allow for short aliases.
+    if [[ "calendar" =~ ^$app ]]; then
+        nextapp="apps/calendar"
+    elif [[ "contacts" =~ ^$app ]]; then
+        nextapp="apps/contacts"
+    elif [[ "files" =~ ^$app ]]; then
+        nextapp="apps/files"
+    elif [[ "cospend" =~ ^$app ]]; then
+        nextapp="apps/cospend"
+    elif [[ "photos" =~ ^$app ]]; then
+        nextapp="apps/photos"
+    elif [[ "notes" =~ ^$app ]]; then
+        nextapp="apps/notes"
+    elif [[ "tasks" =~ ^$app ]]; then
+        nextapp="apps/tasks"
+    elif [[ "cookbook" =~ ^$app ]]; then
+        nextapp="apps/cookbook"
+    elif [[ "settings" =~ ^$app ]]; then
+        nextapp="settings/user"
+    # If unknown, just try the full name.
+    else
+        nextapp="${app}"
+    fi
+
+    # Finally, open the nextapp Nextcloud app.
+    open "https://cloud.seifer.me/${nextapp}" 1>/dev/null 2>/dev/null
 }

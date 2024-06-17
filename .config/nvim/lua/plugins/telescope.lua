@@ -20,7 +20,7 @@ return {
 				f = {
 					name = "telescope",
 					-- Meta: All modes
-					t = { "<cmd>Telescope<cr>", "Search Telescope" },
+					S = { "<cmd>Telescope<cr>", "Search Telescope" },
 					-- Files
 					f = { "<cmd>Telescope find_files<cr>", "Find file (project root)" },
 					F = {
@@ -34,14 +34,6 @@ return {
 					c = {
 						"<cmd>Telescope find_files search_dirs={'$HOME/.config/nvim'} hidden=true<cr>",
 						"Find file (NeoVim config)",
-					},
-					w = {
-						"<cmd>Telescope find_files search_dirs={'$HOME/Notes'}<cr>",
-						"Find file (VimWiki)",
-					},
-					W = {
-						"<cmd>Telescope live_grep search_dirs={'$HOME/Notes'}<cr>",
-						"Grep files (VimWiki)",
 					},
 					g = { "<cmd>Telescope live_grep<cr>", "Grep in files (project root)" },
 					G = { '<cmd>Telescope live_grep search_dirs={"$HOME"}<cr>', "Grep in files (~)" },

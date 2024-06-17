@@ -36,3 +36,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 	desc = "Avoid overwritten by loading color schemes later.",
 	callback = set_hl_for_floating_window,
 })
+
+-- Set title to date for new diary entries.
+vim.api.nvim_create_autocmd("BufNewFile", {
+	pattern = "*/diary/[0-9]*.md",
+	command = ':0r!echo "\\# `date +\\%d.\\%m.\\%Y`\\n:daily:\\n"',
+})

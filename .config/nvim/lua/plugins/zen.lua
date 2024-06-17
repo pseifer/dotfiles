@@ -1,30 +1,25 @@
--- Zen mode with a few different modes.
--- - Ataraxis: Full focus mode.
--- - Focus Window: Zoom in on one window.
--- - Focus Line: Zoom in on line(s).
+-- Simple zen mode.
 
 return {
-	"Pocco81/true-zen.nvim",
-	config = function()
-		require("true-zen").setup({
-			integrations = {
-				lualine = true,
+	"folke/zen-mode.nvim",
+	opts = {
+		window = {
+			backgrop = 1,
+			options = {
+				signcolumn = "no", -- disable signcolumn
+				number = false, -- disable number column
+				relativenumber = false, -- disable relative numbers
+				-- cursorline = false, -- disable cursorline
+				-- cursorcolumn = false, -- disable cursor column
+				-- foldcolumn = "0", -- disable fold column
+				-- list = false, -- disable whitespace characters
 			},
-		})
+		},
+	},
+	init = function()
 		local wk = require("which-key")
 		wk.register({
-			z = {
-				name = "zen",
-				a = { "<cmd>TZAtaraxis<cr>", "Ataraxis Mode" },
-				f = { "<cmd>TZFocus<cr>", "Focus Window" },
-				n = { "<cmd>TZNarrow<cr>", "Focus Line" },
-			},
+			z = { "<cmd>ZenMode<cr>", "Toggle ZenMode" },
 		}, { prefix = "<leader>" })
-		wk.register({
-			z = {
-				name = "zen",
-				n = { "<cmd>'<,'>TZNarrow<cr>", "Focus Lines" },
-			},
-		}, { mode = "v", prefix = "<leader>" })
 	end,
 }

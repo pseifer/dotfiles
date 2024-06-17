@@ -42,6 +42,9 @@ return {
 				-- 'codespell' -- Linter
 				-- Clojure
 				"clojure-lsp",
+
+				-- Markdown
+				"marksman",
 			},
 		})
 
@@ -56,6 +59,11 @@ return {
 		lsp.ruff_lsp.setup({})
 		-- Clojure
 		lsp.clojure_lsp.setup({})
+		-- Markdown
+		lsp.marksman.setup({
+			-- Enable in vimwiki as well.
+			filetypes = { "markdown", "markdown.mdx", "vimwiki" },
+		})
 		-- Lua
 		lsp.lua_ls.setup({
 			settings = {

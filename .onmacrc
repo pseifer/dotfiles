@@ -7,6 +7,9 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 [ -f "$HOME/.config/alacritty/os.toml" ]\
     || ln -s "$HOME/.config/alacritty/macos.toml" "$HOME/.config/alacritty/os.toml"
 
+# Add brew installed texlive to path.
+[ -d "/usr/local/texlive/2024/bin/universal-darwin/" ] && PATH="/usr/local/texlive/2024/bin/universal-darwin/:$PATH"
+
 # System specific aliases.
 
 alias todoman='todo'
@@ -19,3 +22,6 @@ alias rmr='rm -rI'
 
 # Fix fonts
 alias fixfonts='defaults write -g AppleFontSmoothing -int 0'
+
+# Maybe, possibly, fixing some LSCOLORS/LS_COLORS issues?
+export LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"

@@ -56,3 +56,10 @@ Nmap("<enter>", ":nohlsearch<cr>", "Clear search results")
 
 -- Search and replace the word under the cursor.
 Nmap("<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", "Replace current word")
+
+-- Go to next or previous diagnostict.
+-- TODO: error > warning
+Nmap("]g", vim.diagnostic.goto_next, "Go to next diagnostic")
+Nmap("[g", vim.diagnostic.goto_prev, "Go to next diagnostic")
+
+-- TODO: Think of something useful for 's'
