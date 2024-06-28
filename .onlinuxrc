@@ -22,7 +22,3 @@ alias FIXKB='xdotool key Caps_Lock; fixkb'
 
 # WSL
 alias wslgui='export DISPLAY=localhost:0.0'
-
-# Add Doom to path.
-
-[ -d "$HOME/.config/emacs/bin" ] && PATH="$HOME/.config/emacs/bin:$PATH"

@@ -20,7 +20,7 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 
-(setq doom-font "FiraCode Nerd Font-15")
+(setq doom-font "SauceCodePro Nerd Font-14")
 
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -78,22 +78,58 @@
   ;; https://github.com/emacs-lsp/lsp-mode/issues/3577#issuecomment-1709232622
   (delete 'lsp-terraform lsp-client-packages))
 
-;; Custom keybindings: In all modes, navigate windows with Ctrl + HJKL.
-(define-key evil-normal-state-map (kbd "C-l") #'evil-window-right)
-(define-key evil-normal-state-map (kbd "C-k") #'evil-window-up)
-(define-key evil-normal-state-map (kbd "C-j") #'evil-window-down)
-(define-key evil-normal-state-map (kbd "C-h") #'evil-window-left)
+;; Custom keybindings: In insert and normal mode, navigate windows with Ctrl + HJKL.
+(map!
+ :ni "C-l" #'evil-window-right
+ :ni "C-k" #'evil-window-up
+ :ni "C-j" #'evil-window-down
+ :ni "C-h" #'evil-window-left)
 
-(define-key evil-insert-state-map (kbd "C-l") #'evil-window-right)
-(define-key evil-insert-state-map (kbd "C-k") #'evil-window-up)
-(define-key evil-insert-state-map (kbd "C-j") #'evil-window-down)
-(define-key evil-insert-state-map (kbd "C-h") #'evil-window-left)
+;; On return, delete highlights.
+(map!
+ :n "RET" #'evil-ex-nohighlight)
 
 ;; Fullscreen on startup.
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+;; Remove window decorations (does not work?)
+;; (set-frame-parameter nil 'undecorated t)
 
 ;; Save undo history.
 (after! undo-tree
   (setq undo-tree-auto-save-history t)
   (setq undo-tree-enable-undo-in-region nil)
   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
+
+;; Start a server.
+(server-start)
+
+;; Set some default directories.
+(setq projectile-project-search-path '("~/Projects/"))
+
+;; Delete trailing spaces on save.
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; Start org-mode with folded headings.
+(after! org
+  (setq org-agenda-files '("~/Notes/org/journal.org" "~/Notes/org/todo.org"))
+  (setq org-directory "~/Notes/org")
+  (setq org-capture-templates
+        '(("t" "Tasks" entry
+           (file+headline "todo.org" "Inbox")
+           "* TODO %?")
+          ("d" "Deadline Task" entry
+           (file+headline "todo.org" "Inbox")
+           "* TODO %?\nDEADLINE: %^{DEADLINE}t ")
+          ("a" "Linked Journal" entry
+           (file+datetree "journal.org")
+           "* %?\n%a")
+          ;; TODO Capture calendar entries and tasks with deadline
+          ("j" "Journal Entry" entry
+           (file+datetree "journal.org")
+           "* %?")))
+  (setq org-startup-folded t))
+
+;; Customize PDF-view.
+;; (setq pdf-view-midnight-colors '("#f8f8f2" . "#282a36"))
+;; (add-hook 'pdf-tools-enabled-hook 'pdf-view-midnight-minor-mode)
