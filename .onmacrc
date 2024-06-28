@@ -10,6 +10,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # Add brew installed texlive to path.
 [ -d "/usr/local/texlive/2024/bin/universal-darwin/" ] && PATH="/usr/local/texlive/2024/bin/universal-darwin/:$PATH"
 
+# Add Doom to path.
+
+[ -d "$HOME/.emacs.d/bin" ] && PATH="$HOME/.emacs.d/bin:$PATH"
+
 # System specific aliases.
 
 alias todoman='todo'
