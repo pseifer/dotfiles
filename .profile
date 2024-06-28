@@ -22,6 +22,10 @@
 
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
 
+# Add Doom to path.
+
+[ -d "$HOME/.emacs.d/bin" ] && PATH="$HOME/.emacs.d/bin:$PATH"
+
 # Add Coursier and Java to PATH.
 
 osuname="$(uname -s)"

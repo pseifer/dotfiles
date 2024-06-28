@@ -19,10 +19,12 @@ alias s=' do-web-search' # intentionally starting with space
 alias templ='fzf-template'
 
 # Notes.
+export NOTES_HOME="$HOME/Notes/home"
+
 alias zenvim='nvim -c "set norelativenumber"'
-alias notes='zenvim ~/Notes/home/index.md'
-alias journal='zenvim ~/Notes/home/journal.md'
-alias inbox='zenvim ~/Notes/home/inbox.md'
+alias notes="zenvim \$NOTES_HOME/index.md"
+alias journal="zenvim \$NOTES_HOME/journal.md"
+alias inbox="zenvim \$NOTES_HOME/inbox.md"
 alias toinbox='cat >> ~/Notes/home/inbox.md'
 
 # Todos and calendar shorthands.
@@ -55,7 +57,6 @@ alias mv='mv -i'
 
 alias vim='nvim'
 alias vi='nvim'
-alias emacs='nvim'
 alias nano='nvim'
 
 # In case I actually want 'vi' for some reason.
@@ -97,8 +98,10 @@ fi
 # Use w3mman for viewing manfiles.
 alias man='w3mman'
 
-# Reload zsh.
-alias zsh-reload='. $HOME/.zshrc'
+# Reload the ZSH configuration.
+alias zshreload='. $HOME/.zshrc'
+# Edit shell configuration files, then reload.
+alias zshconfig='vi $HOME/.aliases $HOME/.functions $HOME/.zshrc; zshreload'
 
 # Programming Tools.
 

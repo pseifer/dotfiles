@@ -2,13 +2,18 @@
 
 # Setup the 'base' workspace.
 tbase() {
+    # Open the Vimwiki index.
     tmux rename-window 'notes'
     tmux send-keys -t 'notes' 'nb shell' 'Enter' 'edit 1' 'Enter'
-    tmux new-window -n 'nb'
-    tmux send-keys -t 'nb' 'nb shell' 'Enter' 'Enter'
-    tmux new-window -n 'calendar'
-    tmux send-keys -t 'calendar' 'vdirsyncer sync; clear; ical' 'Enter'
-    tmux new-window -n 'zsh'
+
+    # Open a new task and calenar window.
+    tmux new-window -n 'todo-cal'
+    tmux send-keys -t 'todo-cal' 'nb shell' 'Enter' 'clear' 'Enter' 'tasks open' 'Enter'
+    tmux split-window -h -l '50%'
+    tmux send-keys -t 'todo-cal' 'vdirsyncer sync; clear; ical' 'Enter'
+    
+    # Open a final 'main' shell window for doing some stuff.
+    tmux new-window -n 'main'
 }
 
 # Setup a generic development session in a certain directory,

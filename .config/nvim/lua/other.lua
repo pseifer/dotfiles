@@ -42,3 +42,13 @@ vim.api.nvim_create_autocmd("BufNewFile", {
 	pattern = "*/diary/[0-9]*.md",
 	command = ':0r!echo "\\# `date +\\%d.\\%m.\\%Y`\\n:daily:\\n"',
 })
+
+-- Replace leading '/' in markdown links on save, only in vimwiki.
+vim.api.nvim_create_autocmd("BufWritePost", {
+	callback = function(opts)
+		if vim.bo[opts.buf].filetype == "vimwiki" then
+			-- %s:\[\(.*\)\](\/\(.*\)):[\1](\2):g
+			vim.cmd(":silent %s:\\(\\[.*\\]\\)(\\/\\(.*\\)):\\1(\\2):ge")
+		end
+	end,
+})
