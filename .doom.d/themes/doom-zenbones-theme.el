@@ -194,6 +194,7 @@ Can be an integer to determine the exact padding."
 
     ;; lsp-mode
     (lsp-ui-doc-background      :background base7)
+    (lsp-face-highlight-textual :foreground fg :background base8)
 
     ;; magit
     (magit-blame-heading     :foreground orange :background bg-alt)
@@ -203,7 +204,7 @@ Can be an integer to determine the exact padding."
     ;; markdown-mode
     (markdown-markup-face     :foreground base5)
     (markdown-header-face     :inherit 'bold :foreground red)
-    ((markdown-code-face &override)       :background base1)
+    ((markdown-code-face &override)       :background base8)
     (mmm-default-submode-face :background base1)
 
     ;; outline <built-in>
