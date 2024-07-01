@@ -37,6 +37,12 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
+;; Display time in mode line.
+(setq display-time-default-load-average nil)
+(setq display-time-string-forms '((format-time-string "%a, %d.%m. %R " now)))
+(setq doom-modeline-time-icon nil)
+(display-time-mode)
+
 ;; Set splash screen image.
 ;; mx-butterfly based on https://commons.wikimedia.org/wiki/File:Mx-butterfly.svg
 ;; CC-BY Abraham Raji
