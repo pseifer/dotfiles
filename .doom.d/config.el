@@ -37,6 +37,12 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
+;; Set splash screen image.
+;; mx-butterfly based on https://commons.wikimedia.org/wiki/File:Mx-butterfly.svg
+;; CC-BY Abraham Raji
+;; https://creativecommons.org/licenses/by-sa/4.0/deed.en
+(setq fancy-splash-image "~/.doom.d/mx-butterfly-splash.svg")
+
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
@@ -57,7 +63,7 @@
 ;; Here are some additional functions/macros that will help you configure Doom.
 ;;
 ;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
+;; - `uSe-package!' for configuring packages
 ;; - `after!' for running code after a package has loaded
 ;; - `add-load-path!' for adding directories to the `load-path', relative to
 ;;   this file. Emacs searches the `load-path' when you load packages with
@@ -112,7 +118,7 @@
 
 ;; Start org-mode with folded headings.
 (after! org
-  (setq org-agenda-files '("~/Notes/org/journal.org" "~/Notes/org/todo.org"))
+  (setq org-agenda-files '("~/Notes/org" "~/Notes/org/notes"))
   (setq org-directory "~/Notes/org")
   (setq org-capture-templates
         '(("t" "Tasks" entry

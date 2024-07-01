@@ -1,0 +1,4 @@
+* DOOM Emacs Config
+** Splash Image
+The splash screen image [[file:mx-butterfly-splash.svg][M-X Butterfly]] is based on and derived from [[https://commons.wikimedia.org/wiki/File:Mx-butterfly.svg][Mx-butterfly.svg]], which is published under [[https://creativecommons.org/licenses/by-sa/4.0/deed.en][CC-BY]] Abraham Raji.
+This modification, simplifying the files structure and modifying colors, is published under the same license.

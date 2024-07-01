@@ -56,8 +56,10 @@ alias mv='mv -i'
 # Editor (666) All is Neovim.
 
 alias vim='nvim'
-alias vi='nvim'
 alias nano='nvim'
+
+alias vi="emacsclient -a="
+alias ec="emacsclient -a="
 
 # In case I actually want 'vi' for some reason.
 alias ogvi='/usr/bin/vi'

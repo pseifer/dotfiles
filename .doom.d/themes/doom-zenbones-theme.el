@@ -193,7 +193,7 @@ Can be an integer to determine the exact padding."
     (helm-candidate-number :background blue :foreground bg)
 
     ;; lsp-mode
-    (lsp-ui-doc-background      :background base0)
+    (lsp-ui-doc-background      :background base7)
 
     ;; magit
     (magit-blame-heading     :foreground orange :background bg-alt)
