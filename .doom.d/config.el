@@ -124,8 +124,13 @@
 
 ;; Start org-mode with folded headings.
 (after! org
-  (setq org-agenda-files '("~/Notes/org" "~/Notes/org/notes"))
+  ;; The root directory for org-mode.
   (setq org-directory "~/Notes/org")
+  ;; Load agenda entries from main and the =notes= subdir.
+  (setq org-agenda-files '("~/Notes/org" "~/Notes/org/notes"))
+  ;; Insert blank lines before headings when using CTRL+RET, but not in plain lists.
+  (setq org-blank-before-new-entry '((heading . t) (plain-list-item . auto)))
+  ;; Custom templates for capture-mode.
   (setq org-capture-templates
         '(("t" "Tasks" entry
            (file+headline "todo.org" "Inbox")
@@ -140,6 +145,7 @@
           ("j" "Journal Entry" entry
            (file+datetree "journal.org")
            "* %?")))
+  ;; Open new files folded.
   (setq org-startup-folded t))
 
 ;; Customize PDF-view.
