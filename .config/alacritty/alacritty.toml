@@ -1,7 +1,7 @@
 
 import = [
     # Load color theme.
-    "~/.config/alacritty/themes/zenbones-light.toml",
+    "~/.config/alacritty/themes/modus-operandi.toml",
     # Load OS specific settings.
     "~/.config/alacritty/os.toml"
 ]
@@ -36,4 +36,3 @@ style = "Regular"
 [[keyboard.bindings]]
 action = "ToggleFullscreen"
 key = "F11"
-
