@@ -21,3 +21,7 @@ An interactive wrapper around the `todo(man)` TODO manager, using FZF. Aliased t
 # `fzf-template`
 
 Show all files in `$HOME/templates` and print the selected to stdout. Usage `templatefzf > something.clj`.
+
+# `fuzzyphile`
+
+Navigate the filesystem with `fd` and `fzf`. More information with `fuzzyphile --help`.

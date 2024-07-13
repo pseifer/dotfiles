@@ -1,0 +1,812 @@
+#!/usr/bin/env python3
+
+"""
+Fuzzyfile - a simple and fuzzy file navigator.
+
+Fuzzyphile is file navigation tool for all who love fuzzy finders,
+essentially wrapping `fd` and `fzf` in a nice CLI.
+
+Setup: See .zshrc for how to generate bindings.
+Usage: fuzzyphile f --help
+"""
+
+from argparse import ArgumentParser
+from functools import partial
+import os
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+
+
+###############################################################################
+# Command line interface for Fuzzyphile.
+###############################################################################
+
+def _abort_error(prog):
+    """Print an error message for failing requirements and exit."""
+    print(
+        "Fuzzyphile requires '{}', but it can not be found.".format(prog),
+        file=sys.stderr,
+    )
+    sys.exit(0)
+
+
+def check_requirements():
+    """Check all requirements for fuzzyphile."""
+    fd_cmd = "fd"
+    bat_cmd = "bat"
+    tree_cmd = "tree"
+    vi_cmd = "nvim"
+
+    # Check that 'fd' is available.
+    if shutil.which("fd"):
+        fd_cmd = "fd"
+    elif shutil.which("fdfind"):
+        fd_cmd = "fdfind"
+    else:
+        _abort_error("fd")
+
+    # Check that 'bat' is available.
+    if shutil.which("bat"):
+        bat_cmd = "bat"
+    elif shutil.which("batcat"):
+        bat_cmd = "batcat"
+    else:
+        bat_cmd = "cat"
+
+    # Check that 'tree' is available.
+    if not shutil.which("tree"):
+        tree_cmd = "ls"
+
+    # Check that 'fzf' is available.
+    if not shutil.which("fzf"):
+        _abort_error("fzf")
+
+    # Use 'EDITOR';
+    # Otherwise, check that 'nvim' > 'vim' > 'vi' is available.
+    ed = os.environ['EDITOR']
+    if ed:
+        vi_cmd = ed
+    elif shutil.which("nvim"):
+        vi_cmd = "nvim"
+    elif shutil.which("vim"):
+        vi_cmd = "vim"
+    else:
+        vi_cmd = "vi"
+
+    return (fd_cmd, bat_cmd, tree_cmd, vi_cmd)
+
+
+def parse_args():
+    """Construct and run an argument parser.
+
+    If terminate is set to true, the resulting args may not
+    be used. Print help and terminate instead.
+    """
+    parser = ArgumentParser(
+        prog="Fuzzyphile",
+        description="A fuzzy filebrowser. This is free software without warranty of any kind. More information at https://github.com/pseifer/fuzzyphile.",
+        add_help=False,
+    )
+
+    parser.add_argument(
+        "-h",
+        "--help",
+        help="show this help (on stderr)",
+        action="store_true",
+    )
+
+    subparsers = parser.add_subparsers(
+        title="subcommands",
+        description="Use 'init' to generate shell bindings and hotkeys, and use 'f' for calling the fuzzyphile commands directly. For additional help, you may use 'fuzzyphile init -h' or 'fuzzyphile f -h'.",
+        dest="subcommand",
+    )
+
+    # create the parser for the "a" command
+
+    # A parser for calling the 'f' command directly.
+    parser_f = subparsers.add_parser(
+        "f", help="call f commands directly", add_help=False
+    )
+
+    parser_f.add_argument(
+        "-h",
+        "--help",
+        help="show this help (on stderr)",
+        action="store_true",
+    )
+
+    # Core options.
+    parser_f.add_argument(
+        "-u",
+        "--use-home",
+        help="use users $HOME as working directory",
+        action="store_const",
+        dest="wd",
+        const=str(Path.home()),
+        default=str(Path.cwd()),
+    )
+    parser_f.add_argument(
+        "-w",
+        "--wd",
+        metavar="WD",
+        help="use WD as working directory for selection",
+        action="store",
+    )
+    parser_f.add_argument(
+        "modefiles",
+        metavar="FILE",
+        type=str,
+        nargs="*",
+        help="file arguments for certain modes, see under 'mode' below",
+    )
+    parser_f.add_argument(
+        "--replace",
+        metavar="R",
+        type=str,
+        help="pattern to use in apply, for-each, and for-all (default {})",
+        default="{}",
+    )
+    parser_f.add_argument(
+        "--debug",
+        help="show the internal command",
+        action="store_true",
+    )
+
+    # Find and filter options.
+    filter = parser_f.add_argument_group(
+        "find", "filter results shown for selection"
+    )
+    filter.add_argument(
+        "-f", "--files", help="include files in selection", action="store_true"
+    )
+    filter.add_argument(
+        "-l", "--links", help="follow links in selection", action="store_true"
+    )
+    filter.add_argument(
+        "-i", "--no-ignore", help="disable all ignore file(s)", action="store_true"
+    )
+    filter.add_argument(
+        "-s", "--show-hidden", help="show hidden files", action="store_true"
+    )
+    filter.add_argument(
+        "-e",
+        "--ext",
+        help='include only these extensions, comma separated (e.g., "pdf,ps,docx")',
+        type=str,
+        metavar="EXT",
+        default="",
+    )
+    filter.add_argument(
+        "-d",
+        "--depth",
+        help="recurse up to this depth in fd",
+        type=int,
+        metavar="I",
+        default=0,
+    )
+
+    # Modes.
+    modes_group = parser_f.add_argument_group(
+        "mode", "select one mode, or cd if none selected"
+    )
+    mode = modes_group.add_mutually_exclusive_group()
+    mode.add_argument(
+        "-v",
+        "--vi",
+        help="edit selection(s) with 'vi'",
+        action="store_const",
+        dest="mode",
+        const="vi",
+        default="cd",
+    )
+    mode.add_argument(
+        "-o",
+        "--open",
+        help="open selection(s) with 'open'",
+        action="store_const",
+        dest="mode",
+        const="open",
+    )
+    mode.add_argument(
+        "-m",
+        "--move",
+        help="move FILE(s) to selection, or '--bring' if no FILE(s)",
+        action="store_const",
+        dest="mode",
+        const="move",
+    )
+    mode.add_argument(
+        "-c",
+        "--copy",
+        help="copy FILE(s) to selection, or '--accquire' if no FILES(s)",
+        action="store_const",
+        dest="mode",
+        const="copy",
+    )
+    mode.add_argument(
+        "-b",
+        "--bring",
+        help="move selection(s) to current dir",
+        action="store_const",
+        dest="mode",
+        const="bring",
+    )
+    mode.add_argument(
+        "-a",
+        "--accquire",
+        help="copy selection(s) to current dir",
+        action="store_const",
+        dest="mode",
+        const="accquire",
+    )
+    mode.add_argument(
+        "-p",
+        "--print",
+        help="print the selection(s) to stdout",
+        action="store_const",
+        dest="mode",
+        const="print",
+    )
+    mode.add_argument(
+        "-X",
+        "--apply",
+        metavar="T",
+        type=str,
+        help="replace R in T with one selection",
+        action="store",
+    )
+    mode.add_argument(
+        "-E",
+        "--for-each",
+        metavar="T",
+        type=str,
+        help="replace R in T for each selection",
+        action="store",
+    )
+    mode.add_argument(
+        "-A",
+        "--for-all",
+        metavar="T",
+        type=str,
+        help="replace R in T with all selection(s)",
+        action="store",
+    )
+
+    # A parser to generate shell bindings for Fuzzyphile.
+    parser_init = subparsers.add_parser(
+        "init",
+        help="generate shell bindings and hotkeys",
+        description="Generate shell bindings and hotkeys for fuzzyphile. Source the script in your config file as 'eval $(fuzzyphile init [zsh|bash] ...)', including any customizations detailed by this help.",
+        add_help=False,
+    )
+
+    parser_init.add_argument(
+        "-h",
+        "--help",
+        help="show this help (on stderr)",
+        action="store_true",
+    )
+
+    parser_init.add_argument(
+        "-p",
+        "--pretty",
+        help="pretty print config to stderr (documentation)",
+        action="store_true",
+    )
+
+    parser_init.add_argument(
+        "-n",
+        "--fn",
+        help="name of the internal function (default: '_fuzzyphile')",
+        dest="name",
+        default="_fuzzyphile",
+    )
+
+    parser_init.add_argument(
+        "-a",
+        "--alias",
+        help="name of the main alias (default: 'f')",
+        dest="alias",
+        default="f",
+    )
+
+    parser_init.add_argument(
+        "shell",
+        choices=["zsh", "bash"],
+        help="select which shell to initialize for",
+    )
+    parser_init.add_argument(
+        "-k",
+        "--hotkey",
+        metavar="K",
+        help="add a hotkey binding 'key:flags', e.g., -k '^T:-u' binds CTRL-T to 'fuzzyphile f -u' in your shell (zsh only)",
+        action="append",
+        default=[],
+    )
+    parser_init.add_argument(
+        "--default-keys",
+        help="generate default (opinionated) hotkeys (zsh only)",
+        action="store_true",
+    )
+    parser_init.add_argument(
+        "--default-aliases",
+        help="generate default (opinionated) aliases",
+        action="store_true",
+    )
+
+    # Parse the arguments and return resulting Namespace.
+    args = parser.parse_args()
+
+    # Post-process on 'f' command.
+    if args.subcommand == "f":
+        # Resolve the paths passed as arguments.
+        args.wd = Path(args.wd).resolve()
+        args.modefiles = [Path(f).resolve() for f in args.modefiles]
+
+        # Update move to bring and copy to accquire modes iff modefiles is empty.
+        if args.mode == "move" and not args.modefiles:
+            args.mode = "bring"
+        if args.mode == "copy" and not args.modefiles:
+            args.mode = "accquire"
+
+        # Set 'mode' for apply/for-each and for-all.
+        if args.apply:
+            args.mode = "apply"
+        elif args.for_each:
+            args.mode = "for_each"
+        elif args.for_all:
+            args.mode = "for_all"
+
+    # Post-process for help formatting.
+    # Sets 'terminate', which should be respected
+    # by the caller.
+    if args.help or not args.subcommand:
+        """Print a help message to stderr."""
+        if args.subcommand == "init":
+            parser_init.print_help(file=sys.stderr)
+        elif args.subcommand == "f":
+            parser_f.print_help(file=sys.stderr)
+        else:
+            parser.print_help(file=sys.stderr)
+        args.terminate = True
+    else:
+        args.terminate = False
+
+    # Return the constructed arguments.
+    return args
+
+
+###############################################################################
+# Generate shell bindings, functions, aliases and hotkeys.
+###############################################################################
+
+def _gen_alias(alias, name):
+    """Generate a basic, hidden alias for fuzzyphile."""
+    return "alias {fuzza}=' {fuzz}'; ".format(
+        fuzza=alias, fuzz=name
+    )
+
+
+def _gen_fn(name):
+    """Generate basic evaluation function.
+
+    Forwards all arguments and evaluates the final line of fuzzyphiles output,
+    which is the generated command (e.g., 'cd some-dir').
+    """
+    return 'function {fuzz}() {{ eval $(fuzzyphile f "$@" | tail -1) }}; '.format(
+        fuzz=name
+    )
+
+
+def _gen_completion(shell, name):
+    """Generate GNU generic completion via compdef."""
+    if shell == "zsh":
+        return "compdef _gnu_generic {fuzz}; ".format(fuzz=name)
+    else:
+        # TODO: Bash
+        return ""
+
+
+def _gen_key(shell, name, kdoto):
+    """Generate a single keybinding."""
+    # Internal counter for this function.
+    if "count" not in _gen_key.__dict__:
+        _gen_key.count = 0
+    elems = kdoto.split(":")
+    if shell == "zsh" and len(elems) == 2:
+        _gen_key.count += 1
+        binding, options = elems
+        return (
+            '{name}() {{ eval "{fuzz} {opts}"; zle reset-prompt }}; '
+            "zle -N {name}; bindkey {bind} {name}; "
+        ).format(
+            opts=options,
+            bind=binding,
+            fuzz=name,
+            name="{fuzz}_{id}".format(fuzz=name, id=_gen_key.count),
+        )
+    else:
+        # TODO: Bash
+        return ""
+
+
+def _gen_keys(shell, name, hotkeys):
+    """Generate all keybindings."""
+    return [_gen_key(shell, name, kdoto) for kdoto in hotkeys]
+
+
+def _gen_default_bindings(shell, name, default_keys):
+    """Generate default key binding."""
+    if default_keys:
+        return _gen_keys(shell, name, ["^T:-u", "^Y:-fu", "^E:-fuv", "^O:-fuo"])
+    else:
+        return []
+
+
+def _gen_default_aliases(default_aliases):
+    """Generate the default aliases."""
+    if default_aliases:
+        return [
+            # Basic alias for listing all files.
+            "alias ff='f --files'; ",
+            # Edit any file(s) with Vim.
+            "alias fv='ff --files --show-hidden --no-ignore --vi'; ",
+            # Open any file(s) with "open".
+            "alias fo='ff --files --show-hidden --no-ignore --open'; ",
+            # Open any file(s) with "open", refined by file type as first argument.
+            "alias foe='ff --files --show-hidden --no-ignore --open --ext'; ",
+            # Move file(s) from anywhere (or to anywhere, when given as args).
+            "alias ffmv='f --files --use-home --move'; ",
+            # Copy file(s) from anywhere (or to anywhere, when given as args).
+            "alias ffcp='f --files --use-home --copy'; ",
+        ]
+    else:
+        return []
+
+
+def generate(args):
+    """Generate or print the full configuration."""
+    if args.pretty:
+        token = "\n\n"
+    else:
+        token = ""
+
+    bind = token.join(
+        list(
+            filter(
+                lambda s: s != "",
+                [
+                    _gen_fn(args.name),
+                    _gen_completion(args.shell, args.name),
+                    _gen_alias(args.alias, args.name),
+                ]
+                + _gen_default_bindings(args.shell, args.name, args.default_keys)
+                + _gen_keys(args.shell, args.name, args.hotkey)
+                + _gen_default_aliases(args.default_aliases),
+            )
+        )
+    )
+
+    if args.pretty:
+        print(bind, file=sys.stderr)
+        return ""
+    else:
+        return bind
+
+
+###############################################################################
+# Construct and run a 'fd | fzf' pipeline in order to make
+# a selection based on the command line arguments.
+###############################################################################
+
+def _max_find(depth):
+    """Maximum allowed depth of search."""
+    if depth > 0:
+        return "--max-depth {}".format(depth)
+    else:
+        return ""
+
+
+def _find_hidden(show_hidden):
+    if show_hidden:
+        return "--hidden"
+    else:
+        return "--no-hidden"
+
+
+def _find_links(links):
+    if links:
+        return "--follow"
+    else:
+        return "--no-follow"
+
+
+def _find_ignore(no_ignore):
+    if no_ignore:
+        return "--no-ignore"
+    else:
+        return "--ignore"
+
+
+def _find_types(files):
+    if files:
+        return "--type file --type directory"
+    else:
+        return "--type directory"
+
+
+def _find_ext(ext):
+    """For each extension, add '--extension E' to fd."""
+    exts = ext.split(",")
+    return " ".join(["--extension " + e for e in exts if e])
+
+
+def _find(args, fd_find):
+    """Construct the full options to find (fd).
+
+    This consisting of
+        1. base directory as $HOME or cwd,
+        2. options (hidden, links, ignore), and
+        3. search type (directories/files).
+    """
+    return """{fd}
+        --base-directory {cwd}
+        --color=always
+        {hidden} {links} {ignore} {types} {ext}
+        """.format(
+        fd=fd_find,
+        cwd=args.wd,
+        hidden=_find_hidden(args.show_hidden),
+        links=_find_links(args.links),
+        ignore=_find_ignore(args.no_ignore),
+        types=_find_types(args.files),
+        ext=_find_ext(args.ext),
+    )
+
+
+def _find_join(args, fd_find):
+    """Join first the level 1 directory, then the rest up to max."""
+    return """
+        ({fd} --max-depth 1; echo "."; echo ".."; {fd} --min-depth 2 {max})
+    """.format(
+        fd=_find(args, fd_find), max=_max_find(args.depth)
+    )
+
+
+def _fzf_core():
+    """Core options for FZF.
+
+    Namely, this includes:
+        1. show query on top, and
+        2. colors enabled.
+    """
+    return "--layout=reverse --ansi"
+
+
+def _fzf_multi(mode):
+    """Enable multi select in some modes."""
+    if mode in ["copy", "move", "cd", "apply"]:
+        return ""
+    else:
+        return "--multi"
+
+
+def _bat_preview(wd, bat_cat):
+    """Preview of files with batcat (or cat)."""
+    config = ""
+    # If not using cat, supply bat arguments.
+    if not bat_cat == "cat":
+        config = "--plain --theme=base16 --color=always"
+    return """
+        {bat} {config}
+        {cwd}/{{}}
+        2> /dev/null
+        """.format(
+        bat=bat_cat, cwd=wd, config=config
+    )
+
+
+def _tree_preview(wd, tree):
+    """Preview of directories with tree."""
+    if not tree == "tree":
+        return "ls {cwd}/{{}}".format(cwd=wd)
+    else:
+        return "tree -L 1 -C --filesfirst {cwd}/{{}}".format(cwd=wd)
+
+
+def _fzf_preview(wd, bat_cat, tree):
+    """Set up FZF preview based on 'bat' and 'tree'.
+
+    That is:
+        1. use bat, if possible
+        2. otherise (on error) fall back to tree.
+    """
+    return "--preview '{bat} || {tree}'".format(
+        bat=_bat_preview(wd, bat_cat), tree=_tree_preview(wd, tree)
+    )
+
+
+def _fzf_gui():
+    """Set up the minimal FZF GUI.
+
+    With:
+        1. 16 colors, i.e., minimal interface, and
+        2. a simple color theme.
+    """
+    return """
+        --color=16 --pointer='❯ ' --marker=' '
+        --color=hl:bold,pointer:-1,marker:-1
+        """
+    # --color='info:cyan,spinner:cyan,hl:green:bold,hl+:green:bold,fg+:red,pointer:-1,prompt:green,marker:green'
+
+
+def _fzf_prompt(mode):
+    """Define the fzf prompt based on the selected mode."""
+    return "--prompt '{} '".format(
+        {
+            "vi": "vi",
+            "cd": "cd",
+            "print": "echo",
+            "open": "open",
+            "copy": "cp →",
+            "move": "mv →",
+            "accquire": "cp ←",
+            "bring": "mv ←",
+            "apply": "apply",
+            "for_each": "for each",
+            "for_all": "for all",
+        }[mode]
+    )
+
+
+def _fzf(mode, wd, bat_cat, tree):
+    """Construct the full fzf command."""
+    return "fzf {multi} {prompt} {core} {preview} {gui}".format(
+        core=_fzf_core(),
+        prompt=_fzf_prompt(mode),
+        multi=_fzf_multi(mode),
+        preview=_fzf_preview(wd, bat_cat, tree),
+        gui=_fzf_gui(),
+    )
+
+
+def select(args, fd_find, bat_cat, tree):
+    """Construct the full final pipeline."""
+    cmd = re.sub(
+        "\\s+",
+        " ",
+        "{find} | {fzf}".format(
+            find=_find_join(args, fd_find),
+            fzf=_fzf(args.mode, args.wd, bat_cat, tree)),
+    ).strip()
+
+    if args.debug:
+        print(cmd, file=sys.stderr)
+    else:
+        # Run pipe and return selection as list of Strings.
+        sel = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
+        return sel.stdout.decode().strip().split("\n")
+
+###############################################################################
+# Build a command for execution by the calling shell, based on the selection.
+###############################################################################
+
+def _select_first(wd, selection):
+    """Select the first selection, as absolute path.
+
+    On copy, move and cd modes, guaranteed to be len(selection) == 1.
+    """
+    return str(Path.joinpath(wd, selection[0]))
+
+
+def _select_all(wd, selection):
+    """Select all selections, as absolut paths. Returns list."""
+    return [str(Path.joinpath(wd, s)) for s in selection]
+
+
+def _apply_all(cmd, post, wd, selection):
+    """Apply 'cmd' to results. len(selection) > 1 is guaranteed."""
+    return "{} {} {}".format(cmd, " ".join(_select_all(wd, selection)), post)
+
+
+def _cd_mode(wd, selection):
+    """Change directory to either dir or dirname of file."""
+    path = _select_first(wd, selection)
+    if os.path.isdir(path):
+        target = path
+    else:
+        target = os.path.dirname(path)
+    return "cd {}".format(target)
+
+
+def _copy_mode(modefiles, wd, selection):
+    """Copy all modefiles to the selected directory."""
+    targets = " ".join([str(m) for m in modefiles])
+    return "cp {} {}".format(targets, _select_first(wd, selection))
+
+
+def _move_mode(modefiles, wd, selection):
+    """Move all modefiles to the selected directory."""
+    targets = " ".join([str(m) for m in modefiles])
+    return "mv {} {}".format(targets, _select_first(wd, selection))
+
+
+def _apply(apply, replace, wd, selection):
+    """Substitute pattern PAT with one selection."""
+    return apply.replace(replace, _select_first(wd, selection))
+
+
+def _for_each(for_each, replace, wd, selection):
+    """Substitute pattern PAT with each selection."""
+    return "; ".join(
+        [
+            for_each.replace(replace, s)
+            for s in _select_all(wd, selection)
+        ]
+    )
+
+
+def _for_all(for_all, replace, wd, selection):
+    """Substitute pattern PAT with all selections."""
+    return for_all.replace(
+        replace, " ".join(_select_all(wd, selection))
+    )
+
+
+def build(args, selection, vi_cmd):
+    """Build an command for execution of calling shell."""
+    return {
+        "cd": _cd_mode,
+        "vi": partial(_apply_all, vi_cmd, ""),
+        "print": partial(_apply_all, "echo", ""),
+        "open": partial(_apply_all, "open", ""),
+        "copy": partial(_copy_mode, args.modefiles),
+        "move": partial(_move_mode, args.modefiles),
+        "accquire": partial(_apply_all, "cp", post=str(Path.cwd())),
+        "bring": partial(_apply_all, "mv", post=str(Path.cwd())),
+        "apply": partial(_apply, args.apply, args.replace),
+        "for_each": partial(_for_each, args.for_each, args.replace),
+        "for_all": partial(_for_all, args.for_all, args.replace),
+    }[args.mode](args.wd, selection)
+
+
+###############################################################################
+# Main
+###############################################################################
+
+def main():
+    """Run fuzzyphile."""
+    # Check requirements and get fd and bat command names.
+    fd_cmd, bat_cmd, tree_cmd, vi_cmd = check_requirements()
+
+    # Parse command line arguments.
+    args = parse_args()
+
+    # Parser printed help, terminate the process.
+    if args.terminate:
+        return ""
+
+    # Check with mode, either initialize...
+    if args.subcommand == "init":
+        # Generate bindings for calling shell.
+        return generate(args)
+
+    # ...or run in normal 'f' mode.
+    else:
+        # Make a selection based on the configuration.
+        selection = select(args, fd_cmd, bat_cmd, tree_cmd)
+
+        # Guard against empty selections (e.g., ESC out).
+        if not selection or selection == [""]:
+            return ""  # Return a noop to the calling shell.
+        else:
+            # Build and return the command that the caller must execute.
+            return build(args, selection, vi_cmd)
+
+
+if __name__ == "__main__":
+    print(main())
+    sys.exit(0)

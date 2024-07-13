@@ -3,7 +3,7 @@
 # ZSH interactive shell setup.
 
 # Optimized for short startup time.
-# Uses fzf via Ctrl-E/Ctrl-R/Ctrl-T/CTRL-Y for fuzzy completion and 
+# Uses fzf via Ctrl-E/Ctrl-R/Ctrl-T/CTRL-Y for fuzzy completion and
 # history search, which is much faster than ZSH completion
 # plugins. Sets a simple, transient prompt (s1ck3r).
 
@@ -60,23 +60,21 @@ source "$HOME/.local/share/punkt/s1ck3r/s1ck3r.zsh"
 # Set alias for resetting prompt on clear.
 alias clear="unset S1CK3R_SPACIOUS_PROMPT && clear"
 
-# ----- Setup ZSH defaults and plugins. -----
+# ----- Setup ZSH History. -----
 
-# Setup history.
-#export HISTFILE="$HOME/.zsh_history"
-
-# Set history file to host version.
+# Set history file to host-specific version 'zsh_history_{host}'.
 HISTFILE=${ZDOTDIR:-~}/.zsh_histories/zsh_history_${(%):-%m}
 
 # Ignore commands that start with whitespace.
+# This is used for some commands, such as 'f ' for fuzzyphile.
 setopt HISTIGNORESPACE
 
 export HISTSIZE=1000000 # size of the loaded history (memory)
 export SAVEHIST=1000000 # size of the history file
-#setopt SHARE_HISTORY # sync between sessions
+#setopt SHARE_HISTORY # sync between sessions (disabled)
 setopt HIST_IGNORE_ALL_DUPS # do not save dublicates
 
-# Load history from all other host-based histories as well.
+# Load history from all other host-based histories and the archive as well.
 () {
   emulate -L zsh -o extended_glob
   local hist
@@ -84,6 +82,13 @@ setopt HIST_IGNORE_ALL_DUPS # do not save dublicates
     fc -RI -- "${hist}"
   done
 }
+
+# Occasionally, run 'builtin fc -W zsh_history_archive' to store
+# the loaded history in the archive, and delete host-specific
+# versions; keeps the size smaller for syncing of changing
+# files.
+
+# ----- Setup ZSH defaults and plugins. -----
 
 setopt AUTO_CD # cd if not a command
 
@@ -94,11 +99,11 @@ setopt PUSHD_SILENT # do not print directories
 # Disable history expansion with '!'.
 set -K
 
-# Use VIM as default editor...
+# Use emacsclient as default editor, unless on ssh connection.
 if [[ -n "$SSH_CONNECTION" ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='nvim'
+  export EDITOR='emacsclient -a='
 fi
 
 export PAGER='less'
@@ -119,7 +124,7 @@ CASE_SENSITIVE="true"
 fpath=("$HOME/.local/share/punkt/zsh-completions" $fpath)
 
 # Initialize compinit.
-autoload -Uz compinit 
+autoload -Uz compinit
 case $(uname -s) in
   Darwin)
     if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
@@ -154,22 +159,15 @@ if command -v batcat > /dev/null; then
     alias bat='batcat'
 fi
 
-# Clear the screen with CTRL-O, instead of CTRL-L.
-bindkey "^O" clear-screen
-
 # ----- Setup FZF History support. -----
 
 # Ctrl-R: Fuzzy search history (takes partial line into account).
-if [ -f "/usr/share/doc/fzf/examples/key-bindings.zsh" ]; then 
+if [ -f "/usr/share/doc/fzf/examples/key-bindings.zsh" ]; then
     source "/usr/share/doc/fzf/examples/key-bindings.zsh"
 elif [ -f "$HOME/.local/share/punkt/fzf-key-bindings.zsh" ]; then
     source "$HOME/.local/share/punkt/fzf-key-bindings.zsh"
 fi
 # source /usr/share/doc/fzf/examples/completion.zsh # uncomment to enable ** completion
-
-# Uncomment: Inside a tmux session, open overlay for all FZF searches.
-# Opening tmnux panes introduces a small delay.
-#export FZF_TMUX_OPTS='-p80%,60%'
 
 # Set the FZF color theme (light).
 export FZF_DEFAULT_OPTS="
@@ -178,40 +176,9 @@ export FZF_DEFAULT_OPTS="
   --color=prompt:green
   --color=pointer:black"
 
-# ----- Setup Fuzzyfile, the fuzzy file navigator -----
+# ----- Fuzzyfile - a simple and fuzzy file navigator. -----
 
-# Source the 'fuzzyfile' function.
-source "$HOME/.fuzzyfile"
-
-# Basic fuzzyfile alias.
-alias f=' fuzzyfile' # Space on purpose to hide from history.
-
-# Use cd, vi, or open on files, disregarding ignore and showing hidden.
-alias ff='f -si'
-alias fv='f -sifv'
-alias fo='f -sifo'
-
-# Global navigation and file opening with ZSH keybinds.
-
-# Define a ZSH function for using fuzzyfile with some arguments, and reset the prompt.
-_fuzzyfile_with() { local cmd=$1; eval "fuzzyfile $cmd"; zle reset-prompt }                                             
-
-# Use Ctrl-T to cd to any directory.
-_fuzzyfile_home() { _fuzzyfile_with "-u" }
-zle -N _fuzzyfile_home
-bindkey ^T _fuzzyfile_home
-
-# Use Ctrl-Y to cd to the dir of any file.
-_fuzzyfile_homefile() { _fuzzyfile_with "-fu" }
-zle -N _fuzzyfile_homefile
-bindkey ^Y _fuzzyfile_homefile
-
-# Use Ctrl-E to edit and file in vim.
-_fuzzyfile_homevi() { _fuzzyfile_with "-fuv" }
-zle -N _fuzzyfile_homevi
-bindkey ^E _fuzzyfile_homevi
-
-
+eval $(fuzzyphile init zsh --default-keys --default-aliases)
 
 # ----- SDKman -----
 
