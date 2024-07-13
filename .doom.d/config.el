@@ -29,13 +29,30 @@
 
 ;; Set the color theme and enbale bold and italics in (doom) themes.
 ;; See all available themes with `load-theme'.
-(setq doom-theme 'doom-zenbones
+(setq doom-theme 'modus-operandi
       doom-themes-enable-bold t
       doom-themes-enable-italic t)
+
+;; Customize the modus-operandi theme.
+(setq modus-themes-italic-constructs t
+      modus-themes-bold-constructs t
+      modus-themes-mixed-fonts t
+      modus-themes-syntax '(faint)
+      modus-themes-variable-pitch-ui nil)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
+
+;; Disable the menu bar, for terminal frames.
+(defun contextual-menubar (&optional frame)
+  "Display the menubar in FRAME (default: selected frame) if on a
+    graphical display, but hide it if in terminal."
+  (interactive)
+  (set-frame-parameter frame 'menu-bar-lines
+                             (if (display-graphic-p frame)
+                                  1 0)))
+(add-hook 'after-make-frame-functions 'contextual-menubar)
 
 ;; Display time in mode line.
 (setq display-time-default-load-average nil)

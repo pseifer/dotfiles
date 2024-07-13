@@ -58,8 +58,10 @@ alias mv='mv -i'
 alias vim='nvim'
 alias nano='nvim'
 
-alias vi="emacsclient -a="
-alias ec="emacsclient -a="
+alias vi="echo 'use emacs'"
+
+alias em="emacsclient -a="
+alias emt="TERM=alacritty-direct emacsclient -t"
 
 # In case I actually want 'vi' for some reason.
 alias ogvi='/usr/bin/vi'
@@ -113,9 +115,10 @@ alias python='python3'
 alias py='python3'
 
 # Create venv, activate (project venv), deactivate (any) venv.
-alias pye='python3 -m venv venv'
+alias pyc='python3 -m venv venv'
 alias pya='source venv/bin/activate'
 alias pyd='deactivate'
+alias pyf='pip freeze > requirements.txt'
 
 # Clojure
 
