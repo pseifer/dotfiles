@@ -3,26 +3,32 @@
     [[personal]]
         path = ~/.local/share/calendars/personal
         priority = 80
+        color = dark cyan
 
     [[-]]
         path = ~/.local/share/calendars/-
         priority = 90
+        color = dark red
 
     [[arbeit]]
         path = ~/.local/share/calendars/arbeit
         priority = 70
+        color = light blue
 
     [[katrin-arbeit_shared_by_katrin]]
         path = ~/.local/share/calendars/katrin-arbeit_shared_by_katrin
         priority = 10
+        color = dark magenta
 
     [[personal_shared_by_katrin]]
         path = ~/.local/share/calendars/personal_shared_by_katrin
         priority = 20
+        color = dark magenta
 
     [[erinnerungen]]
         path = ~/.local/share/calendars/erinnerungen
         priority = 10
+        color = light gray
 
     [[tasks]]
         path = ~/.local/share/calendars/tasks

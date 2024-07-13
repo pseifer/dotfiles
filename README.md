@@ -1,6 +1,6 @@
 # `> dotfiles`
 
-This repository contains configuration files, primarily for my `alacritty`, `tmux`, `zsh` and `vim` stack, as well as an [Ansible](https://www.ansible.com/) playbook for installing various programs, located at [`.pkgs`](.pkgs).
+This repository contains configuration files, primarily for `alacritty` and `zsh` (featuring also: `tmux` and my legacy `neovim` config), as well as `emacs` (based on [doom](https://github.com/doomemacs/doomemacs)). An [Ansible](https://www.ansible.com/) playbook for installing various programs, located at [`.pkgs`](.pkgs), is included as well.
 
 ## Dependencies
 
