@@ -27,9 +27,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.23958412"
-     inkscape:cx="1942.9501"
-     inkscape:cy="1437.9083"
+     inkscape:zoom="0.094456872"
+     inkscape:cx="-291.13816"
+     inkscape:cy="2217.9434"
      inkscape:window-width="1712"
      inkscape:window-height="1040"
      inkscape:window-x="0"
@@ -57,7 +57,7 @@
          style="stop-color:#6f4db2;stop-opacity:1;"
          offset="0"
          id="stop243" /><stop
-         style="stop-color:#b270c2;stop-opacity:1;"
+         style="stop-color:#b14db2;stop-opacity:1;"
          offset="1"
          id="stop244" /></linearGradient><linearGradient
        inkscape:collect="always"
@@ -78,7 +78,7 @@
        height="571.5"
        x="1.2663115e-06"
        y="0.00061350659"
-       inkscape:export-filename="../../Pictures/mx-butterfly.png"
+       inkscape:export-filename="mx-butterfly.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" /><g
        id="g1"><path
