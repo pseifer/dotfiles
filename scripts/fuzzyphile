@@ -6,8 +6,16 @@ Fuzzyfile - a simple and fuzzy file navigator.
 Fuzzyphile is file navigation tool for all who love fuzzy finders,
 essentially wrapping `fd` and `fzf` in a nice CLI.
 
-Setup: See .zshrc for how to generate bindings.
-Usage: fuzzyphile f --help
+Setup:
+
+    Download this script and place it somewhere on your PATH.
+    Then, add the following line to .zshrc:
+
+        eval $(fuzzyphile init zsh --default-keys --default-aliases)
+
+Usage:
+
+    See 'fuzzyphile f --help' for usage information.
 """
 
 from argparse import ArgumentParser
