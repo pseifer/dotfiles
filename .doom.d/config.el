@@ -66,6 +66,9 @@
 ;; https://creativecommons.org/licenses/by-sa/4.0/deed.en
 (setq fancy-splash-image "~/.doom.d/mx-butterfly-splash.svg")
 
+;; Open stuff in `main' workspace from terminal.
+(setq persp-emacsclient-init-frame-behaviour-override "main")
+
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")

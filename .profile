@@ -31,3 +31,7 @@ else
     export PATH="$PATH:$HOME/.cache/coursier/arc/https/github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.21%252B9/OpenJDK11U-jdk_x64_linux_hotspot_11.0.21_9.tar.gz/jdk-11.0.21+9/bin"
     export PATH="$HOME/.local/share/coursier/bin:$PATH"
 fi
+
+# Add go and GOPATH to the path.
+[ -d "/usr/local/go/bin" ] && PATH="/usr/local/go/bin:$PATH"
+[ -d "$HOME/go/bin" ] && PATH="$HOME/go/bin:$PATH"
