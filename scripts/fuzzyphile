@@ -354,7 +354,7 @@ def parse_args():
         args.wd = Path(args.wd).resolve()
         args.modefiles = [Path(f).resolve() for f in args.modefiles]
 
-        # Update move to bring and copy to accquire modes iff modefiles is empty.
+        # Update move -> bring and copy -> accquire iff modefiles is empty.
         if args.mode == "move" and not args.modefiles:
             args.mode = "bring"
         if args.mode == "copy" and not args.modefiles:
@@ -562,7 +562,7 @@ def _find(args, fd_find):
     """
     return """{fd}
         --base-directory {cwd}
-        --color=always
+        --color=never
         {hidden} {links} {ignore} {types} {ext}
         """.format(
         fd=fd_find,
@@ -607,7 +607,7 @@ def _bat_preview(wd, bat_cat):
     config = ""
     # If not using cat, supply bat arguments.
     if not bat_cat == "cat":
-        config = "--plain --theme=base16 --color=always"
+        config = "--plain --color=always"
     return """
         {bat} {config}
         {cwd}/{{}}
@@ -638,17 +638,10 @@ def _fzf_preview(wd, bat_cat, tree):
 
 
 def _fzf_gui():
-    """Set up the minimal FZF GUI.
-
-    With:
-        1. 16 colors, i.e., minimal interface, and
-        2. a simple color theme.
-    """
-    return """
-        --color=16 --pointer='❯ ' --marker=' '
-        --color=hl:bold,pointer:-1,marker:-1
-        """
-    # --color='info:cyan,spinner:cyan,hl:green:bold,hl+:green:bold,fg+:red,pointer:-1,prompt:green,marker:green'
+    """FZF GUI overwrites."""
+    # Currently unused. Color options are better set
+    # as FZF defaults in .zshrc.
+    return ""
 
 
 def _fzf_prompt(mode):
@@ -697,6 +690,7 @@ def select(args, fd_find, bat_cat, tree):
         # Run pipe and return selection as list of Strings.
         sel = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
         return sel.stdout.decode().strip().split("\n")
+
 
 ###############################################################################
 # Build a command for execution by the calling shell, based on the selection.

@@ -172,9 +172,8 @@ fi
 # Set the FZF color theme (light).
 export FZF_DEFAULT_OPTS="
   --preview-window noborder
-  --color=dark
-  --color=prompt:green
-  --color=pointer:black"
+  --color=16
+  --color=hl:yellow,fg+:white,hl+:bright-yellow"
 
 # ----- Fuzzyfile - a simple and fuzzy file navigator. -----
 
