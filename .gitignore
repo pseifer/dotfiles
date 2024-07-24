@@ -15,5 +15,6 @@
 /.config/alacritty/themes
 /.config/alacritty/os.toml
 !/scripts
+/scripts/__*
 !/.doom.d
 !/.doom.d/*
