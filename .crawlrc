@@ -1,0 +1,49 @@
+# ----- Visual Options ---------------------------------------------------------
+
+# Use proper wall tiles instead of '#'.
+include = ibm_glyphs.txt
+tile_display_mode = glyphs
+
+# Use '+' for closed doors, instead of ibm cube.
+display_char = door_closed:+
+display_char = altar:_
+
+# Width of the map view.
+view_max_width = 81
+
+# Height of the map view vs. message area.
+view_max_height = 71
+msg_min_height = 5
+msg_max_height = 5
+
+# ----- UI Options -------------------------------------------------------------
+
+spell_menu = true
+
+# ----- Exploration Options ----------------------------------------------------
+
+# Small delay for out explore only.
+rest_delay = -1
+travel_delay = -1
+explore_delay = -1
+
+# Show a darkgray trail of '*'.
+show_travel_trail = true
+feature += travel trail {·,,green}
+
+# ----- Gameplay Options -------------------------------------------------------
+
+# Stop 'tab' fighting on 80% HP.
+autofight_stop = 80
+
+# Rest before auto-exploring with 'o'.
+explore_auto_rest = true
+
+# Rest to '100%' HP/MP.
+rest_wait_percent = 100
+
+# Print all lines in Log (most of the time).
+show_more = false
+
+# Set training to manual by default.
+default_manual_training = true

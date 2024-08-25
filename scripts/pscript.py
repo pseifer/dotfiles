@@ -8,6 +8,7 @@ Notes:
 """
 
 import os
+import re
 import sys
 
 
@@ -16,6 +17,10 @@ def partition(predicate, iterable):
 
     Returns:
     Tuple of two lists, (matching, not-matching).
+
+    Example:
+    >>> partition(lambda x: x % 2 == 0, range(1, 7))
+    ([2, 4, 6], [1, 3, 5])
     """
     yes = []
     no = []
@@ -39,6 +44,15 @@ def literal_from_str(value: str, all_string=False, load_files=False):
 
     Returns:
     Value corresponding to some Python literal, Path, JSON, or CSV.
+
+    Example:
+    >>> sl = literal_from_str("42", all_string=True)
+    >>> type(sl) == str
+    True
+
+    >>> il = literal_from_str("42", all_string=False)
+    >>> type(il) == int
+    True
     """
     # Overwrites all settings: If all_string is set, just return as string.
     if all_string:
@@ -109,7 +123,8 @@ def cli(gb, all_string=False, load_files=True, gen_help=True):
     # Process keyword arguments, generating a dictionary.
     kwargs = {
         # Split on '=' and infer type for value and set str() for key.
-        str(k): literal_from_str(v, all_string, load_files) for k, v in
+        re.sub('^--', '', str(k)): literal_from_str(v, all_string, load_files)
+        for k, v in
         (kw.split('=') for kw in kwargs_raw)
     }
 
@@ -142,3 +157,9 @@ def cli(gb, all_string=False, load_files=True, gen_help=True):
         # print both the docstring help and error message.
         print(gb[function].__doc__)
         print(e)
+
+
+# Run all doctests.
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

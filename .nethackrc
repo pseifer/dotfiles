@@ -1,0 +1,106 @@
+# ----- UI: General options ----------------------------------------------------
+
+# Uses 'ncurses' interface.
+OPTIONS=windowtype:curses
+
+# Always show the inventory (right-hand side).
+OPTIONS=perm_invent
+
+# Show healthbar around name.
+OPTIONS=hitpointbar
+
+# Require 'yes' for these commands.
+OPTIONS=paranoid_confirmation:attack pray quit
+
+# Show which part of a corridor is lit.
+OPTIONS=lit_corridor
+
+# Do not suggest I quit!
+AUTOCOMPLETE=!quit
+
+# ----- UI: Highligh options ---------------------------------------------------
+
+# Enable status hilites (10 turns by default).
+OPTIONS=statushilites:10
+
+# Highlight piles of objects.
+OPTIONS=hilite_pile
+
+# Always show gold as the proper color.
+OPTIONS=hilite_status:gold/always/yellow
+
+# Show when XL changes.
+OPTIONS=hilite_status:experience-level/changed/white/cyan
+
+# Highlight multiple encumbrance statuses.
+OPTIONS=hilite_status:carrying-capacity/burdened/yellow/stressed/orange
+OPTIONS=hilite_status:carrying-capacity/strained/red/overtaxed/red/overloaded/red
+
+# Set highlight for hunger, always.
+OPTIONS=hilite_status:hunger/always/yellow
+
+# Set highlight for conditions (major, minor, and movement).
+OPTIONS=hilite_status:condition/major_troubles/red
+OPTIONS=hilite_status:condition/minor_troubles/orange
+OPTIONS=hilite_status:condition/movement/cyan
+
+# Percentage cutoffs for hitpoints.
+OPTIONS=hilite_status:hitpoints/100%/white
+OPTIONS=hilite_status:hitpoints/<100%/green
+OPTIONS=hilite_status:hitpoints/<75%/yellow
+OPTIONS=hilite_status:hitpoints/<50%/orange
+OPTIONS=hilite_status:hitpoints/<33%/red
+
+# ----- UI: Menu colors --------------------------------------------------------
+
+# Enable menu colors.
+OPTIONS=menucolors
+
+# Color items based on revealed BUC status.
+MENUCOLOR=" blessed "=green
+MENUCOLOR=" holy "=green
+MENUCOLOR=" cursed "=red
+MENUCOLOR=" unholy "=red
+MENUCOLOR=" uncursed "=cyan
+
+# Color items based on annotated BUC status.
+MENUCOLOR=" c!"=re  d
+MENUCOLOR=" u!"=cyan
+MENUCOLOR=" b!"=green
+
+# Make gold pieces yellow.
+MENUCOLOR="gold piece"=yellow
+
+# ----- UI: Log options --------------------------------------------------------
+
+# Hide message of displacing pets.
+MSGTYPE=hide "You swap places with .*"
+
+# Hide repetitions of certain messages.
+MSGTYPE=norep "You see here a.*"
+MSGTYPE=norep "This door is locked.
+
+# ----- Gameplay options -------------------------------------------------------
+
+# Auto pickup gold, scrolls, potions, wands, rings, amulets, and spellbooks.
+OPTIONS=autopickup, pickup_types:$?!/="+
+
+# Ask first if an item would exceed a burden level.
+OPTIONS=pickup_burden:unencumbered
+
+# ---- Custom symbols ----------------------------------------------------------
+
+# Make boulders round.
+SYMBOLS=S_boulder:0
+
+# Mark web as traps.
+SYMBOLS=S_web:^
+
+# Show ghosts (default ' ') as 'W'.
+SYMBOLS=S_ghost:W
+
+# ---- Flavour options ---------------------------------------------------------
+
+OPTIONS=dogname:Eddy
+OPTIONS=catname:Friedrich
+OPTIONS=fruit:dragonbreath chili
