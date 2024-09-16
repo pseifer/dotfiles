@@ -7,6 +7,7 @@ tile_display_mode = glyphs
 # Use '+' for closed doors, instead of ibm cube.
 display_char = door_closed:+
 display_char = altar:_
+display_char = item_missile:~
 
 # Width of the map view.
 view_max_width = 81
