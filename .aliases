@@ -18,17 +18,20 @@ alias s=' do-web-search' # intentionally starting with space
 # Interactively choose a template.
 alias templ='fzf-template'
 
-# Notes.
-export NOTES_HOME="$HOME/Notes/home"
+# Notes: TODO: Update
 
-alias zenvim='nvim -c "set norelativenumber"'
-alias notes="zenvim \$NOTES_HOME/index.md"
-alias journal="zenvim \$NOTES_HOME/journal.md"
-alias inbox="zenvim \$NOTES_HOME/inbox.md"
-alias toinbox='cat >> ~/Notes/home/inbox.md'
+alias notes='joplin --profile ~/.config/joplin-desktop'
+
+# export NOTES_HOME="$HOME/Notes/home"
+
+# alias zenvim='nvim -c "set norelativenumber"'
+# alias notes="zenvim \$NOTES_HOME/index.md"
+# alias journal="zenvim \$NOTES_HOME/journal.md"
+# alias inbox="zenvim \$NOTES_HOME/inbox.md"
+# alias toinbox='cat >> ~/Notes/home/inbox.md'
 
 # Todos and calendar shorthands.
-alias t='nb tasks open'
+# alias t='nb tasks open'
 alias tsync='vdirsyncer sync'
 alias cal='khal calendar'
 alias ical='ikhal'
@@ -57,14 +60,16 @@ alias mv='mv -i'
 
 alias vim='nvim'
 alias nano='nvim'
-
-alias vi="echo 'use emacs'"
+alias vi='nvim'
 
 alias em="emacs_open"
 alias emt="TERM=alacritty-direct emacsclient -t"
 
 # In case I actually want 'vi' for some reason.
 alias ogvi='/usr/bin/vi'
+
+# Attach to main tmux session.
+alias base='tmux new-session -A -s base'
 
 # Git (gg).
 

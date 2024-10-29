@@ -1,7 +1,10 @@
 #!/bin/bash
 
 # Open argument files in emacsclient.
-emacs_open() { command emacsclient $* -a= & disown }
+emacs_open() {
+    command emacsclient "$*" -a= &
+    disown
+}
 
 # Setup the 'base' workspace.
 tbase() {
@@ -114,4 +117,33 @@ next() {
 
     # Finally, open the nextapp Nextcloud app.
     open "https://cloud.seifer.me/${nextapp}" 1>/dev/null 2>/dev/null
+}
+
+# Create a new note in the Joplin inbox.
+inbox() {
+    # Use the Inbox notebook.
+    notes use "Inbox"
+
+    content="$1"
+    title=$(date +"%Y-%m-%d %H:%M:%S")
+
+    # Create a new note.
+    notes mknote "$title\n$content"
+}
+
+# Edit all source files in folder.
+edit() {
+    folder="${1}"
+    extension="${2:-py}"
+
+    nvim "${folder}/"*."${extension}"
+}
+
+# Download .gitignore from gitignore.io
+gitignore() {
+    old="$IFS"
+    IFS=','
+    str="$*"
+    IFS=$old
+    curl "https://www.toptal.com/developers/gitignore/api/${str}"
 }

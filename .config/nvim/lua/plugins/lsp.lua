@@ -37,6 +37,9 @@ return {
 				"ruff-lsp", -- LSP
 				"black", -- Formatter
 
+				-- C
+				"clangd", -- C LSP
+
 				-- Spelling
 				-- 'misspell', -- Linter
 				-- 'codespell' -- Linter
@@ -52,13 +55,17 @@ return {
 		require("mason-lspconfig").setup({})
 
 		-- (3) Setup language servers.
-		-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+		-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 		local lsp = require("lspconfig")
 		-- Python
 		lsp.pyright.setup({})
 		lsp.ruff_lsp.setup({})
 		-- Clojure
 		lsp.clojure_lsp.setup({})
+		-- C
+		lsp.clangd.setup({})
+		-- Zig
+		lsp.zls.setup({})
 		-- Markdown
 		lsp.marksman.setup({
 			-- Enable in vimwiki as well.
