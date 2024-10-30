@@ -39,6 +39,7 @@ return {
 
 				-- C
 				"clangd", -- C LSP
+				"clang-format",
 
 				-- Spelling
 				-- 'misspell', -- Linter

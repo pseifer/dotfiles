@@ -136,7 +136,11 @@ edit() {
     folder="${1}"
     extension="${2:-py}"
 
-    nvim "${folder}/"*."${extension}"
+    if [ "${extension}" = "c" ]; then
+        nvim "${folder}/"*.c "${folder}/"*.h
+    else
+        nvim "${folder}/"*."${extension}"
+    fi
 }
 
 # Download .gitignore from gitignore.io
