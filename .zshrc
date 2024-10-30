@@ -100,11 +100,7 @@ setopt PUSHD_SILENT # do not print directories
 set -K
 
 # Use emacsclient as default editor, unless on ssh connection.
-if [[ -n "$SSH_CONNECTION" ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='emacsclient -a='
-fi
+export EDITOR='nvim'
 
 export PAGER='less'
 
