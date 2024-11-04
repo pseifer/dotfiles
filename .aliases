@@ -107,7 +107,7 @@ else
 fi
 
 # Use w3mman for viewing manfiles.
-alias man='w3mman'
+# alias man='w3mman'
 
 # Reload the ZSH configuration.
 alias zshreload='. $HOME/.zshrc'
