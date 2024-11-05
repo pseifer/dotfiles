@@ -151,10 +151,6 @@ if command -v fdind > /dev/null; then
     alias fd='fdfind'
 fi
 
-if command -v batcat > /dev/null; then
-    alias bat='batcat'
-fi
-
 # ----- Setup FZF History support. -----
 
 # Ctrl-R: Fuzzy search history (takes partial line into account).
@@ -172,7 +168,7 @@ export FZF_DEFAULT_OPTS="
   --color=hl:yellow,fg+:white,hl+:bright-yellow"
 
 # ----- Fuzzyfile - a simple and fuzzy file navigator. -----
-export GLAMOUR_STYLE="$HOME/.glamour-zenbones.json"
+export GLAMOUR_STYLE="$HOME/zenbones.json"
 
 eval $(fuzzyphile init zsh --default-keys --default-aliases)
 
