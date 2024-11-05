@@ -172,7 +172,7 @@ export FZF_DEFAULT_OPTS="
   --color=hl:yellow,fg+:white,hl+:bright-yellow"
 
 # ----- Fuzzyfile - a simple and fuzzy file navigator. -----
-export GLAMOUR_STYLE="$HOME/.glamour-theme.json"
+export GLAMOUR_STYLE="$HOME/.glamour-zenbones.json"
 
 eval $(fuzzyphile init zsh --default-keys --default-aliases)
 

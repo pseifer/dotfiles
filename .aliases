@@ -101,9 +101,9 @@ alias top='btop'
 
 # Define an alias to bat(cat).
 if command -v batcat &>/dev/null; then
-    alias bat='batcat -pp --theme=modus_operandi'
+    alias bat='batcat -pp --theme=zenbones'
 else
-    alias bat='bat -pp --theme=modus_operandi'
+    alias bat='bat -pp --theme=zenbones'
 fi
 
 # Use w3mman for viewing manfiles.

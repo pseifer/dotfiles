@@ -9,7 +9,7 @@ return {
 			options = {
 				component_separators = "",
 				section_separators = "",
-				-- theme = "zenbones",
+				theme = "zenbones",
 			},
 		})
 	end,

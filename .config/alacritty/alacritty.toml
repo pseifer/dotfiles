@@ -1,8 +1,8 @@
 
 import = [
     # Load color theme.
-    "~/.config/alacritty/themes/modus-operandi-vi.toml",
-    #"~/.config/alacritty/themes/zenbones-light.toml",
+    #"~/.config/alacritty/themes/modus-operandi-vi.toml",
+    "~/.config/alacritty/themes/zenbones-light.toml",
     # Load OS specific settings.
     "~/.config/alacritty/os.toml"
 ]
