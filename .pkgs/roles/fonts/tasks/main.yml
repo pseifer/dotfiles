@@ -8,7 +8,7 @@
 - name: Download nerdfonts (sauce code pro)
   include_tasks: lib/download-unpack-to.yml
   vars:
-    url: https://github.com/ryanoasis/nerd-fonts/releases/latest/download/SauceCodePro.zip
+    url: https://github.com/ryanoasis/nerd-fonts/releases/latest/download/SourceCodePro.zip
     creates: .local/share/fonts
 
 - name: Install fonts
