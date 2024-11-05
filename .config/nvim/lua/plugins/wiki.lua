@@ -24,34 +24,32 @@ return {
 
 			-- Custom keybindings
 			local wk = require("which-key")
-			wk.register({
-				n = {
-					name = "notes",
-					c = { "<cmd>VimwikiToggleListItem<cr>", "Checkmark task (toggle)" },
-					n = { "<cmd>VimwikiIndex<cr>", "Go to index" },
-					o = {
-						-- Grep all lines that are titles, and fuzzy filter.
-						"<cmd>Telescope grep_string use_regex=true disable_coordinates=true only_sort_text=true path_display='hidden' search=^\\#\\ <cr>",
-						"Open note title",
-					},
-					O = {
-						-- Grep all lines that have tags (starting with #), and fuzzy filter.
-						"<cmd>Telescope grep_string use_regex=true disable_coordinates=true path_display='hidden' only_sort_text=true search=\\#[^\\s\\#]<cr>",
-						"Open note by tag",
-					},
-					t = {
-						-- Grep all lines starting with whitespace followed by "- [ ]".
-						-- Then, fuzzy search this list.
-						"<cmd>Telescope grep_string use_regex=true disable_coordinates=true path_display='hidden' only_sort_text=true search=^\\\\s*\\-\\ \\[\\ \\]<cr>",
-						"Find task",
-					},
-					T = {
-						-- Same as 't', but for completed tasks. Note: Using 'x', see listsyms above.
-						"<cmd>Telescope grep_string use_regex=true disable_coordinates=true path_display='hidden' only_sort_text=true search=^\\\\s*\\-\\ \\[x\\]<cr>",
-						"Find completed task",
-					},
+
+			wk.add({
+				{ "<leader>n", group = "notes" },
+				{
+					"<leader>nO",
+					"<cmd>Telescope grep_string use_regex=true disable_coordinates=true path_display='hidden' only_sort_text=true search=\\#[^\\s\\#]<cr>",
+					desc = "Open note by tag",
 				},
-			}, { prefix = "<leader>" })
+				{
+					"<leader>nT",
+					"<cmd>Telescope grep_string use_regex=true disable_coordinates=true path_display='hidden' only_sort_text=true search=^\\\\s*\\-\\ \\[x\\]<cr>",
+					desc = "Find completed task",
+				},
+				{ "<leader>nc", "<cmd>VimwikiToggleListItem<cr>", desc = "Checkmark task (toggle)" },
+				{ "<leader>nn", "<cmd>VimwikiIndex<cr>", desc = "Go to index" },
+				{
+					"<leader>no",
+					"<cmd>Telescope grep_string use_regex=true disable_coordinates=true only_sort_text=true path_display='hidden' search=^\\#\\ <cr>",
+					desc = "Open note title",
+				},
+				{
+					"<leader>nt",
+					"<cmd>Telescope grep_string use_regex=true disable_coordinates=true path_display='hidden' only_sort_text=true search=^\\\\s*\\-\\ \\[\\ \\]<cr>",
+					desc = "Find task",
+				},
+			})
 		end,
 	},
 }

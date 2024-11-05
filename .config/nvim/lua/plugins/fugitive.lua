@@ -17,25 +17,16 @@ return {
 				numhl = true,
 			})
 			local wk = require("which-key")
-			wk.register({
-				g = {
-					name = "git",
-					B = { "<cmd>Gitsigns toggle_current_line_blame<cr>", "Toggle: Blame line" },
-					b = { "<cmd>Gitsigns blame_line<cr>", "Blame current line" },
-					s = { "<cmd>Gitsigns stage_hunk<cr>", "Stage hunk" },
-					r = { "<cmd>Gitsigns stage_hunk<cr>", "Rest hunk" },
-					S = { "<cmd>Gitsigns stage_buffer<cr>", "Stage buffer" },
-					R = { "<cmd>Gitsigns reset_buffer<cr>", "Reset buffer" },
-					h = { "<cmd>Gitsigns toggle_signs<cr>", "Toggle status signs" },
-				},
-			}, { prefix = "<leader>" })
-			wk.register({
-				g = {
-					name = "git",
-					s = { "<cmd>Gitsigns stage_hunk {vim.fn.line('.'), vim.fn.line('v')}<cr>", "Stage hunk" },
-					r = { "<cmd>Gitsigns stage_hunk {vim.fn.line('.'), vim.fn.line('v')}<cr>", "Rest hunk" },
-				},
-			}, { mode = "v", prefix = "<leader>" })
+			wk.add({
+				{ "<leader>g", group = "git" },
+				{ "<leader>gB", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Toggle: Blame line" },
+				{ "<leader>gR", "<cmd>Gitsigns reset_buffer<cr>", desc = "Reset buffer" },
+				{ "<leader>gS", "<cmd>Gitsigns stage_buffer<cr>", desc = "Stage buffer" },
+				{ "<leader>gb", "<cmd>Gitsigns blame_line<cr>", desc = "Blame current line" },
+				{ "<leader>gh", "<cmd>Gitsigns toggle_signs<cr>", desc = "Toggle status signs" },
+				{ "<leader>gr", "<cmd>Gitsigns stage_hunk<cr>", desc = "Rest hunk" },
+				{ "<leader>gs", "<cmd>Gitsigns stage_hunk<cr>", desc = "Stage hunk" },
+			})
 		end,
 	},
 }

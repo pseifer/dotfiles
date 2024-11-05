@@ -18,8 +18,8 @@ return {
 	},
 	init = function()
 		local wk = require("which-key")
-		wk.register({
-			z = { "<cmd>ZenMode<cr>", "Toggle ZenMode" },
-		}, { prefix = "<leader>" })
+		wk.add({
+			{ "<leader>z", "<cmd>ZenMode<cr>", desc = "Toggle ZenMode" },
+		})
 	end,
 }

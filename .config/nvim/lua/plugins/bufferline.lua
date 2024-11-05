@@ -15,18 +15,16 @@ return {
 			})
 
 			local wk = require("which-key")
-			wk.register({
-				t = {
-					name = "tabs",
-					t = { ":$tabnew<CR>", "new tab" },
-					c = { ":bdelete<CR>", "close tab" },
-					C = { ":BufferLinePickClose<CR>", "pick to close tab(s)" },
-					o = { ":BufferLineSortByDirectory<CR>", "order tabs by directory" },
-					n = { ":BufferLineMoveNext<CR>", "move tab right" },
-					p = { ":BufferLineMovePrev<CR>", "move tab left" },
-					s = { ":BufferLineTogglePin<CR>", "pin tab" },
-				},
-			}, { prefix = "<leader>" })
+			wk.add({
+				{ "<leader>t", group = "tabs" },
+				{ "<leader>tC", ":BufferLinePickClose<CR>", desc = "pick to close tab(s)" },
+				{ "<leader>tc", ":bdelete<CR>", desc = "close tab" },
+				{ "<leader>tn", ":BufferLineMoveNext<CR>", desc = "move tab right" },
+				{ "<leader>to", ":BufferLineSortByDirectory<CR>", desc = "order tabs by directory" },
+				{ "<leader>tp", ":BufferLineMovePrev<CR>", desc = "move tab left" },
+				{ "<leader>ts", ":BufferLineTogglePin<CR>", desc = "pin tab" },
+				{ "<leader>tt", ":$tabnew<CR>", desc = "new tab" },
+			})
 
 			Nmap("<S-l>", ":BufferLineCycleNext<CR>", "next tab")
 			Nmap("<S-h>", ":BufferLineCyclePrev<CR>", "previous tab")

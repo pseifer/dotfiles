@@ -14,29 +14,23 @@ return {
 		vim.keymap.set("n", "K", vim.lsp.buf.hover)
 
 		-- Global mappings (g)
-		wk.register({
-			g = {
-				D = { vim.lsp.buf.definition, "go to definition" },
-				i = { vim.lsp.buf.implementation, "go to implementation" },
-				r = { vim.lsp.buf.references, "go to references" },
-				s = {
-					d = { vim.lsp.buf.document_symbol, "go to document symbol" },
-					w = { vim.lsp.buf.workspace_symbol, "go to workspace symbol" },
-				},
-			},
+		wk.add({
+			{ "gD", vim.lsp.buf.definition, desc = "go to definition" },
+			{ "gi", vim.lsp.buf.implementation, desc = "go to implementation" },
+			{ "gr", vim.lsp.buf.references, desc = "go to references" },
+			{ "gsd", vim.lsp.buf.document_symbol, desc = "go to document symbol" },
+			{ "gsw", vim.lsp.buf.workspace_symbol, desc = "go to workspace symbol" },
 		})
 
 		-- LSP mappings (<leader>l)
-		wk.register({
-			l = {
-				name = "LSP",
-				c = { vim.lsp.codelens.run, "codelens" },
-				s = { vim.lsp.buf.signature_help, "signature help" },
-				r = { vim.lsp.buf.rename, "rename" },
-				f = { vim.lsp.buf.format, "format" },
-				a = { vim.lsp.buf.code_action, "code action" },
-			},
-		}, { prefix = "<leader>" })
+		wk.add({
+			{ "<leader>l", group = "LSP" },
+			{ "<leader>la", vim.lsp.buf.code_action, desc = "code action" },
+			{ "<leader>lc", vim.lsp.codelens.run, desc = "codelens" },
+			{ "<leader>lf", vim.lsp.buf.format, desc = "format" },
+			{ "<leader>lr", vim.lsp.buf.rename, desc = "rename" },
+			{ "<leader>ls", vim.lsp.buf.signature_help, desc = "signature help" },
+		})
 
 		-- TODO: Review/update below.
 
