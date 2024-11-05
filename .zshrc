@@ -175,11 +175,6 @@ export FZF_DEFAULT_OPTS="
 
 eval $(fuzzyphile init zsh --default-keys --default-aliases)
 
-# ----- Use Neovim as Manpager -----
-
-export MANPAGER='nvim +Man!'
-export MANWIDTH=999
-
 # ----- SDKman -----
 
 # Note: Keep this at the end of the file.
