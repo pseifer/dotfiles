@@ -1,8 +1,8 @@
 # Alacritty configuration, connecting to single tmux session 'base'.
 
-[shell]
-args = ["new-session", "-A", "-s", "base"]
-program = "tmux"
+#[terminal.shell]
+#args = ["new-session", "-A", "-s", "base"]
+#program = "tmux"
 
 # Window setup.
 
