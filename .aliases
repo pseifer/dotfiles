@@ -101,13 +101,13 @@ alias top='btop'
 
 # Define an alias to bat(cat).
 if command -v batcat &>/dev/null; then
-    alias bat='batcat -pp --theme=ansi'
+    alias bat='batcat -pp --theme=modus_operandi'
 else
-    alias bat='bat -pp --theme=ansi'
+    alias bat='bat -pp --theme=modus_operandi'
 fi
 
 # Use w3mman for viewing manfiles.
-# alias man='w3mman'
+alias man='viman'
 
 # Reload the ZSH configuration.
 alias zshreload='. $HOME/.zshrc'
