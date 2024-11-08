@@ -168,9 +168,13 @@ export FZF_DEFAULT_OPTS="
   --color=hl:yellow,fg+:white,hl+:bright-yellow"
 
 # ----- Fuzzyfile - a simple and fuzzy file navigator. -----
-export GLAMOUR_STYLE="$HOME/zenbones.json"
 
 eval $(fuzzyphile init zsh --default-keys --default-aliases)
+
+# ----- Set custom (interactive) variables -----
+
+export GLAMOUR_STYLE="$HOME/zenbones.json"
+export MANPAGER='nvim +Man!'
 
 # ----- SDKman -----
 

@@ -151,8 +151,3 @@ gitignore() {
     IFS=$old
     curl "https://www.toptal.com/developers/gitignore/api/${str}"
 }
-
-# A wrapper starting :Man as manpage.
-viman() {
-    nvim -c ":hide :Man ${1}"
-}

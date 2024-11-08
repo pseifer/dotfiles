@@ -106,9 +106,6 @@ else
     alias bat='bat -pp --theme=zenbones'
 fi
 
-# Use w3mman for viewing manfiles.
-alias man='viman'
-
 # Reload the ZSH configuration.
 alias zshreload='. $HOME/.zshrc'
 # Edit shell configuration files, then reload.
