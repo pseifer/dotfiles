@@ -151,3 +151,8 @@ gitignore() {
     IFS=$old
     curl "https://www.toptal.com/developers/gitignore/api/${str}"
 }
+
+# Watch files for changes and run command.
+watch() {
+    find -- *."$1" | entr "$2"
+}
