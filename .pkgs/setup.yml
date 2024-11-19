@@ -3,32 +3,34 @@
   roles:
 
     ### Perform a distribution update.
-    #- update
+    - update
 
-    ### Install basic packages #
-    #- build-tools              # Build tools, such as gcc or cmake.
-    #- core-tools               # Ensure core tools are available (e.g., curl or zip).
-    #- terminal-tools           # Basic terminal tools like bat or fzf.
-    #- gui-tools                # Utility applications with a GUI, when needed.
+    ### Install basic packages
+    - build-tools              # Build tools, such as gcc or cmake.
+    - core-tools               # Ensure core tools are available (e.g., curl or zip).
+    - terminal-tools           # Basic terminal tools like bat or fzf.
+    - gui-tools                # Utility applications with a GUI, when needed.
     - fonts                    # Install a few nerdfonts.
 
-    ### Install dedicated applications.
-    #- zsh
-    #- alacritty
-    #- nvim
-    #- signal
-    #- proton-vpn
-    #- syncthing
-    #- borg
-    #- nextcloud
-    - keyd
-    #- razer
+    ### Install dedicated applications: Core
+    - zsh
+    - alacritty
+    - nvim
+
+    ### Install optional applications.
+    # - signal
+    # - proton-vpn
+    # - syncthing
+    # - borg
+    # - nextcloud
+    # - keyd
+    # - razer
 
     ### Install programming language tooling.
-    #- clojure
-    #- haskell
-    #- scala
-    #- roc
+    # - clojure
+    # - haskell
+    # - scala
+    # - roc
   
-    ### Set up the desktop environment.
-    - gnome-desktop
+    ### Set up the desktop environments.
+    # - gnome-desktop

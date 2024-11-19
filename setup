@@ -37,7 +37,7 @@ function _dotfiles {
     git --git-dir="${HOME}/.dotfiles/" --work-tree="${HOME}" "${@}"
 }
 
-# Check if .dotfiles already exists; pull or clone.
+# Check if .dotfiles already exists; clone if not.
 if [ ! -d "${HOME}/.dotfiles" ]; then
     # Clone the repository, bare, to $HOME/.dotfiles
     git clone --bare "https://github.com/pseifer/dotfiles" "${HOME}/.dotfiles"
@@ -52,12 +52,9 @@ if [ ! -d "${HOME}/.dotfiles" ]; then
     fi
     _dotfiles checkout
 
-    # Disable tracking of all $HOME (not really required with .gitignore).
-    # _dotfiles config status.showUntrackedFiles no
-
     # Generate SSH keys (if none exist), and update remote.
     if [[ ! -f "${HOME}/.ssh/id_rsa.pub" ]]; then
-        echo "(2.3) Generating ssh key..."
+        echo "Generating ssh key..."
         ssh-keygen -t rsa -b 4096 -C 'github@seifer.me'
         cat "${HOME}/.ssh/id_rsa.pub"
     fi
@@ -67,6 +64,10 @@ if [ ! -d "${HOME}/.dotfiles" ]; then
     _dotfiles update-index --assume-unchanged "${HOME}"/README.md
     rm "${HOME}"/README.md
     # Note: '_dotfiles update-index --no-assume-unchanged README.md' to track again.
+
+    cp ".pkgs/setup.yml" ".pkgs/local.yml"
+    echo "Review '.pkgs/local.yml' and run ./setup again to install packages."
+    exit 0
 fi
 
 # Run Ansible, either with default setup.yml or a local overwrite local.yml.
