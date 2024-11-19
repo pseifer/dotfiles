@@ -32,6 +32,7 @@ import sys
 # Command line interface for Fuzzyphile.
 ###############################################################################
 
+
 def _abort_error(prog):
     """Print an error message for failing requirements and exit."""
     print(
@@ -74,7 +75,7 @@ def check_requirements():
 
     # Use 'EDITOR';
     # Otherwise, check that 'nvim' > 'vim' > 'vi' is available.
-    ed = os.environ['EDITOR']
+    ed = os.environ["EDITOR"]
     if ed:
         vi_cmd = ed
     elif shutil.which("nvim"):
@@ -164,9 +165,7 @@ def parse_args():
     )
 
     # Find and filter options.
-    filter = parser_f.add_argument_group(
-        "find", "filter results shown for selection"
-    )
+    filter = parser_f.add_argument_group("find", "filter results shown for selection")
     filter.add_argument(
         "-f", "--files", help="include files in selection", action="store_true"
     )
@@ -391,11 +390,10 @@ def parse_args():
 # Generate shell bindings, functions, aliases and hotkeys.
 ###############################################################################
 
+
 def _gen_alias(alias, name):
     """Generate a basic, hidden alias for fuzzyphile."""
-    return "alias {fuzza}=' {fuzz}'; ".format(
-        fuzza=alias, fuzz=name
-    )
+    return "alias {fuzza}=' {fuzz}'; ".format(fuzza=alias, fuzz=name)
 
 
 def _gen_fn(name):
@@ -449,7 +447,20 @@ def _gen_keys(shell, name, hotkeys):
 def _gen_default_bindings(shell, name, default_keys):
     """Generate default key binding."""
     if default_keys:
-        return _gen_keys(shell, name, ["^T:-u", "^Y:-fu", "^E:-fuv", "^O:-fuo"])
+        return _gen_keys(
+            shell,
+            name,
+            [
+                # Change dir to any directory (from home).
+                "^T:-u",
+                # Change dir to the dir of any file (from home).
+                "^Y:-fu",
+                # Edit any file (from home) with VI.
+                "^E:-fuv",
+                # Open any file (from home) with 'open'.
+                "^O:-fuo",
+            ],
+        )
     else:
         return []
 
@@ -458,18 +469,24 @@ def _gen_default_aliases(default_aliases):
     """Generate the default aliases."""
     if default_aliases:
         return [
-            # Basic alias for listing all files.
-            "alias ff='f --files'; ",
+            # Base
+            #
+            # Basic aliases for listing all files.
+            "alias ff='f --files --links'; ",
+            #
+            # Command Replacements
+            #
             # Edit any file(s) with Vim.
-            "alias fv='ff --files --show-hidden --no-ignore --vi'; ",
+            "alias fvi='ff --vi'; ",
             # Open any file(s) with "open".
-            "alias fo='ff --files --show-hidden --no-ignore --open'; ",
-            # Open any file(s) with "open", refined by file type as first argument.
-            "alias foe='ff --files --show-hidden --no-ignore --open --ext'; ",
+            "alias fo='ff --open'; ",
+            "alias fopen='ff --open'; ",
             # Move file(s) from anywhere (or to anywhere, when given as args).
-            "alias ffmv='f --files --use-home --move'; ",
+            "alias fmv='ff --use-home --move'; ",
             # Copy file(s) from anywhere (or to anywhere, when given as args).
-            "alias ffcp='f --files --use-home --copy'; ",
+            "alias fcp='ff --use-home --copy'; ",
+            # Use bat to print file.
+            "alias fbat='ff -X \"bat {}\"'; ",
         ]
     else:
         return []
@@ -509,6 +526,7 @@ def generate(args):
 # Construct and run a 'fd | fzf' pipeline in order to make
 # a selection based on the command line arguments.
 ###############################################################################
+
 
 def _max_find(depth):
     """Maximum allowed depth of search."""
@@ -680,8 +698,8 @@ def select(args, fd_find, bat_cat, tree):
         "\\s+",
         " ",
         "{find} | {fzf}".format(
-            find=_find_join(args, fd_find),
-            fzf=_fzf(args.mode, args.wd, bat_cat, tree)),
+            find=_find_join(args, fd_find), fzf=_fzf(args.mode, args.wd, bat_cat, tree)
+        ),
     ).strip()
 
     if args.debug:
@@ -695,6 +713,7 @@ def select(args, fd_find, bat_cat, tree):
 ###############################################################################
 # Build a command for execution by the calling shell, based on the selection.
 ###############################################################################
+
 
 def _select_first(wd, selection):
     """Select the first selection, as absolute path.
@@ -743,19 +762,12 @@ def _apply(apply, replace, wd, selection):
 
 def _for_each(for_each, replace, wd, selection):
     """Substitute pattern PAT with each selection."""
-    return "; ".join(
-        [
-            for_each.replace(replace, s)
-            for s in _select_all(wd, selection)
-        ]
-    )
+    return "; ".join([for_each.replace(replace, s) for s in _select_all(wd, selection)])
 
 
 def _for_all(for_all, replace, wd, selection):
     """Substitute pattern PAT with all selections."""
-    return for_all.replace(
-        replace, " ".join(_select_all(wd, selection))
-    )
+    return for_all.replace(replace, " ".join(_select_all(wd, selection)))
 
 
 def build(args, selection, vi_cmd):
@@ -778,6 +790,7 @@ def build(args, selection, vi_cmd):
 ###############################################################################
 # Main
 ###############################################################################
+
 
 def main():
     """Run fuzzyphile."""
