@@ -728,7 +728,7 @@ def _select_all(wd, selection):
     return [str(Path.joinpath(wd, s)) for s in selection]
 
 
-def _apply_all(cmd, post, wd, selection):
+def _apply_all(cmd, wd, selection, post):
     """Apply 'cmd' to results. len(selection) > 1 is guaranteed."""
     return "{} {} {}".format(cmd, " ".join(_select_all(wd, selection)), post)
 
