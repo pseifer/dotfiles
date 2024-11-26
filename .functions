@@ -156,3 +156,21 @@ gitignore() {
 watch() {
     find -- *."$1" | entr "$2"
 }
+
+# Tuxbox mode: Switch to TV and start Steam.
+# Requires https://github.com/jadahl/gnome-monitor-config
+tuxbox() {
+    gnome-monitor-config set -LpM HDMI-1 -t normal -m 1920x1080@60.000
+    sleep 5s
+    open "steam://open/bigpicture"
+}
+
+tuxbox4k() {
+    gnome-monitor-config set -LpM HDMI-1 -t normal -m 3840x2160@60.000
+    sleep 5s
+    open "steam://open/bigpicture"
+}
+
+notuxbox() {
+    gnome-monitor-config set -LpM DP-1 -t normal -m 3440x1440@99.982
+}

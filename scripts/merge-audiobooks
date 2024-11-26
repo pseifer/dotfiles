@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+authorBookSrc="$1"
+singleTarget="$2"
+
+for author in "$authorBookSrc"/*/; do
+    author=${author%*/}
+    for book in "$author"/*; do
+        book=${book%*/}
+        file="${singleTarget}/${author##*/} - ${book##*/}"
+        if [ ! -f "${file}.mp3" ]; then
+            cat "$book"/*.mp3 >"${file}.mp3"
+            mp3val "${file}.mp3" -f -nb
+        else
+            echo "Skipping ${file}."
+        fi
+    done
+done
