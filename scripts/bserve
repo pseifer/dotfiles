@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Universal cheap "build server".
+# Runs 'make clean' on startup
+# and then 'make' on any changed files.
+
+# Requirements: make, entr
+# Supported languages: LaTeX, C, Zig
+
+make clean
+find . -name "*.zig" \
+    -or -name "*.tex" \
+    -or -name "*.bib" \
+    -or -name "*.cls" \
+    -or -name "*.c" \
+    -or -name "*.h" |
+    entr make

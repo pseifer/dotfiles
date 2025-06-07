@@ -65,14 +65,16 @@ def literal_from_str(value: str, all_string=False, load_files=False):
     if load_files and os.path.exists(path):
         if path.endswith(".json"):
             import json
-            with open(path, encoding='utf8') as f:
+
+            with open(path, encoding="utf8") as f:
                 return json.load(f)
         elif path.endswith(".csv"):
             import csv
-            with open(path, encoding='utf8') as f:
+
+            with open(path, encoding="utf8") as f:
                 return csv.reader(f)
         elif path.endswith(".txt"):
-            with open(path, encoding='utf8') as f:
+            with open(path, encoding="utf8") as f:
                 return [line.rstrip() for line in f]
         else:
             return path
@@ -80,6 +82,7 @@ def literal_from_str(value: str, all_string=False, load_files=False):
     # Otherwise, try to parse a literal value.
     try:
         import ast
+
         return ast.literal_eval(value)
     # If this fails for whatever reason, return as str.
     except Exception:
@@ -123,9 +126,8 @@ def cli(gb, all_string=False, load_files=True, gen_help=True):
     # Process keyword arguments, generating a dictionary.
     kwargs = {
         # Split on '=' and infer type for value and set str() for key.
-        re.sub('^--', '', str(k)): literal_from_str(v, all_string, load_files)
-        for k, v in
-        (kw.split('=') for kw in kwargs_raw)
+        re.sub("^--", "", str(k)): literal_from_str(v, all_string, load_files)
+        for k, v in (kw.split("=") for kw in kwargs_raw)
     }
 
     # Get the top-level function to call, or 'main' as a default.
@@ -140,9 +142,7 @@ def cli(gb, all_string=False, load_files=True, gen_help=True):
         sys.exit(0)
 
     # Fix the type of all positional arguments.
-    posargs = [
-        literal_from_str(o, all_string, load_files) for o in posargs_raw
-    ]
+    posargs = [literal_from_str(o, all_string, load_files) for o in posargs_raw]
 
     # If 'help' is used, print the functions docstring.
     if gen_help and ("--help" in posargs or "-h" in posargs):
@@ -162,4 +162,5 @@ def cli(gb, all_string=False, load_files=True, gen_help=True):
 # Run all doctests.
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()
