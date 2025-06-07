@@ -178,7 +178,7 @@ export MANPAGER='nvim +Man!'
 
 # ----- Java -----
 
-command -v foo >/dev/null 2>&1 && eval "$(cs java --jvm 21 --env)"
+command -v cs >/dev/null 2>&1 && eval "$(cs java --jvm 21 --env)"
 
 # Return success in any case; zsh reports any errors.
 return 0
