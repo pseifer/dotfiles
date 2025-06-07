@@ -176,11 +176,10 @@ eval $(fuzzyphile init zsh --default-keys --default-aliases)
 export GLAMOUR_STYLE="$HOME/zenbones.json"
 export MANPAGER='nvim +Man!'
 
-# ----- SDKman -----
+# ----- Java -----
 
-# Note: Keep this at the end of the file.
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+command -v foo >/dev/null 2>&1 && eval "$(cs java --jvm 21 --env)"
 
 # Return success in any case; zsh reports any errors.
 return 0
+

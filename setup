@@ -4,14 +4,29 @@
 # Run ansible playbook to install packages.
 # Will use local .pkgs/local.yml > .pkgs/setup.yml if it exists.
 
+# BEGIN: INITIAL SETUP
+
+# Utility to install requirements automatically on some systems.
+inst() {
+    pkg="$1"
+    if command -v "apt" &>/dev/null; then
+        sudo apt install "${pkg}"
+    elif command -v "dnf" &>/dev/null; then
+        sudo dnf install "${pkg}"
+    elif command -v "zypper" &>/dev/null; then
+        sudo zypper install "${pkg}"
+    else
+        echo "The setup requires '${pkg}', please install it."
+        exit 1
+    fi
+}
+
 # Check for dependencies.
 if ! command -v "git" &>/dev/null; then
-    echo "The setup requires 'git'. Please install it, e.g., using 'sudo apt install git'."
-    exit 1
+    inst "git"
 fi
 if ! command -v "pipx" &>/dev/null; then
-    echo "The setup requires 'pipx'. Please install it, e.g., using 'sudo apt install pipx'."
-    exit 1
+    inst "pipx"
 fi
 
 # Change into user home directory.
@@ -66,9 +81,9 @@ if [ ! -d "${HOME}/.dotfiles" ]; then
     # Note: '_dotfiles update-index --no-assume-unchanged README.md' to track again.
 
     cp ".pkgs/setup.yml" ".pkgs/local.yml"
-    echo "Review '.pkgs/local.yml' and run ./setup again to install packages."
-    exit 0
 fi
+
+# END: INITIAL SETUP
 
 # Run Ansible, either with default setup.yml or a local overwrite local.yml.
 if [ -f "${HOME}/.pkgs/local.yml" ]; then
