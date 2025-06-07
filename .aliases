@@ -30,6 +30,8 @@ alias notes='joplin --profile ~/.config/joplin-desktop'
 # alias inbox="zenvim \$NOTES_HOME/inbox.md"
 # alias toinbox='cat >> ~/Notes/home/inbox.md'
 
+alias spelldict='nvim $HOME/.config/nvim/spell/en.utf-8.add'
+
 # Todos and calendar shorthands.
 # alias t='nb tasks open'
 alias tsync='vdirsyncer sync'
@@ -99,6 +101,9 @@ alias c='clear'
 alias j='jobs'
 alias top='btop'
 
+# Compare directories.
+alias diffdir='diff -bur'
+
 # Define an alias to bat(cat).
 if command -v batcat &>/dev/null; then
     alias bat='batcat -pp --theme=zenbones'
@@ -128,3 +133,8 @@ alias pyf='pip freeze > requirements.txt'
 
 # Launch a REPL that Conjure (Neovim) can connect to.
 alias nrepl="clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version \"1.0.0\"} cider/cider-nrepl {:mvn/version \"0.42.1\"}}}' -M --main nrepl.cmdline --middleware '[\"cider.nrepl/cider-middleware\"]' --interactive"
+
+# Zig
+
+# Host Zig documentation (local).
+alias zigdoc='python -m http.server 8000 -d docs/'
