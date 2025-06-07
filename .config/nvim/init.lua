@@ -1,6 +1,7 @@
 -- Core init.lua; handles lazy.nvim setup.
 
 require("util") -- global utility functions.
+require("private") -- global private variables (loaded from files).
 
 -- Set <leader> to <Space>.
 
@@ -43,4 +44,5 @@ require("lazy").setup(plugins, opts)
 
 require("settings") -- basic nvim settings.
 require("keybinds") -- basic nvim remappings.
+require("spell") -- spell checking setup
 require("other") -- custom lua code.

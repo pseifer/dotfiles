@@ -18,6 +18,7 @@ return {
 	priority = 1000,
 	dependencies = { "rktjmp/lush.nvim" },
 	config = function()
+		-- Load theme.
 		vim.cmd("colorscheme zenbones")
 		vim.o.background = "light"
 		-- Background: #F0EDEC

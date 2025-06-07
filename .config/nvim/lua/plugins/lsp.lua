@@ -14,6 +14,8 @@ return {
 		"mhartington/formatter.nvim",
 		-- Automatic installation of tools.
 		"WhoIsSethDaniel/mason-tool-installer",
+		-- Extensions to ltex.
+		"barreiroleo/ltex-extra.nvim",
 	},
 	config = function()
 		-- (1)
@@ -34,7 +36,7 @@ return {
 
 				-- Python
 				-- "pyright", -- LSP (manually installed via pipx install pyright)
-				"ruff-lsp", -- LSP
+				"ruff", -- LSP
 				"black", -- Formatter
 
 				-- C
@@ -44,6 +46,8 @@ return {
 				-- Spelling
 				-- 'misspell', -- Linter
 				-- 'codespell' -- Linter
+				"ltex-ls-plus", -- LanguageTool for LaTeX
+
 				-- Clojure
 				"clojure-lsp",
 
@@ -60,7 +64,7 @@ return {
 		local lsp = require("lspconfig")
 		-- Python
 		lsp.pyright.setup({})
-		lsp.ruff_lsp.setup({})
+		lsp.ruff.setup({})
 		-- Clojure
 		lsp.clojure_lsp.setup({})
 		-- C
@@ -72,6 +76,64 @@ return {
 			-- Enable in vimwiki as well.
 			filetypes = { "markdown", "markdown.mdx", "vimwiki" },
 		})
+		-- LanguageTool
+		lsp.ltex_plus.setup({
+			on_attach = function(_, _)
+				-- Note: Requires installation of ltex_extra (see dependencies above)!
+				require("ltex_extra").setup({
+					load_langs = { "en-US" },
+					path = vim.fn.expand("~") .. "/.local/share/ltex",
+				})
+			end,
+			-- Delay
+			flags = { debounce_text_changes = 300 },
+			settings = {
+				ltex = {
+					language = "en-US",
+					-- Premium
+					languageToolHttpServerUri = "https://api.languagetoolplus.com/",
+					languageToolOrg = {
+						username = vim.g.language_tool_api_mail,
+						apiKey = vim.g.language_tool_api_key,
+					},
+					additionalRules = {
+						enablePickyRules = true,
+						motherTongue = "de",
+					},
+					latex = {
+						environments = {
+							["mathpar"] = "ignore",
+							["algorithm"] = "ignore",
+							["algorithmic"] = "ignore",
+						},
+					},
+					checkFrequency = "save",
+					sentenceCacheSize = 10000,
+					enabled = {
+						"bib",
+						-- "context",
+						-- "gitcommit",
+						-- "html",
+						"markdown",
+						-- "org",
+						-- "pandoc",
+						-- "plaintex",
+						-- "quarto",
+						-- "mail",
+						-- "mdx",
+						-- "rmd",
+						-- "rnoweb",
+						-- "rst",
+						"tex",
+						"latex",
+						-- "text",
+						-- "typst",
+						-- "xhtml",
+					},
+				},
+			},
+		})
+
 		-- Lua
 		lsp.lua_ls.setup({
 			settings = {

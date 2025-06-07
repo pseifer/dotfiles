@@ -10,6 +10,7 @@
 .config/*
 !/.config/nvim
 !/.config/nvim/*
+/.config/nvim/spell/*
 !/.config/alacritty
 !/.config/alacritty/*
 /.config/alacritty/themes
@@ -18,3 +19,4 @@
 /scripts/__*
 !/.doom.d
 !/.doom.d/*
+
