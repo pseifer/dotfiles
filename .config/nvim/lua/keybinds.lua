@@ -38,6 +38,15 @@ Vmap("K", ":m '<-2<CR>gv=gv")
 -- Exit terminal mode with <Esc>.
 Tmap("<Esc>", "<C-\\><C-n>", "Exit terminal mode")
 
+-- Highlight yank autocommand.
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight text when tanking",
+	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+})
+
 -- Void buffer mappings.
 
 -- Delte to void with <leader>d.
@@ -49,10 +58,20 @@ Vmap("d", '"_d', "Delete to void")
 -- Using <leader>p, paste over without cutting.
 Xmap("<leader>p", '"_dP', "Paste (after deleting to void)")
 
+-- Lua-Neovim-Dev bindings.
+
+Nmap("<leader><leader>x", "<cmd>source %<CR>", "Evaluate source file (Lua)")
+Nmap("<leader><leader>l", ":.lua<CR>", "Evaluate line (Lua)")
+Vmap("<leader><leader>l", ":lua<CR>", "Evaluate selection (Lua)")
+
 -- Small utility bindings.
 
--- Clear search highlights using enter (another time).
-Nmap("<enter>", ":nohlsearch<cr>", "Clear search results")
+-- Clear search highlights using enter (another time)
+Nmap("<leader>/", ":nohlsearch<CR>", "Clear search results")
+
+-- Move around.
+Nmap("<ENTER>", "$", "Move to end of line")
+Nmap("<BS>", "^", "Move to first non-blank character")
 
 -- Search and replace the word under the cursor.
 Nmap("<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", "Replace current word")

@@ -100,6 +100,9 @@ return {
 		metals_config.settings = {
 			showImplicitArguments = true,
 			excludedPackages = {},
+			metals = {
+				serverVersion = "1.6.0",
+			},
 		}
 
 		-- *READ THIS*

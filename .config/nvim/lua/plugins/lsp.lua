@@ -90,7 +90,6 @@ return {
 			settings = {
 				ltex = {
 					language = "en-US",
-					-- Premium
 					languageToolHttpServerUri = "https://api.languagetoolplus.com/",
 					languageToolOrg = {
 						username = vim.g.language_tool_api_mail,
@@ -100,35 +99,34 @@ return {
 						enablePickyRules = true,
 						motherTongue = "de",
 					},
+					disabledRules = {
+						["en-US"] = { "CURRICULUM_VITAE" },
+					},
 					latex = {
+						commands = {
+							["\\bookmarksetup{}"] = "ignore",
+						},
 						environments = {
 							["mathpar"] = "ignore",
 							["algorithm"] = "ignore",
 							["algorithmic"] = "ignore",
 						},
 					},
-					checkFrequency = "save",
+					checkFrequency = "edit",
 					sentenceCacheSize = 10000,
 					enabled = {
 						"bib",
-						-- "context",
-						-- "gitcommit",
-						-- "html",
+						"gitcommit",
+						"html",
 						"markdown",
-						-- "org",
-						-- "pandoc",
-						-- "plaintex",
-						-- "quarto",
-						-- "mail",
-						-- "mdx",
-						-- "rmd",
-						-- "rnoweb",
-						-- "rst",
+						"org",
+						"pandoc",
+						"plaintex",
+						"mail",
 						"tex",
 						"latex",
-						-- "text",
-						-- "typst",
-						-- "xhtml",
+						"text",
+						"xhtml",
 					},
 				},
 			},
