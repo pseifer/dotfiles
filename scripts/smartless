@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Display all kinds of files with syntax highlighting.
+# Aliased to 'sml' in .aliases
 fullfile="${1:-}"
 filename=$(basename -- "$fullfile")
 extension="${filename##*.}"
@@ -27,7 +28,7 @@ elif command -v batcat >/dev/null; then
     batcat -pp --color=always "${1}"
 elif command -v bat >/dev/null; then
     bat -pp --color=always "${1}"
-# or less, directly (if batcat is not installed).
+# or cat, directly (if batcat is not installed).
 else
-    less -r "${1}"
+    cat "${1}"
 fi
