@@ -10,13 +10,11 @@ emacs_open() {
 tbase() {
     # Open the Vimwiki index.
     tmux rename-window 'notes'
-    tmux send-keys -t 'notes' 'nb shell' 'Enter' 'edit 1' 'Enter'
+    tmux send-keys -t 'notes' 'notes' 'Enter'
 
     # Open a new task and calenar window.
-    tmux new-window -n 'todo-cal'
-    tmux send-keys -t 'todo-cal' 'nb shell' 'Enter' 'clear' 'Enter' 'tasks open' 'Enter'
-    tmux split-window -h -l '50%'
-    tmux send-keys -t 'todo-cal' 'vdirsyncer sync; clear; ical' 'Enter'
+    tmux new-window -n 'cal'
+    tmux send-keys -t 'cal' 'vdirsyncer sync; clear; ical' 'Enter'
 
     # Open a final 'main' shell window for doing some stuff.
     tmux new-window -n 'main'
@@ -124,13 +122,13 @@ next() {
 # Create a new note in the Joplin inbox.
 inbox() {
     # Use the Inbox notebook.
-    notes use "Inbox"
+    joplin use "Inbox"
 
     content="$1"
     title=$(date +"%Y-%m-%d %H:%M:%S")
 
     # Create a new note.
-    notes mknote "$title\n$content"
+    joplin mknote "$title\n$content"
 }
 
 # Edit all source files in folder.

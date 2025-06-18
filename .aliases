@@ -1,35 +1,25 @@
 #!/bin/bash
 
-# Dotfiles.
+# Dotfiles helper.
 
 # Access the bare repository with 'dot'.
 alias dot='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
 # Run updates by (re-)execution of setup.
 alias update='$HOME/setup'
 
 # Short aliases for tools in $HOME/scripts.
 
-# Run interactive todo(man).
-alias ti='fzf-todo'
-
 # Run a web search; do not add to history.
-alias s=' do-web-search' # intentionally starting with space
+alias s=' do-web-search' # Intentionally starting with space!
 
 # Interactively choose a template.
 alias templ='fzf-template'
 
-# Notes: TODO: Update
-
+# Notes.
 alias notes='joplin --profile ~/.config/joplin-desktop'
 
-# export NOTES_HOME="$HOME/Notes/home"
-
-# alias zenvim='nvim -c "set norelativenumber"'
-# alias notes="zenvim \$NOTES_HOME/index.md"
-# alias journal="zenvim \$NOTES_HOME/journal.md"
-# alias inbox="zenvim \$NOTES_HOME/inbox.md"
-# alias toinbox='cat >> ~/Notes/home/inbox.md'
-
+# Open the spell dictionary. (Currently using LanguageTool though.)
 alias spelldict='nvim $HOME/.config/nvim/spell/en.utf-8.add'
 
 # Todos and calendar shorthands.
@@ -37,6 +27,10 @@ alias spelldict='nvim $HOME/.config/nvim/spell/en.utf-8.add'
 alias tsync='vdirsyncer sync'
 alias cal='khal calendar'
 alias ical='ikhal'
+
+# Some convenience aliases.
+alias c='clear'
+alias j='jobs'
 
 # File system and navigation defaults.
 
@@ -58,14 +52,11 @@ alias ....=../../../
 alias ln='ln -i'
 alias mv='mv -i'
 
-# Editor (666) All is Neovim.
+# Editor (666) Everything is Neovim.
 
 alias vim='nvim'
 alias nano='nvim'
 alias vi='nvim'
-
-alias em="emacs_open"
-alias emt="TERM=alacritty-direct emacsclient -t"
 
 # In case I actually want 'vi' for some reason.
 alias ogvi='/usr/bin/vi'
@@ -73,40 +64,40 @@ alias ogvi='/usr/bin/vi'
 # Attach to main tmux session.
 alias base='tmux new-session -A -s base'
 
-# Git (gg).
-
 # Unlock ssh-agent for a session.
 alias agent-unlock='eval `ssh-agent -s`; ssh-add'
 
+# Common git commands prefixed with 'gg':
 alias ggl='git log'
-alias ggb='git branch'
 alias ggs='git status'
-alias ggp='git push'
+
 alias ggP='git pull'
-alias ggc='git commit -m'
+
 alias gga='git add'
+alias ggu='git restore --staged'
+alias ggc='git commit -m'
+alias ggp='git push'
 
 # Utility.
 
-# Encode and decode URLs.
+# Encode and decode URLs with Python.
 alias url-decode='python3 -c "import sys, urllib.parse as ulp; print(ulp.unquote(sys.argv[1]))"'
 alias url-encode='python3 -c "import sys, urllib.parse as ulp; print(ulp.quote(sys.argv[1]))"'
 
-# Visualize README with mdcat, updating on file change.
-alias mdbat='mdcat --columns 80'
-alias mdme='ls *.md | entr -c mdbat README.md'
-alias readme='nvim README.md; clear; mdbat README.md'
+# Visualize Markdown with smartless, updating on file change.
+alias readme='ls *.md | entr -c smartless *.md'
+
+# Alias for 'smartless' printing script, see ~/scripts/smartless
 alias sml='smartless'
 
-alias c='clear'
-alias j='jobs'
+# Use btop instead of top.
 alias top='btop'
 
 # Compare directories.
 alias diffdir='diff -bur'
 
+# Define an alias to bat(cat) and setup theme.
 export BAT_THEME="zenbones"
-# Define an alias to bat(cat).
 if command -v batcat &>/dev/null; then
     alias bat='batcat'
 else
@@ -115,6 +106,7 @@ fi
 
 # Reload the ZSH configuration.
 alias zshreload='. $HOME/.zshrc'
+
 # Edit shell configuration files, then reload.
 alias zshconfig='vi $HOME/.aliases $HOME/.functions $HOME/.zshrc; zshreload'
 
@@ -122,7 +114,7 @@ alias zshconfig='vi $HOME/.aliases $HOME/.functions $HOME/.zshrc; zshreload'
 
 # Python
 
-alias python='python3'
+alias python='python3' # Just in case.
 alias py='python3'
 
 # Create venv, activate (project venv), deactivate (any) venv.
@@ -135,8 +127,3 @@ alias pyf='pip freeze > requirements.txt'
 
 # Launch a REPL that Conjure (Neovim) can connect to.
 alias nrepl="clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version \"1.0.0\"} cider/cider-nrepl {:mvn/version \"0.42.1\"}}}' -M --main nrepl.cmdline --middleware '[\"cider.nrepl/cider-middleware\"]' --interactive"
-
-# Zig
-
-# Host Zig documentation (local).
-alias zigdoc='python -m http.server 8000 -d docs/'
