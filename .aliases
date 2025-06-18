@@ -96,6 +96,7 @@ alias url-encode='python3 -c "import sys, urllib.parse as ulp; print(ulp.quote(s
 alias mdbat='mdcat --columns 80'
 alias mdme='ls *.md | entr -c mdbat README.md'
 alias readme='nvim README.md; clear; mdbat README.md'
+alias sml='smartless'
 
 alias c='clear'
 alias j='jobs'
@@ -104,11 +105,12 @@ alias top='btop'
 # Compare directories.
 alias diffdir='diff -bur'
 
+export BAT_THEME="zenbones"
 # Define an alias to bat(cat).
 if command -v batcat &>/dev/null; then
-    alias bat='batcat -pp --theme=zenbones'
+    alias bat='batcat'
 else
-    alias bat='bat -pp --theme=zenbones'
+    alias bat='bat'
 fi
 
 # Reload the ZSH configuration.
