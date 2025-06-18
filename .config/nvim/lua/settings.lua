@@ -41,6 +41,8 @@ go.foldenable = true
 --vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 --vim.o.foldmethod = "expr"
 
+go.messagesopt = "wait:0,history:500"
+
 -- Window-local settings.
 
 local wo = vim.wo

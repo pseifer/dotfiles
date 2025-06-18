@@ -3,6 +3,10 @@
 require("util") -- global utility functions.
 require("private") -- global private variables (loaded from files).
 
+-- Disable deprecation warnings in plugins.
+
+vim.deprecate = function() end
+
 -- Set <leader> to <Space>.
 
 vim.api.nvim_set_keymap("n", "<Space>", "", {})
