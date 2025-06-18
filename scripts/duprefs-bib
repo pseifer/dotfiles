@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Find duplicate references (by name).
+
+file=${1?' Script requires a .bib file as its argument.'}
+
+echo "References with the same ID:"
+
+(grep "@.*" | sort | uniq -d) <"${file}"
+
+echo "References with (possibly) the same title:"
+
+(grep " title.*=.*{" | sort | uniq -d) <"${file}"
