@@ -19,11 +19,15 @@ local function modify_hl(ns, name, changes)
 	vim.api.nvim_set_hl(ns, name, vim.tbl_deep_extend("force", def, changes))
 end
 
--- Set color for floating windows.
+-- Set color for various floating windows.
 local set_hl_for_floating_window = function()
-	modify_hl(0, "NormalFloat", { bg = "#f0edec" })
-	modify_hl(0, "FloatBorder", { bg = "#f0edec" })
-	modify_hl(0, "WhichKeyFloat", { bg = "#ddd6d3" })
+	local color = "#e9e4e2" -- The color to use (here: Zenbones - current line)
+
+	modify_hl(0, "NormalFloat", { bg = color })
+	modify_hl(0, "FloatBorder", { bg = color })
+	modify_hl(0, "WhichKeyFloat", { bg = color })
+	modify_hl(0, "Pmenu", { bg = color })
+
 	vim.diagnostic.config({
 		float = { border = "rounded" },
 	})

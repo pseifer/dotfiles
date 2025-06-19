@@ -61,6 +61,22 @@ return {
 				{ "<leader>fs", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search buffer" },
 				{ "<leader>fv", "<cmd>Telescope treesitter<cr>", desc = "Treesitter" },
 				{ "<leader>fx", "<cmd>Telescope commands<cr>", desc = "Commands" },
+				-- LSP
+				{ "<leader>fl", group = "lsp" },
+				{ "<leader>fls", "<cmd>Telescope lsp_document_symbols<cr>", desc = "List symbols in document" },
+				{ "<leader>flw", "<cmd>Telescope lsp_workspace_symbols<cr>", desc = "List symbols in project" },
+				{ "<leader>flr", "<cmd>Telescope lsp_references<cr>", desc = "List references to symbol (cursor)" },
+				{ "<leader>fld", "<cmd>Telescope lsp_definitions<cr>", desc = "List definitions for symbol (cursor)" },
+				{
+					"<leader>fli",
+					"<cmd>Telescope lsp_implementations<cr>",
+					desc = "List implementations of symbol (cursor)",
+				},
+				{
+					"<leader>flt",
+					"<cmd>Telescope lsp_type_definitions<cr>",
+					desc = "List type definitions for symbol (cursor)",
+				},
 			})
 			--wk.register({
 			--	f = {
