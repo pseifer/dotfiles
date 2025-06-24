@@ -21,15 +21,12 @@
 # Add Doom to path.
 [ -d "$HOME/.emacs.d/bin" ] && PATH="$HOME/.emacs.d/bin:$PATH"
 
-# Add Coursier and Java to PATH.
+# Automatically set JAVA_HOME, using coursier on Mac.
 osuname="$(uname -s)"
 if [[ "${osuname}" == "Darwin" ]]; then
-    export JAVA_HOME="$HOME/Library/Caches/Coursier/arc/https/github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.21%252B9/OpenJDK11U-jdk_aarch64_mac_hotspot_11.0.21_9.tar.gz/jdk-11.0.21+9/Contents/Home"
-    export PATH="$PATH:$HOME/Library/Application Support/Coursier/bin"
+    command -v cs >/dev/null 2>&1 && eval "$(cs java --jvm 21 --env)"
 else
-    export JAVA_HOME="$HOME/.cache/coursier/arc/https/github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.21%252B9/OpenJDK11U-jdk_x64_linux_hotspot_11.0.21_9.tar.gz/jdk-11.0.21+9"
-    export PATH="$PATH:$HOME/.cache/coursier/arc/https/github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.21%252B9/OpenJDK11U-jdk_x64_linux_hotspot_11.0.21_9.tar.gz/jdk-11.0.21+9/bin"
-    export PATH="$HOME/.local/share/coursier/bin:$PATH"
+    export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::")
 fi
 
 # Add go and GOPATH to the path.

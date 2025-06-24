@@ -176,10 +176,6 @@ eval $(fuzzyphile init zsh --default-keys --default-aliases)
 export GLAMOUR_STYLE="$HOME/zenbones.json"
 export MANPAGER='nvim +Man!'
 
-# ----- Java -----
-
-command -v cs >/dev/null 2>&1 && eval "$(cs java --jvm 21 --env)"
-
 # ---- Motto of the day -----
 #echo "\033[0;036mOmnibus ex nihilo ducendis sufficit unum.\n\033[0m"
 
