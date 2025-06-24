@@ -82,3 +82,6 @@ Nmap("[d", vim.diagnostic.goto_prev, "Go to next diagnostic")
 Nmap("gh", vim.diagnostic.open_float, "Open diagnostic")
 
 -- TODO: Think of something useful for 's'
+
+-- Edit the spelling dictionary file.
+Nmap("<leader>lS", ":edit ~/.local/share/ltex/ltex.dictionary.en-US.txt<CR>", "Edit spelling dictionary")
