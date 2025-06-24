@@ -17,7 +17,7 @@ local local_spellfile = vim.fn.expand(".spell.utf-8.add")
 vim.opt.spellfile = primary_spellfile .. "," .. local_spellfile
 
 -- Filetypes to enable spellcheck
-local spell_types = { "text", "plaintex", "typst", "gitcommit" } --, "markdown" , "tex", "latex" }
+local spell_types = { "gitcommit", "text", "plaintext", "mail" }
 
 -- Set global spell option to false initially to disable it for all file types
 vim.opt.spell = false

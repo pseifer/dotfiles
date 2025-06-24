@@ -2,6 +2,7 @@
 
 require("util") -- global utility functions.
 require("private") -- global private variables (loaded from files).
+require("lsp") -- lsp setup.
 
 -- Disable deprecation warnings in plugins.
 
@@ -47,6 +48,7 @@ require("lazy").setup(plugins, opts)
 -- Load basic configurations (i.e., settings and essential keybinds).
 
 require("settings") -- basic nvim settings.
+require("diagnostics") -- settings for (LSP) diagnostics.
 require("keybinds") -- basic nvim remappings.
-require("spell") -- spell checking setup
+require("spell") -- spell checking setup.
 require("other") -- custom lua code.
