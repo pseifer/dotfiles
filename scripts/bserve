@@ -1,13 +1,35 @@
 #!/usr/bin/env bash
 
 # Universal cheap "build server".
-# Runs 'make clean' on startup
+# Runs 'make clean' on startup if -c is specified.
 # and then 'make' on any changed files.
 
 # Requirements: make, entr
 # Supported languages: LaTeX, C, Zig
 
-make clean
+# Initialise option flag with a false value
+OPT_CLEAN='false'
+
+# Process all options supplied on the command line 
+while getopts ':c:h' 'OPTKEY'; do
+    case ${OPTKEY} in
+        'c')
+            OPT_CLEAN='true'
+            ;;
+        'h')
+            echo "usage: bserve [-c]"
+            ;;
+        *)
+            echo "UNIMPLEMENTED OPTION -- ${OPTKEY}" >&2
+            exit 1
+            ;;
+    esac
+done
+
+if ${OPT_CLEAN}; then
+    make clean
+fi
+
 find . -name "*.zig" \
     -or -name "*.tex" \
     -or -name "*.bib" \

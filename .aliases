@@ -19,8 +19,8 @@ alias templ='fzf-template'
 # Notes.
 alias notes='joplin --profile ~/.config/joplin-desktop'
 
-# Open the spell dictionary. (Currently using LanguageTool though.)
-alias spelldict='nvim $HOME/.config/nvim/spell/en.utf-8.add'
+# Open the spelling dictionary.
+alias spelldict='nvim $HOME/.local/share/ltex/ltex.dictionary.en-US.txt'
 
 # Todos and calendar shorthands.
 # alias t='nb tasks open'
