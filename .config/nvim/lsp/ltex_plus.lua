@@ -1,6 +1,15 @@
 return {
 	cmd = { "ltex-ls-plus" },
-	-- filetypes = { ".tex" },
+	filetypes = {
+		"bib",
+		"tex",
+		"latex",
+		"markdown",
+		"html",
+		"xhtml",
+		"org",
+		"pandoc",
+	},
 	-- root_markers = { ".git" },
 	on_attach = function(_, _)
 		-- Note: Requires installation of ltex_extra (see dependencies above)!

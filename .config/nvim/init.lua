@@ -6,6 +6,7 @@ require("lsp") -- lsp setup.
 
 -- Disable deprecation warnings in plugins.
 
+---@diagnostic disable-next-line: duplicate-set-field
 vim.deprecate = function() end
 
 -- Set <leader> to <Space>.
@@ -17,6 +18,7 @@ vim.g.mapleader = " "
 -- Access with ':Lazy' or via 'l' in the greeter menu.
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+---@diagnostic disable-next-line: undefined-field
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
