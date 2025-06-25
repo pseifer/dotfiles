@@ -69,14 +69,25 @@ alias agent-unlock='eval `ssh-agent -s`; ssh-add'
 
 # Common git commands prefixed with 'gg':
 alias ggl='git log'
+alias ddl='dot log'
+
 alias ggs='git status'
+alias dds='dot status'
 
 alias ggP='git pull'
+alias ddP='dot pull'
 
 alias gga='git add'
+alias dda='dot add'
+
 alias ggu='git restore --staged'
+alias ddu='dot restore --staged'
+
 alias ggc='git commit -m'
+alias ddc='dot commit -m'
+
 alias ggp='git push'
+alias ddp='dot push'
 
 # Utility.
 
