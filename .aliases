@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Dotfiles helper.
-
-# Access the bare repository with 'dot'.
-alias dot='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-
 # Run updates by (re-)execution of setup.
 alias update='$HOME/setup'
 
@@ -67,27 +62,21 @@ alias base='tmux new-session -A -s base'
 # Unlock ssh-agent for a session.
 alias agent-unlock='eval `ssh-agent -s`; ssh-add'
 
-# Common git commands prefixed with 'gg':
-alias ggl='git log'
-alias ddl='dot log'
-
-alias ggs='git status'
-alias dds='dot status'
-
-alias ggP='git pull'
-alias ddP='dot pull'
-
-alias gga='git add'
-alias dda='dot add'
-
-alias ggu='git restore --staged'
-alias ddu='dot restore --staged'
-
-alias ggc='git commit -m'
-alias ddc='dot commit -m'
-
-alias ggp='git push'
-alias ddp='dot push'
+# Common git commands prefixed with 'gg'.
+# Note, that right_git calls 'dot' in $HOME
+# or forwards to normal 'git', otherwise.
+alias rgit='use_right_git'
+alias ggl='rgit log'
+alias ggs='rgit status'
+alias ggd='rgit diff'
+alias ggP='rgit pull'
+alias gga='rgit add'
+alias ggr='rgit restore --staged'
+alias ggc='rgit commit -m'
+alias ggp='rgit push'
+alias ggb='rgit branch'
+alias ggo='rgit checkout'
+alias ggi='rgit init'
 
 # Utility.
 

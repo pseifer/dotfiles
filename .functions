@@ -1,18 +1,172 @@
 #!/bin/bash
 
-# Open argument files in emacsclient.
-emacs_open() {
-    command emacsclient "$*" -a= &
-    disown
+# -----------------------------------------------------------------------------
+# Utilities
+# -----------------------------------------------------------------------------
+#
+# colors                    = Display terminal colors
+# next <app>                = open the nextcloud application <app>
+# edit <dir> <ext>          = open all files in <dir> that have <ext> in vi
+# gitignore "lang1,tool2"   = download gitignore for "lang1, tool2"
+# watch <ext> <prog>        = run <prog> on changes in <ext> (see also bserve)
+# compare <dir1> <dir2> <f> = diff common file <f> in <dir1> and <dir2>
+# use_right_git             = either dotfiles ($HOME) or default 'git'
+#
+
+# Print terminal colors.
+colors() {
+    printf "Turn colors on: \\\\033\\[0;XXXm\n"
+    printf "Turn colors off: \\\\033\\[0m\n\n"
+    printf "|039| \033[39mDefault \033[m  |049| \033[49mDefault \033[m  |037| \033[37mLight gray \033[m     |047| \033[47mLight gray \033[m\n"
+    printf "|030| \033[30mBlack \033[m    |040| \033[40mBlack \033[m    |090| \033[90mDark gray \033[m      |100| \033[100mDark gray \033[m\n"
+    printf "|031| \033[31mRed \033[m      |041| \033[41mRed \033[m      |091| \033[91mLight red \033[m      |101| \033[101mLight red \033[m\n"
+    printf "|032| \033[32mGreen \033[m    |042| \033[42mGreen \033[m    |092| \033[92mLight green \033[m    |102| \033[102mLight green \033[m\n"
+    printf "|033| \033[33mYellow \033[m   |043| \033[43mYellow \033[m   |093| \033[93mLight yellow \033[m   |103| \033[103mLight yellow \033[m\n"
+    printf "|034| \033[34mBlue \033[m     |044| \033[44mBlue \033[m     |094| \033[94mLight blue \033[m     |104| \033[104mLight blue \033[m\n"
+    printf "|035| \033[35mMagenta \033[m  |045| \033[45mMagenta \033[m  |095| \033[95mLight magenta \033[m  |105| \033[105mLight magenta \033[m\n"
+    printf "|036| \033[36mCyan \033[m     |046| \033[46mCyan \033[m     |096| \033[96mLight cyan \033[m     |106| \033[106mLight cyan \033[m\n"
 }
+
+# Open some nextcloud app.
+next() {
+    # By default, open '/dashboard'.
+    app="${1:-dashboard}"
+
+    # Allow for short aliases.
+    if [[ "calendar" =~ ^$app ]]; then
+        nextapp="apps/calendar"
+    elif [[ "contacts" =~ ^$app ]]; then
+        nextapp="apps/contacts"
+    elif [[ "files" =~ ^$app ]]; then
+        nextapp="apps/files"
+    elif [[ "cospend" =~ ^$app ]]; then
+        nextapp="apps/cospend"
+    elif [[ "photos" =~ ^$app ]]; then
+        nextapp="apps/photos"
+    elif [[ "notes" =~ ^$app ]]; then
+        nextapp="apps/notes"
+    elif [[ "tasks" =~ ^$app ]]; then
+        nextapp="apps/tasks"
+    elif [[ "cookbook" =~ ^$app ]]; then
+        nextapp="apps/cookbook"
+    elif [[ "settings" =~ ^$app ]]; then
+        nextapp="settings/user"
+    # If unknown, just try the full name.
+    else
+        nextapp="${app}"
+    fi
+
+    # Finally, open the nextapp Nextcloud app.
+    open "https://cloud.seifer.me/${nextapp}" 1>/dev/null 2>/dev/null
+}
+
+# Create a new note in the Joplin inbox -- bugged?
+inbox() {
+    # Use the Inbox notebook.
+    joplin use "Inbox"
+
+    content="$1"
+    title=$(date +"%Y-%m-%d %H:%M:%S")
+
+    # Create a new note.
+    joplin mknote "$title\n$content"
+}
+
+# Edit all source files in folder.
+edit() {
+    folder="${1}"
+    extension="${2:-py}"
+
+    if [ "${extension}" = "c" ]; then
+        nvim "${folder}/"*.c "${folder}/"*.h
+    else
+        nvim "${folder}/"*."${extension}"
+    fi
+}
+
+# Download .gitignore from gitignore.io
+gitignore() {
+    old="$IFS"
+    IFS=','
+    str="$*"
+    IFS=$old
+    curl "https://www.toptal.com/developers/gitignore/api/${str}"
+}
+
+# Watch files (with given extension) for changes and run (given) command.
+# Usage: watch tex latexmk
+# Note: See also scripts/bserve for a specialized version.
+watch() {
+    find -- *."$1" | entr "$2"
+}
+
+# Compare in directoy $1 and $2, common file $3.
+# Usage: compare . /some/dir filename
+compare() {
+    left="${1}"
+    right="${2}"
+    common="${3}"
+    
+    diff "${left}/${common}" "${right}/${common}"
+}
+
+# Use the 'right' git for the job.
+# This is used in 'gg' prefixed git aliases (see .aliases).
+use_right_git() {
+    if [ "$PWD" = "$HOME" ]; then
+        git --git-dir="${HOME}/.dotfiles/" --work-tree="${HOME}" "${@}"
+    else
+        git "${@}"
+    fi
+}
+
+# -----------------------------------------------------------------------------
+# Tuxbox
+# -----------------------------------------------------------------------------
+#
+# tuxbox    = activate TV in 1080p, start Steam in BigPicture
+# tuxbox4k  = same, but with 4k resolution
+# notuxbox  = switch back to desktop monitor
+#
+
+# Tuxbox mode: Switch to TV and start Steam.
+# Requires https://github.com/jadahl/gnome-monitor-config
+tuxbox() {
+    gnome-monitor-config set -LpM HDMI-1 -t normal -m 1920x1080@60.000
+    sleep 5s
+    open "steam://open/bigpicture"
+}
+
+tuxbox4k() {
+    gnome-monitor-config set -LpM HDMI-1 -t normal -m 3840x2160@60.000
+    sleep 5s
+    open "steam://open/bigpicture"
+}
+
+notuxbox() {
+    gnome-monitor-config set -LpM DP-1 -t normal -m 3440x1440@99.982
+}
+
+# -----------------------------------------------------------------------------
+# Automated Workspace Setup with Tmux
+# -----------------------------------------------------------------------------
+#
+# tbase     = setup main session (zsh? => base => tbase) 
+# tdev      = generic development session
+#             tdev <dir> <name> <command> <pre-command>
+#             Run in <dir>, <name> session, run <command> in split
+#             and run <pre-command> before everyhing else
+# tpython   = ... + attach environment, start REPL
+# tscala    = ... + start sbt
+# thaskell  = ... + start ghci
 
 # Setup the 'base' workspace.
 tbase() {
-    # Open the Vimwiki index.
+    # Open notes.
     tmux rename-window 'notes'
     tmux send-keys -t 'notes' 'notes' 'Enter'
 
-    # Open a new task and calenar window.
+    # Open the calendar.
     tmux new-window -n 'cal'
     tmux send-keys -t 'cal' 'vdirsyncer sync; clear; ical' 'Enter'
 
@@ -72,105 +226,3 @@ thaskell() {
     tdev "${dir}" "${name}" ghci
 }
 
-# Print terminal colors.
-colors() {
-    printf "Turn colors on: \\\\033\\[0;XXXm\n"
-    printf "Turn colors off: \\\\033\\[0m\n\n"
-    printf "|039| \033[39mDefault \033[m  |049| \033[49mDefault \033[m  |037| \033[37mLight gray \033[m     |047| \033[47mLight gray \033[m\n"
-    printf "|030| \033[30mBlack \033[m    |040| \033[40mBlack \033[m    |090| \033[90mDark gray \033[m      |100| \033[100mDark gray \033[m\n"
-    printf "|031| \033[31mRed \033[m      |041| \033[41mRed \033[m      |091| \033[91mLight red \033[m      |101| \033[101mLight red \033[m\n"
-    printf "|032| \033[32mGreen \033[m    |042| \033[42mGreen \033[m    |092| \033[92mLight green \033[m    |102| \033[102mLight green \033[m\n"
-    printf "|033| \033[33mYellow \033[m   |043| \033[43mYellow \033[m   |093| \033[93mLight yellow \033[m   |103| \033[103mLight yellow \033[m\n"
-    printf "|034| \033[34mBlue \033[m     |044| \033[44mBlue \033[m     |094| \033[94mLight blue \033[m     |104| \033[104mLight blue \033[m\n"
-    printf "|035| \033[35mMagenta \033[m  |045| \033[45mMagenta \033[m  |095| \033[95mLight magenta \033[m  |105| \033[105mLight magenta \033[m\n"
-    printf "|036| \033[36mCyan \033[m     |046| \033[46mCyan \033[m     |096| \033[96mLight cyan \033[m     |106| \033[106mLight cyan \033[m\n"
-}
-
-# Open some nextcloud app.
-next() {
-    # By default, open '/dashboard'.
-    app="${1:-dashboard}"
-
-    # Allow for short aliases.
-    if [[ "calendar" =~ ^$app ]]; then
-        nextapp="apps/calendar"
-    elif [[ "contacts" =~ ^$app ]]; then
-        nextapp="apps/contacts"
-    elif [[ "files" =~ ^$app ]]; then
-        nextapp="apps/files"
-    elif [[ "cospend" =~ ^$app ]]; then
-        nextapp="apps/cospend"
-    elif [[ "photos" =~ ^$app ]]; then
-        nextapp="apps/photos"
-    elif [[ "notes" =~ ^$app ]]; then
-        nextapp="apps/notes"
-    elif [[ "tasks" =~ ^$app ]]; then
-        nextapp="apps/tasks"
-    elif [[ "cookbook" =~ ^$app ]]; then
-        nextapp="apps/cookbook"
-    elif [[ "settings" =~ ^$app ]]; then
-        nextapp="settings/user"
-    # If unknown, just try the full name.
-    else
-        nextapp="${app}"
-    fi
-
-    # Finally, open the nextapp Nextcloud app.
-    open "https://cloud.seifer.me/${nextapp}" 1>/dev/null 2>/dev/null
-}
-
-# Create a new note in the Joplin inbox.
-inbox() {
-    # Use the Inbox notebook.
-    joplin use "Inbox"
-
-    content="$1"
-    title=$(date +"%Y-%m-%d %H:%M:%S")
-
-    # Create a new note.
-    joplin mknote "$title\n$content"
-}
-
-# Edit all source files in folder.
-edit() {
-    folder="${1}"
-    extension="${2:-py}"
-
-    if [ "${extension}" = "c" ]; then
-        nvim "${folder}/"*.c "${folder}/"*.h
-    else
-        nvim "${folder}/"*."${extension}"
-    fi
-}
-
-# Download .gitignore from gitignore.io
-gitignore() {
-    old="$IFS"
-    IFS=','
-    str="$*"
-    IFS=$old
-    curl "https://www.toptal.com/developers/gitignore/api/${str}"
-}
-
-# Watch files for changes and run command.
-watch() {
-    find -- *."$1" | entr "$2"
-}
-
-# Tuxbox mode: Switch to TV and start Steam.
-# Requires https://github.com/jadahl/gnome-monitor-config
-tuxbox() {
-    gnome-monitor-config set -LpM HDMI-1 -t normal -m 1920x1080@60.000
-    sleep 5s
-    open "steam://open/bigpicture"
-}
-
-tuxbox4k() {
-    gnome-monitor-config set -LpM HDMI-1 -t normal -m 3840x2160@60.000
-    sleep 5s
-    open "steam://open/bigpicture"
-}
-
-notuxbox() {
-    gnome-monitor-config set -LpM DP-1 -t normal -m 3440x1440@99.982
-}
