@@ -32,28 +32,11 @@ next() {
     # By default, open '/dashboard'.
     app="${1:-dashboard}"
 
-    # Allow for short aliases.
-    if [[ "calendar" =~ ^$app ]]; then
-        nextapp="apps/calendar"
-    elif [[ "contacts" =~ ^$app ]]; then
-        nextapp="apps/contacts"
-    elif [[ "files" =~ ^$app ]]; then
-        nextapp="apps/files"
-    elif [[ "cospend" =~ ^$app ]]; then
-        nextapp="apps/cospend"
-    elif [[ "photos" =~ ^$app ]]; then
-        nextapp="apps/photos"
-    elif [[ "notes" =~ ^$app ]]; then
-        nextapp="apps/notes"
-    elif [[ "tasks" =~ ^$app ]]; then
-        nextapp="apps/tasks"
-    elif [[ "cookbook" =~ ^$app ]]; then
-        nextapp="apps/cookbook"
-    elif [[ "settings" =~ ^$app ]]; then
+    if [[ "settings" =~ ^$app ]]; then
         nextapp="settings/user"
     # If unknown, just try the full name.
     else
-        nextapp="${app}"
+        nextapp="apps/${app}"
     fi
 
     # Finally, open the nextapp Nextcloud app.

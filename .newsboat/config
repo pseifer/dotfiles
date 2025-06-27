@@ -3,7 +3,7 @@ prepopulate-query-feeds yes
 urls-source "ocnews"
 ocnews-url "https://cloud.seifer.me"
 ocnews-login "pseifer"
-ocnews-passwordeval "/home/pseifer/.get-cloud-password.sh"
+ocnews-passwordeval "$HOME/.get-cloud-password.sh"
 
 # -- display -------------------------------------------------------------------
 
