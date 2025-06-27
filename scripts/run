@@ -1,17 +1,44 @@
 #!/usr/bin/env bash
 
 # Run all kinds of things, depending on the current directory.
+# For most things, forwards arguments via $@. For some things,
+# uses useful default arguments when $# == 0.
 
-# If there is a SBT build file, use 'sbt run' and drop into shell.
-# Consecutive calls to 'run' will then use SBT, directly.
+# For SBT projects, always start the SBT shell.
+# If arguments are supplied, run them first (does basically only support a mode though).
+run_sbt() {
+    if [ $# -eq 0 ]; then
+        sbt "run; shell"
+    else
+        sbt "$*; shell"
+    fi
+}
+
+# If there are no arguments, run scala-cli on "."
+# If the first arg  is a "--" (i.e., there only script arguments), then use ".", too.
+# Otherwise, simply forward all arguments to scala-cil.
+run_scala_cli() {
+    if [ $# -eq 0 ]; then
+        scala-cli .
+    elif [ "${1}" == "--" ]; then
+        scala-cli . "${@}"
+    else
+        scala-cli "${@}"
+    fi
+}
+
+# If there is a SBT build file, use 'sbt run' and drop into shell;
+# or, if there are any arguments, runs them (plus 'shell').
 if [ -f build.sbt ]; then
-    sbt "run; shell"
-# Otherwise, if there are any .scala files, use scala-cli.
+    run_sbt "${@}"
+# Otherwise, if there are any .scala or .sc files, use scala-cli.
 elif compgen -G "*.scala" > /dev/null; then
-    scala-cli .
+    run_scala_cli "${@}"
+elif compgen -G "*.sc" > /dev/null; then
+    run_scala_cli "${@}"
 # If there is a Makefile, use it.
 elif [ -f Makefile ]; then
-    make
+    make "${@}"
 # Default case.
 else
     echo "I don't know how to do anything here."
