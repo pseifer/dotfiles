@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# Run all kinds of things, depending on the current directory.
+
+# If there is a SBT build file, use 'sbt run' and drop into shell.
+# Consecutive calls to 'run' will then use SBT, directly.
+if [ -f build.sbt ]; then
+    sbt "run; shell"
+# Otherwise, if there are any .scala files, use scala-cli.
+elif compgen -G "*.scala" > /dev/null; then
+    scala-cli .
+# If there is a Makefile, use it.
+elif [ -f Makefile ]; then
+    make
+# Default case.
+else
+    echo "I don't know how to do anything here."
+fi
+

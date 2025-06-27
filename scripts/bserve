@@ -11,25 +11,26 @@
 OPT_CLEAN='false'
 
 # Process all options supplied on the command line 
-while getopts ':c:h' 'OPTKEY'; do
+while getopts ':c' 'OPTKEY'; do
     case ${OPTKEY} in
         'c')
             OPT_CLEAN='true'
             ;;
-        'h')
-            echo "usage: bserve [-c]"
-            ;;
         *)
-            echo "UNIMPLEMENTED OPTION -- ${OPTKEY}" >&2
+            echo "usage: bserve [-c]"
             exit 1
             ;;
     esac
 done
 
+# If the '-c' option is set, clean first.
 if ${OPT_CLEAN}; then
     make clean
 fi
 
+# Observe various filetypes, and re-run make on changes.
+# Note, that this is mainly useful for LaTeX and very small
+# zig/c projects with low build times.
 find . -name "*.zig" \
     -or -name "*.tex" \
     -or -name "*.bib" \
