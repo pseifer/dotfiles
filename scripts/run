@@ -14,16 +14,16 @@ run_sbt() {
     fi
 }
 
-# If there are no arguments, run scala-cli on "."
+# If there are no arguments, run scala on "."
 # If the first arg  is a "--" (i.e., there only script arguments), then use ".", too.
 # Otherwise, simply forward all arguments to scala-cil.
 run_scala_cli() {
     if [ $# -eq 0 ]; then
-        scala-cli .
+        scala .
     elif [ "${1}" == "--" ]; then
-        scala-cli . "${@}"
+        scala . "${@}"
     else
-        scala-cli "${@}"
+        scala "${@}"
     fi
 }
 
@@ -31,7 +31,7 @@ run_scala_cli() {
 # or, if there are any arguments, runs them (plus 'shell').
 if [ -f build.sbt ]; then
     run_sbt "${@}"
-# Otherwise, if there are any .scala or .sc files, use scala-cli.
+# Otherwise, if there are any .scala or .sc files, use scala.
 elif compgen -G "*.scala" > /dev/null; then
     run_scala_cli "${@}"
 elif compgen -G "*.sc" > /dev/null; then
