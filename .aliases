@@ -65,19 +65,19 @@ alias agent-unlock='eval `ssh-agent -s`; ssh-add'
 # Common git commands prefixed with 'gg'.
 # Note, that right_git calls 'dot' in $HOME
 # or forwards to normal 'git', otherwise.
-alias rgit='use_right_git'
-alias ggl='rgit log'
-alias ggs='rgit status'
-alias ggd='rgit diff'
-alias ggP='rgit pull'
-alias gga='rgit add'
-alias ggr='rgit restore --staged'
-alias ggc='rgit commit'
-alias ggm='rgit commit -m'
-alias ggp='rgit push'
-alias ggb='rgit branch'
-alias ggo='rgit checkout'
-alias ggi='rgit init'
+alias gg='use_right_git'
+alias ggl='gg log'
+alias ggs='gg status'
+alias ggd='gg diff'
+alias ggP='gg pull'
+alias gga='gg add'
+alias ggr='gg restore --staged'
+alias ggc='gg commit'
+alias ggm='gg commit -m'
+alias ggp='gg push'
+alias ggb='gg branch'
+alias ggo='gg checkout'
+alias ggi='gg init'
 
 # Utility.
 
@@ -85,11 +85,11 @@ alias ggi='rgit init'
 alias url-decode='python3 -c "import sys, urllib.parse as ulp; print(ulp.unquote(sys.argv[1]))"'
 alias url-encode='python3 -c "import sys, urllib.parse as ulp; print(ulp.quote(sys.argv[1]))"'
 
-# Visualize Markdown with smartless, updating on file change.
-alias readme='ls *.md | entr -c smartless *.md'
-
 # Alias for 'smartless' printing script, see ~/scripts/smartless
 alias sml='smartless'
+
+# Visualize Markdown with smartless (sml), updating on file change.
+alias readme='ls *.md | entr -cc smartless *.md'
 
 # Use btop instead of top.
 alias top='btop'
@@ -128,3 +128,9 @@ alias pyf='pip freeze > requirements.txt'
 
 # Launch a REPL that Conjure (Neovim) can connect to.
 alias nrepl="clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version \"1.0.0\"} cider/cider-nrepl {:mvn/version \"0.42.1\"}}}' -M --main nrepl.cmdline --middleware '[\"cider.nrepl/cider-middleware\"]' --interactive"
+
+# Scala
+
+# Bloop config files for Metals, generated for a Mill project.
+# see https://scalameta.org/metals/docs/build-tools/mill/
+alias millmetals='mill --import "ivy:com.lihaoyi::mill-contrib-bloop:" mill.contrib.bloop.Bloop/install'
