@@ -68,6 +68,7 @@ Vmap("<leader><leader>l", ":lua<CR>", "Evaluate selection (Lua)")
 
 -- Clear search highlights using enter (another time)
 Nmap("<leader>/", ":nohlsearch<CR>", "Clear search results")
+Nmap("<leader>q", ":copen<CR>", "Open quickfix list")
 
 -- Move around.
 Nmap("<ENTER>", "$", "Move to end of line")
