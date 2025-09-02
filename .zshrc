@@ -177,7 +177,7 @@ export GLAMOUR_STYLE="$HOME/zenbones.json"
 export MANPAGER='nvim +Man!'
 
 # ---- Motto of the day -----
-#echo "\033[0;036mOmnibus ex nihilo ducendis sufficit unum.\n\033[0m"
+#echo "\033[0;036mOMNIBUS·EX·NIHILO·DUCENDIS·SUFFICIT·UNUM.\n\033[0m"
 
 # Return success in any case; zsh reports any errors.
 return 0
