@@ -5,7 +5,8 @@
 # uses useful default arguments when $# == 0.
 
 # For SBT projects, always start the SBT shell.
-# If arguments are supplied, run them first (does basically only support a mode though).
+# If arguments are supplied, run them first 
+# (does basically only support a mode though).
 run_sbt() {
     if [ $# -eq 0 ]; then
         sbt "run; shell"
@@ -14,8 +15,21 @@ run_sbt() {
     fi
 }
 
+# Run mill with __ and run, by default, or command
+# (first argument) plus any additional rest arguments.
+run_mill() {
+    if [ $# -eq 0 ]; then
+        mill __.run
+    elif [ $# -eq 1 ]; then
+        mill "__.${1}"
+    else
+        mill "${@}"
+    fi
+}
+
 # If there are no arguments, run scala on "."
-# If the first arg  is a "--" (i.e., there only script arguments), then use ".", too.
+# If the first arg  is a "--" (i.e., there only script arguments), 
+# then use ".", too.
 # Otherwise, simply forward all arguments to scala-cil.
 run_scala_cli() {
     if [ $# -eq 0 ]; then
@@ -27,18 +41,27 @@ run_scala_cli() {
     fi
 }
 
+# MAIN
+
 # If there is a SBT build file, use 'sbt run' and drop into shell;
 # or, if there are any arguments, runs them (plus 'shell').
 if [ -f build.sbt ]; then
     run_sbt "${@}"
+
+# If there is a build.sc file, use 'mill'.
+elif [ -f build.sc ]; then
+    run_mill "${@}"
+
 # Otherwise, if there are any .scala or .sc files, use scala.
 elif compgen -G "*.scala" > /dev/null; then
     run_scala_cli "${@}"
 elif compgen -G "*.sc" > /dev/null; then
     run_scala_cli "${@}"
+
 # If there is a Makefile, use it.
 elif [ -f Makefile ]; then
     make "${@}"
+
 # Default case.
 else
     echo "I don't know how to do anything here."

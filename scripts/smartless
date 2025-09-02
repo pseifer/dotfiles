@@ -12,9 +12,9 @@ if [ "${extension}" = "md" ]; then
 # html files with W3M,
 elif [ "${extension}" = "html" ]; then
     w3m "${1}"
-# PDF with pdftotext,
+# PDF with 'open',
 elif [ "${extension}" = "pdf" ]; then
-    pdftotext "${1}"
+    open "${1}"
 # directories with tree,
 elif [ -d "${1}" ]; then
     tree -C "${1}"
