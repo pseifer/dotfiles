@@ -37,6 +37,8 @@ return {
 			latex = {
 				commands = {
 					["\\bookmarksetup{}"] = "ignore",
+					["\\glspl{}"] = "pluralDummy",
+					["\\gls{}"] = "dummy",
 				},
 				environments = {
 					["mathpar"] = "ignore",

@@ -31,6 +31,9 @@ Nmap("<leader>f", "<Nop>", "")
 Vmap("<", "<gv", "stay indent <")
 Vmap(">", ">gv", "stay indent >")
 
+-- Use ; as :, too.
+Nmap(";", ":", "Why is ; useless?")
+
 -- Move selected lines in visual mode with J/K.
 Vmap("J", ":m '>+1<CR>gv=gv")
 Vmap("K", ":m '<-2<CR>gv=gv")
