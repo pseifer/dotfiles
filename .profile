@@ -28,6 +28,7 @@ if [[ "${osuname}" == "Darwin" ]]; then
 else
     export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::")
 fi
+export PATH="$PATH:/Users/pseifer/Library/Application Support/Coursier/bin"
 
 # Add go and GOPATH to the path.
 [ -d "/usr/local/go/bin" ] && PATH="/usr/local/go/bin:$PATH"
