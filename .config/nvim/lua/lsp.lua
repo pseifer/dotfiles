@@ -1,6 +1,7 @@
 local servers = {
 	"lua_ls",
 	"ltex_plus",
+	"basedpyright",
 }
 
 vim.lsp.config("*", {
