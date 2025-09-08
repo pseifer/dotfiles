@@ -29,7 +29,7 @@ return {
 
 				-- Python
 				-- "pyright", -- LSP (manually installed via pipx install pyright)
-				"ruff", -- LSP
+				"basedpyright", -- LSP
 				"black", -- Formatter
 
 				-- C

@@ -2,7 +2,7 @@
 
 return {
 	-- REPL interaction.
-	"Olical/conjure",
+	-- "Olical/conjure", -- TODO: Configure; e.g., clashes with normak 'K'
 	-- Paredit for Neovim.
 	"julienvincent/nvim-paredit",
 	--	config = function()
