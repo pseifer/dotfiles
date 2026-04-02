@@ -26,6 +26,13 @@ Nmap("N", "Nzzzv")
 -- Remove default LSP binding for faster Telescope launch.
 Nmap("<leader>f", "<Nop>", "")
 
+vim.api.nvim_create_user_command("ToggleDiagnostics", function()
+	vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+end, {})
+
+-- Toggle diagnostics.
+Nmap("<leader>h", ":ToggleDiagnostics<CR>", "Toggle diagnostics")
+
 -- Stay in visual mode when indenting;
 -- allows indenting multiple times in visual mode.
 Vmap("<", "<gv", "stay indent <")
