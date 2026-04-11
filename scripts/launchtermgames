@@ -1,18 +1,33 @@
 #!/usr/bin/env bash
 
-# Launcher for terminal games. 
-# This is the startup program for Wezterm.
-# Launch with 'wez'.
+# Launcher for terminal games, which is
+# the startup program for launching alacritty
+# with the .crawlacritty config (alias 'games').
 
-echo ""
-echo "What do you want to play today?"
-echo "  [1] DCSS"
-echo "  [2] DCSS (underhound.eu)"
-echo "  [0] quit"
-echo ""
+GREEN='\033[0;32m'
+YELLOW='\033[0;35m'
+RESET='\033[0m'
+
+print_with_key() {
+  echo -e "  [${GREEN}$1${RESET}] $2"
+}
+
+print_menu() {
+  clear
+  echo ""
+  echo "What do you want to play today?"
+  echo ""
+  print_with_key 1 "DCSS"
+  print_with_key 2 "DCSS (underhound.eu)"
+  echo ""
+  print_with_key q "quit"
+  echo ""
+  echo -en "${YELLOW}=>${RESET} "
+}
 
 while true; do
-  read -rn 1 -p "=> " answer
+  print_menu
+  read -rn 1 answer
   case "$answer" in
     1)
       dcss
@@ -22,11 +37,11 @@ while true; do
       sshpass -p terminal ssh -p 23 terminal@underhound.eu
       break
       ;;
-    0)
+    q)
       exit 0
       ;;
     *)
-      echo ""
+      continue
       ;;
   esac
 done

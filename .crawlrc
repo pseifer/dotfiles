@@ -9,9 +9,9 @@ include = ibm_glyphs.txt
 tile_display_mode = glyphs
 
 # Use '+' for closed doors, instead of ibm cube.
-# display_char = door_closed:+
-# display_char = altar:_
-# display_char = item_missile:~
+display_char = door_closed:+
+display_char = altar:_
+display_char = item_missile:~
 
 # Custom colours.
 message_colour += yellow:You are too injured to fight recklessly!
@@ -24,6 +24,10 @@ view_max_width = 81
 view_max_height = 71
 msg_min_height = 5
 msg_max_height = 5
+
+# Bright yellow @ on black (default-ish)
+mon_glyph += player : white
+use_fake_player_cursor = true
 
 # ----- UI Options -------------------------------------------------------------
 
