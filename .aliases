@@ -82,6 +82,9 @@ alias ggb='gg branch'
 alias ggo='gg checkout'
 alias ggi='gg init'
 
+# Git Remove Execution Bit
+alias git_unset_exec="gg ls-files | xargs -r -n 1 chmod -x"
+
 # Utility.
 
 # Encode and decode URLs with Python.
@@ -100,6 +103,9 @@ alias readme='ls *.md | entr -cc smartless *.md'
 
 # Use btop instead of top.
 alias top='btop'
+
+# Clean ._ files (sometimes created by macOS)
+alias dot_clean='find . -type f -name "._*" -delete'
 
 # Compare directories.
 alias diffdir='diff -bur'

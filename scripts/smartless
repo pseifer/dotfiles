@@ -6,9 +6,9 @@ fullfile="${1:-}"
 filename=$(basename -- "$fullfile")
 extension="${filename##*.}"
 
-# Show markdown files with glow,
+# Show markdown files with Pandoc and W3M,
 if [ "${extension}" = "md" ]; then
-    glow --style "${HOME}/.config/glow/zenbones.json" "${1}"
+    pandoc --from gfm --to html "${1}" | w3m -T text/html -o confirm_qq=false 2>/dev/null
 # html files with W3M,
 elif [ "${extension}" = "html" ]; then
     w3m "${1}"

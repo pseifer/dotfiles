@@ -25,10 +25,11 @@
 osuname="$(uname -s)"
 if [[ "${osuname}" == "Darwin" ]]; then
     command -v cs >/dev/null 2>&1 && eval "$(cs java --jvm 21 --env)"
+    export PATH="$PATH:/Users/pseifer/Library/Application Support/Coursier/bin"
 else
     export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::")
+    export PATH="$PATH:$HOME/.local/share/coursier/bin"
 fi
-export PATH="$PATH:/Users/pseifer/Library/Application Support/Coursier/bin"
 
 # Add go and GOPATH to the path.
 [ -d "/usr/local/go/bin" ] && PATH="/usr/local/go/bin:$PATH"

@@ -176,5 +176,12 @@ eval $(fuzzyphile init zsh --default-keys --default-aliases)
 export GLAMOUR_STYLE="$HOME/zenbones.json"
 export MANPAGER='nvim +Man!'
 
+# ----- Modify LS_COLORS (also see dircolors -p) -----
+
+#                     fix coloring when other writable
+LS_COLORS=$LS_COLORS:'tw=01;35:ow=01;35:'
+#                     extend 'hidden' files
+LS_COLORS=$LS_COLORS:'*.sync-exclude.lst=00;90:*.DS_Store=00;90'
+
 # Return success in any case; zsh reports any errors.
 return 0
