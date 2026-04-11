@@ -30,6 +30,21 @@ style = "Regular"
 action = "ToggleFullscreen"
 key = "F11"
 
+[terminal.shell]
+args = ["new-session", "-A", "-s", "base"]
+program = "tmux"
+
+# Window setup.
+
+[window]
+decorations = "None"
+startup_mode = "Maximized"
+
+# Font size update.
+
+[font]
+size = 14
+
 [general]
 
 import = [

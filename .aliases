@@ -13,6 +13,9 @@ alias hack=' s :hack '
 # Interactively choose a template.
 alias templ='fzf-template'
 
+# Terminal games.
+alias games='alacritty --config-file .crawlacritty.toml'
+
 # Notes.
 alias notes='joplin --profile ~/.config/joplin-desktop'
 
