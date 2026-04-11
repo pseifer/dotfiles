@@ -1,0 +1,20 @@
+# Script to set up fresh $HOME directory with
+# links to the main data storage disk/partition.
+
+# Create link to mount point.
+ln -s /mnt/data "$HOME/Storage"
+
+# Creat links to top-level directories.
+ln -s "$HOME/Storage/secure" "$HOME/Borg"
+ln -s "$HOME/Storage/cloud" "$HOME/Cloud"
+
+# Create special links.
+ln -s "$HOME/Storage/cloud/Backups/Zshistory" "$HOME/.zsh_histories"
+
+# Create useful aliases.
+ln -s "$HOME/Storage/local/music" "$HOME/Music"
+ln -s "$HOME/Storage/local/projects" "$HOME/Projects"
+ln -s "$HOME/Storage/local/videos" "$HOME/Videos"
+ln -s "$HOME/Storage/local/archive" "$HOME/Archive"
+ln -s "$HOME/Storage/cloud/Storage/Images" "$HOME/Pictures"
+ln -s "$HOME/Storage/secure/documents" "$HOME/Documents"
