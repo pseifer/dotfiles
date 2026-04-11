@@ -7,6 +7,8 @@ alias update='$HOME/setup'
 
 # Run a web search; do not add to history.
 alias s=' do-web-search' # Intentionally starting with space!
+alias hk=' s :hk47 '
+alias hack=' s :hack '
 
 # Interactively choose a template.
 alias templ='fzf-template'
@@ -125,10 +127,10 @@ alias python='python3' # Just in case.
 alias py='python3'
 
 # Create venv, activate (project venv), deactivate (any) venv.
-alias pyc='python3 -m venv venv'
-alias pya='source venv/bin/activate'
+alias pyc='uv venv'
+alias pya='source .venv/bin/activate'
 alias pyd='deactivate'
-alias pyf='pip freeze > requirements.txt'
+alias pyf='uv pip freeze > requirements.txt'
 
 # Clojure
 
