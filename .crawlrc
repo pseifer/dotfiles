@@ -1,3 +1,7 @@
+# Guide:
+# https://raw.githubusercontent.com/crawl/crawl/master/crawl-ref/docs/options_guide.txt
+# https://github.com/crawl/crawl/blob/73021bd113/crawl-ref/docs/keybind.txt
+
 # ----- Visual Options ---------------------------------------------------------
 
 # Use proper wall tiles instead of '#'.
@@ -5,9 +9,13 @@ include = ibm_glyphs.txt
 tile_display_mode = glyphs
 
 # Use '+' for closed doors, instead of ibm cube.
-display_char = door_closed:+
-display_char = altar:_
-display_char = item_missile:~
+# display_char = door_closed:+
+# display_char = altar:_
+# display_char = item_missile:~
+
+# Custom colours.
+message_colour += yellow:You are too injured to fight recklessly!
+feature += travel trail {,,lightgrey} # Do not overwrite actual symbol, only BG colour.
 
 # Width of the map view.
 view_max_width = 81
@@ -23,19 +31,31 @@ spell_menu = true
 
 # ----- Exploration Options ----------------------------------------------------
 
-# Small delay for out explore only.
 rest_delay = -1
 travel_delay = -1
+# Optional: Small delay for auto explore only to move stepwise.
 explore_delay = -1
 
-# Show a darkgray trail of '*'.
+# Stop on these things, do not open doors.
+explore_stop += greedy_pickup,stairs,shops,altars,portals,branches,runed_doors
+travel_open_doors = false
+
+# Show a grey trail of '·'.
+# { <symbol>, <magicmap symbol>, <view colour>,
+#   <levelmap_magic_colour>, <levelmap_seen_colour>,
+#   <emphasised_colour>, <levelmap_emphasised_colour>
+# Colours: 
+#  black,    blue,      green,      cyan,      red,      magenta,      brown,  lightgrey, 
+#  darkgrey, lightblue, lightgreen, lightcyan, lightred, lightmagenta, yellow, white
 show_travel_trail = true
-feature += travel trail {·,,green}
 
 # ----- Gameplay Options -------------------------------------------------------
 
-# Stop 'tab' fighting on 80% HP.
-autofight_stop = 80
+# Stop 'tab' fighting on 75% HP.
+autofight_stop = 75
+
+# Get a <more> warning at 50% HP.
+hp_warning = 50
 
 # Rest before auto-exploring with 'o'.
 explore_auto_rest = true
@@ -48,3 +68,46 @@ show_more = false
 
 # Set training to manual by default.
 default_manual_training = true
+
+# ----- Keybindings ------------------------------------------------------------
+
+# Uses YU HJKL NM, rebinding bB for skills and spells (in place of mM)
+
+bindkey = [m] CMD_MOVE_DOWN_RIGHT
+bindkey = [n] CMD_MOVE_DOWN_LEFT
+bindkey = [b] CMD_DISPLAY_SKILLS
+
+bindkey = [M] CMD_RUN_DOWN_RIGHT
+bindkey = [N] CMD_RUN_DOWN_LEFT
+bindkey = [B] CMD_MEMORISE_SPELL
+
+bindkey = [^M] CMD_ATTACK_DOWN_RIGHT
+bindkey = [^N] CMD_ATTACK_DOWN_LEFT
+
+bindkey = [m] CMD_TARGET_DOWN_RIGHT
+bindkey = [n] CMD_TARGET_DOWN_LEFT
+bindkey = [M] CMD_TARGET_DIR_DOWN_RIGHT
+bindkey = [N] CMD_TARGET_DIR_DOWN_LEFT
+
+bindkey = [m] CMD_MAP_MOVE_DOWN_RIGHT
+bindkey = [n] CMD_MAP_MOVE_DOWN_LEFT
+bindkey = [M] CMD_MAP_JUMP_DOWN_RIGHT
+bindkey = [N] CMD_MAP_JUMP_DOWN_LEFT
+
+# ----- Custom LUA -------------------------------------------------------------
+
+# ----- Slow and fast explorew -------------------------------------------------
+
+macros += M O ===slow_explore
+macros += M o ===fast_explore
+{
+    function slow_explore()
+        crawl.setopt("explore_delay = 150")
+        crawl.process_keys("o")
+    end
+    
+    function fast_explore()
+        crawl.setopt("explore_delay = -1")
+        crawl.process_keys("o")
+    end
+}
