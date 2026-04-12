@@ -40,11 +40,6 @@ hide_when_typing = true
 decorations = "None"
 startup_mode = "Fullscreen"
 
-# Should center on 3440x1440 with crawlrc setup.
-[window.padding]
-x = 450
-y = 0
-
 # Custom colour scheme.
 
 # Based on the default tiles colour theme,

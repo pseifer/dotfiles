@@ -21,10 +21,25 @@ print_menu() {
   print_with_key 2 "DCSS @ underhound.eu"
   print_with_key 3 "Nethack"
   echo ""
+  print_with_key 0 "Other"
+  echo ""
   print_with_key q "quit"
   echo ""
   echo -en "${YELLOW}=>${RESET} "
 }
+
+# Guess screen resolution from rows and columns
+# and decide whether to add padding.
+
+read -r ROWS COLS < <(stty size)
+RATIO=$(( COLS * 100 / ROWS ))
+if [[ "$RATIO" -gt 460 ]]; then
+  alacritty msg config 'window.padding.x=450'
+else
+  alacritty msg config 'window.padding.x=0'
+fi
+
+# Main: Read input and launch game/terminal/quit.
 
 while true; do
   print_menu
@@ -40,6 +55,11 @@ while true; do
       ;;
     3)
       nethack
+      break
+      ;;
+    0)
+      clear
+      zsh
       break
       ;;
     q)
