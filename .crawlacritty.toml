@@ -6,7 +6,7 @@
 # Startup.
 
 [terminal.shell]
-program = "tuxlauncher"
+program = "launcher_tuxbox"
 
 [env]
 TERM = "xterm-256color"
