@@ -15,15 +15,14 @@ print_with_key() {
 print_menu() {
   clear
   echo ""
-  echo "What do you want to play today?"
+  echo "What do you want to play?"
   echo ""
   print_with_key 1 "Dungeon Crawl Stone Soup"
   print_with_key 2 "DCSS @ underhound.eu"
   print_with_key 3 "Nethack"
   echo ""
-  print_with_key 0 "Other"
-  echo ""
-  print_with_key q "quit"
+  print_with_key enter "terminal"
+  print_with_key esc "quit"
   echo ""
   echo -en "${YELLOW}=>${RESET} "
 }
@@ -43,26 +42,26 @@ fi
 
 while true; do
   print_menu
-  read -rn 1 answer
+  read -s -r -n 1 answer
   case "$answer" in
     1)
       dcss
-      break
+      continue
       ;;
     2)
       sshpass -p terminal ssh -p 23 terminal@underhound.eu
-      break
+      continue
       ;;
     3)
       nethack
-      break
+      continue
       ;;
-    0)
+    "")
       clear
       zsh
-      break
+      continue
       ;;
-    q)
+    $'\e')
       exit 0
       ;;
     *)
