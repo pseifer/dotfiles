@@ -1,11 +1,12 @@
 # This is a special alacritty config for launching
 # terminal games (scripts/launchtermgames), in particular
-# for Dungeon Crawl Stone Soup.
+# for Dungeon Crawl Stone Soup; also used for the Tux launcher
+# in general.
 
 # Startup.
 
 [terminal.shell]
-program = "launchtermgames"
+program = "tuxlauncher"
 
 [env]
 TERM = "xterm-256color"
