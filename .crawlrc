@@ -1,16 +1,31 @@
-# Guide:
-# https://raw.githubusercontent.com/crawl/crawl/master/crawl-ref/docs/options_guide.txt
-# https://github.com/crawl/crawl/blob/73021bd113/crawl-ref/docs/keybind.txt
+# Documentation
+#   https://raw.githubusercontent.com/crawl/crawl/master/crawl-ref/docs/options_guide.txt
+#   https://github.com/crawl/crawl/blob/73021bd113/crawl-ref/docs/keybind.txt
 
-# ----- Visual Options ---------------------------------------------------------
 
-# Use proper wall tiles instead of '#'.
-include = ibm_glyphs.txt
+
+# ----- Options ----------------------------------------------------------------
+# ------------------------------------------------------------------------------
+
+# ----- Visual -----------------------------------------------------------------
+
+# Use glyphs even in tile version.
 tile_display_mode = glyphs
 
-# Use '+' for closed doors, instead of ibm cube.
+# Use proper wall chars instead of '#', among others.
+# Note: Halfs colours (RBG values) for █.
+# Note: Changes more than just walls.
+include = ibm_glyphs.txt
+
+# Undo some of the alternatives from ibm_glyphs.
 display_char = door_closed:+
 display_char = altar:_
+
+# Alternative for proper walls instead of '#'
+#   -> this uses normal colours, instead of RBG halfed.
+# display_char = wall:█
+
+# Use ~ for missiles.
 display_char = item_missile:~
 
 # Custom colours.
@@ -29,8 +44,7 @@ msg_max_height = 5
 mon_glyph += player : white
 use_fake_player_cursor = true
 
-# ----- UI Options -------------------------------------------------------------
-
+# Turn on the full spell menu on z.
 spell_menu = true
 
 # ----- Exploration Options ----------------------------------------------------
@@ -55,11 +69,11 @@ show_travel_trail = true
 
 # ----- Gameplay Options -------------------------------------------------------
 
-# Stop 'tab' fighting on 75% HP.
-autofight_stop = 75
+# Stop 'tab' fighting on 80% HP.
+autofight_stop = 80
 
-# Get a <more> warning at 50% HP.
-hp_warning = 50
+# Get a <more> warning at 66% HP.
+hp_warning = 66
 
 # Rest before auto-exploring with 'o'.
 explore_auto_rest = true
@@ -73,7 +87,10 @@ show_more = false
 # Set training to manual by default.
 default_manual_training = true
 
+
+
 # ----- Keybindings ------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 # Uses YU HJKL NM, rebinding bB for skills and spells (in place of mM)
 
@@ -98,9 +115,16 @@ bindkey = [n] CMD_MAP_MOVE_DOWN_LEFT
 bindkey = [M] CMD_MAP_JUMP_DOWN_RIGHT
 bindkey = [N] CMD_MAP_JUMP_DOWN_LEFT
 
-# ----- Custom LUA -------------------------------------------------------------
+
+
+# ----- LUA --------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 # ----- Slow and fast explorew -------------------------------------------------
+#
+# Functions that automatically set the explore_delay to either a medium bumber
+# (slow explore, bound do O) or off (fast explore, o).
+# Thus, using O enables a stepwise observable outexplore.
 
 macros += M O ===slow_explore
 macros += M o ===fast_explore
@@ -115,3 +139,4 @@ macros += M o ===fast_explore
         crawl.process_keys("o")
     end
 }
+

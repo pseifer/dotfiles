@@ -17,8 +17,9 @@ print_menu() {
   echo ""
   echo "What do you want to play today?"
   echo ""
-  print_with_key 1 "DCSS"
-  print_with_key 2 "DCSS (underhound.eu)"
+  print_with_key 1 "Dungeon Crawl Stone Soup"
+  print_with_key 2 "DCSS @ underhound.eu"
+  print_with_key 3 "Nethack"
   echo ""
   print_with_key q "quit"
   echo ""
@@ -35,6 +36,10 @@ while true; do
       ;;
     2)
       sshpass -p terminal ssh -p 23 terminal@underhound.eu
+      break
+      ;;
+    3)
+      nethack
       break
       ;;
     q)

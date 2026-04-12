@@ -39,9 +39,10 @@ hide_when_typing = true
 [window]
 decorations = "None"
 startup_mode = "Fullscreen"
- 
+
+# Should center on 3440x1440 with crawlrc setup.
 [window.padding]
-x = 450 # Center(ish) game on ultrawide.
+x = 450
 y = 0
 
 # Custom colour scheme.
@@ -50,7 +51,8 @@ y = 0
 # (which in turn is partially based on the
 #  gnome terminal theme I think).
 # Uses AA and AAA WCAG compliant colours
-# (dark and light, respectively) improving
+# (https://webaim.org/resources/contrastchecker/)
+# dark and light, respectively, improving
 # readability slightly. Some light colours
 # are adapted to be more distinct from the
 # brighter dark colours.
@@ -85,4 +87,33 @@ blue    = "#6bacf5"  # Clear sky blue
 magenta = "#fd71fa"  # Soft neon pink
 cyan    = "#34e2e2"  # Bright aqua
 white   = "#eeeeec"  # Near-white
+
+# Xressources version, e.g., to import in terminal.sexy
+#
+# ! Background / Foreground
+# *.background: #000000
+# *.foreground: #ffffff
+# 
+# ! Cursor
+# *.cursorColor: #ffffff
+# 
+# ! Normal (ANSI 0–7)
+# *.color0:  #000000
+# *.color1:  #dc3232
+# *.color2:  #4e9a06
+# *.color3:  #926f36
+# *.color4:  #615dff
+# *.color5:  #d333d1
+# *.color6:  #06989a
+# *.color7:  #bbb2a1
+# 
+# ! Bright (ANSI 8–15)
+# *.color8:  #605666
+# *.color9:  #f76c3e
+# *.color10: #8ae234
+# *.color11: #fce94f
+# *.color12: #6bacf5
+# *.color13: #fd71fa
+# *.color14: #34e2e2
+# *.color15: #eeeeec
 
