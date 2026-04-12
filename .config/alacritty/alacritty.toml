@@ -50,7 +50,4 @@ size = 14
 import = [
     # Load color theme.
     "~/.config/alacritty/themes/zenbones-light.toml",
-
-    # Load OS specific settings.
-    "~/.config/alacritty/os.toml"
 ]
