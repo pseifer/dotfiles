@@ -4,7 +4,9 @@
 # the startup program for launching alacritty
 # with the .crawlacritty config (alias 'games').
 
-# Settings
+# -----------------------------------------------------------------------------
+# ----- Configuration ---------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Monitor 1 ("Desktop")
 DESKTOP_C="DP-1"
@@ -24,13 +26,42 @@ TV4K_RES="3840x2160@60.000"
 TV4K_FONT="53"
 TV4K_PADDING="0"
 
-# Utilities
+
+
+# -----------------------------------------------------------------------------
+# ----- Utilities -------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 GREEN='\033[0;32m'
 RESET='\033[0m'
 
 print_with_key() {
-  echo -e "  [${GREEN}$1${RESET}] $2"
+  echo -ne "[${GREEN}$1${RESET}] $2"
+}
+
+print_end_section() {
+  echo -en "\n\n"
+}
+
+print_next() {
+  echo -en "\n"
+}
+
+print_indent() {
+    echo -en "  "
+}
+
+print_header() {
+  print_indent
+  echo -en "${1}  "
+}
+
+print_prompt() {
+    echo -n "  "
+}
+
+print_with_key_cont() {
+  echo -ne "  |  [${GREEN}$1${RESET}] $2"
 }
 
 print_logo() {
@@ -41,20 +72,30 @@ print_logo() {
 print_menu() {
   clear
   print_logo
+  print_header "Play"
   print_with_key c "Dungeon Crawl Stone Soup"
-  print_with_key u "DCSS @ underhound.eu"
+  print_with_key_cont u "DCSS @ underhound.eu"
+  print_next
+  print_header "Launch"
   print_with_key s "Steam"
-  echo ""
+  print_end_section
+  print_header "Watch"
   print_with_key y "YouTube"
-  echo ""
-  print_with_key t "switch to TV"
-  print_with_key k "switch to TV (4k)"
-  print_with_key d "switch to Desktop"
-  echo ""
+  print_with_key_cont v "Twitch.tv"
+  print_with_key_cont b "Bonjwa"
+  print_end_section
+  print_header "Switch"
+  print_with_key t "TV"
+  print_with_key_cont k "TV4K"
+  print_with_key_cont d "Desktop"
+  print_end_section
+  print_indent
   print_with_key enter "Terminal"
+  print_next
+  print_indent
   print_with_key esc "Quit"
-  echo ""
-  echo -n "  "
+  print_end_section
+  print_prompt
 }
 
 # Guess screen resolution from rows and columns
@@ -70,7 +111,6 @@ update_padding() {
       alacritty msg config "window.padding.x=${TV_PADDING}"
     fi
 }
-update_padding
 
 tux_term() {
     gnome-monitor-config set -LpM "${TV_C}" -t normal -m "${TV_RES}"
@@ -101,6 +141,7 @@ launch_browser() {
 
 # Main: Read input and launch game/terminal/quit.
 
+update_padding
 while true; do
   print_menu
   read -s -r -n 1 answer
@@ -135,6 +176,14 @@ while true; do
       ;;
     y)
       launch_browser "https://youtube.com"
+      continue
+      ;;
+    b)
+      launch_browser "https://twitch.tv/bonjwa"
+      continue
+      ;;
+    v)
+      launch_browser "https://twitch.tv"
       continue
       ;;
     "")
